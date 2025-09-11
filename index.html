@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monastery360 - A Digital Heritage Platform for Sikkim’s Monasteries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+
+    <style>
+
+        html {
+        scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cinzel', 'Inter', sans-serif;
+            background-color: #f8fafc; 
+            color: #1f2937;            
+        }
+
+        html.dark body {
+            background-color: #0f172a; 
+            color: #e5e7eb;            
+        }
+
+        .btn-primary {
+            background-image: linear-gradient(to right, #f59e0b, #ef4444);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-image: linear-gradient(to right, #f97316, #dc2626);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
+        }
+
+        .video-card-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+
+        .light-bg {
+        background-color: #ffffff;
+        transition: background-color 0.3s;
+        }
+
+        .dark-bg {
+            background-color: #071a2e;
+            transition: background-color 0.3s;
+        }
+
+
+        .btn-primary {
+            background-image: linear-gradient(to right, #f59e0b, #ef4444);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        html.dark .btn-primary {
+            background-image: linear-gradient(to right, #f97316, #dc2626);
+        }
+
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.95);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 85%;
+            max-height: 85%;
+            border-radius: 8px;
+            animation: zoomIn 0.5s;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .lightbox-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .lightbox-close:hover {
+            color: #ef4444;
+        }
+
+        .hero-text-animation {
+            animation: slideUpFadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUpFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-text-animation:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .hero-text-animation:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .hero-text-animation:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+</head>
+
+<body>
+
+    <header
+        class="bg-white/80 backdrop-blur-lg shadow-md fixed w-full top-0 z-50 transition-all duration-300 dark:bg-slate-900 dark:shadow-slate-700">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <a href="#"
+        class="flex items-center space-x-2 text-2xl font-bold text-red-700 transition-transform duration-300 hover:scale-105"
+        style="font-family: 'Cinzel', serif;">
+        <img src="logo.png" alt="Logo" class="w-8 h-8 object-contain">
+        <span>Monastery360</span>
+        </a>
+
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Home</a>
+                <a href="monasteries.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Monastery</a>
+                <a href="galary.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Gallery</a>
+                <a href="tourbooking.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">
+                    Book&nbsp; Tour
+                </a>
+
+                <a href="donation.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Donate</a>
+            </div>
+            <div class="flex items-center">
+                <button id="theme-toggle" type="button"
+                    class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5 mr-4">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <a href="login.html"
+                    class="hidden md:block btn-primary text-white font-semibold py-2 px-5 rounded-lg shadow-md">Log in / Sign up</a>
+                <button id="mobile-menu-button"
+                    class="md:hidden text-gray-700 focus:outline-none dark:text-slate-300 ml-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 dark:bg-slate-800"> <a href="#home" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Home</a> <a href="monasteries.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Monastery/a> <a href="galary.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Gallery</a> <a href="Tour Booking.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Book Tour</a> <a href="donation.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Donate</a> <a href="login.html" id="loginBtn" class="block mt-2 btn-primary text-white font-semibold py-2 px-4 rounded-lg shadow-md text-center">Log in / Sign up</a> </div>
+
+
+    </header>
+
+    <main>
+        <section id="home" class="pt-20 h-screen bg-cover bg-center flex items-center justify-center text-white"
+            style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/8f/64/9f/ralong-monastery-view.jpg?w=900&h=-1&s=1');">
+            <div class="bg-black bg-opacity-60 p-12 rounded-2xl text-center max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight hero-text-animation">
+            Monastery <br>
+            <span class="text-red-700">The Soul of Sikkim</span>
+            </h1>
+
+                <p class="text-lg md:text-xl mb-8 hero-text-animation">Explore over 200 ancient monasteries through
+                    immersive 360° virtual tours, digital archives, and interactive guides.</p>
+                <a href="#tours"
+                    class="btn-primary text-white font-bold py-4 px-10 rounded-full shadow-lg text-lg hero-text-animation">Start
+                    Your Journey</a>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 bg-white dark:bg-slate-800">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-2 dark:text-white">Our Key Features</h2>
+                <p class="text-gray-600 dark:text-slate-400 mb-16 max-w-2xl mx-auto">A unified platform to boost
+                    tourism, preserve cultural assets, and empower local communities.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                    <div
+                        class="bg-gray-50 p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 dark:bg-slate-700">
+                        <div
+                            class="bg-red-100 text-red-600 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-6 dark:bg-red-500/10 dark:text-red-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 18a9 9 0 009-9M3 12a9 9 0 019-9m-9 9a9 9 0 009 9m-9-9h18" />
+                            </svg></div>
+                        <h3 class="text-xl font-semibold mb-2 dark:text-white">Virtual Tours</h3>
+                        <p class="text-gray-600 dark:text-slate-400">Immersive 360° panoramic views and walkthroughs.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gray-50 p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 dark:bg-slate-700">
+                        <div
+                            class="bg-amber-100 text-amber-600 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-6 dark:bg-amber-500/10 dark:text-amber-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg></div>
+                        <h3 class="text-xl font-semibold mb-2 dark:text-white">Digital Archives</h3>
+                        <p class="text-gray-600 dark:text-slate-400">Scans of manuscripts, murals, and documents.</p>
+                    </div>
+                    <div
+                        class="bg-gray-50 p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 dark:bg-slate-700">
+                        <div
+                            class="bg-red-100 text-red-600 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-6 dark:bg-red-500/10 dark:text-red-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg></div>
+                        <h3 class="text-xl font-semibold mb-2 dark:text-white">Interactive Map</h3>
+                        <p class="text-gray-600 dark:text-slate-400">Geo-tagged locations with routes and info.</p>
+                    </div>
+                    <div
+                        class="bg-gray-50 p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 dark:bg-slate-700">
+                        <div
+                            class="bg-amber-100 text-amber-600 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-6 dark:bg-amber-500/10 dark:text-amber-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg></div>
+                        <h3 class="text-xl font-semibold mb-2 dark:text-white">Cultural Calendar</h3>
+                        <p class="text-gray-600 dark:text-slate-400">Schedules for events, festivals, and rituals.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tours" class="py-20 bg-white dark:bg-slate-800">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16 dark:text-white">360° Virtual Tours</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div data-tour-url="https://www.google.com/maps/embed?pb=!4v1678886919293!6m8!1m7!1sCAoSLEFGMVFpcE5uNklJcXNlZ0tHUnZKNjZfQTRLalJlU2RwbDBGbE9sYk10dDRK!2m2!1d27.3001002!2d88.566336!3f23.75!4f0!5f0.7853981633974483"
+                        class="tour-card group block rounded-xl shadow-xl p-8 flex flex-col justify-end h-72 text-white bg-red-500 hover:bg-red-600 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                        <h3 class="text-2xl font-bold">Rumtek Monastery</h3>
+                        <p class="mt-2 opacity-90">Experience the vibrant murals and serene courtyards.</p>
+                    </div>
+                    <div data-tour-url="https://www.google.com/maps/embed?pb=!4v1678886919293!6m8!1m7!1sCAoSLEFGMVFpcE5uNklJcXNlZ0tHUnZKNjZfQTRLalJlU2RwbDBGbE9sYk10dDRK!2m2!1d27.3001002!2d88.566336!3f23.75!4f0!5f0.7853981633974483"
+                        class="tour-card group block rounded-xl shadow-xl p-8 flex flex-col justify-end h-72 text-white bg-amber-500 hover:bg-amber-600 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                        <h3 class="text-2xl font-bold">Pemayangtse Monastery</h3>
+                        <p class="mt-2 opacity-90">Discover one of Sikkim's oldest monasteries.</p>
+                    </div>
+                    <div data-tour-url="https://www.google.com/maps/embed?pb=!4v1678886919293!6m8!1m7!1sCAoSLEFGMVFpcE5uNklJcXNlZ0tHUnZKNjZfQTRLalJlU2RwbDBGbE9sYk10dDRK!2m2!1d27.3001002!2d88.566336!3f23.75!4f0!5f0.7853981633974483"
+                        class="tour-card group block rounded-xl shadow-xl p-8 flex flex-col justify-end h-72 text-white bg-emerald-500 hover:bg-emerald-600 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                        <h3 class="text-2xl font-bold">Tashiding Monastery</h3>
+                        <p class="mt-2 opacity-90">Visit the site of the famous Bhumchu festival.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-20 text-center container mx-auto px-6 bg-white dark:bg-[#0f172a]">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-4xl font-bold text-orange-500">75+</h3>
+                    <p class="text-slate-500 dark:text-slate-400">Monasteries</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-red-500">1200+</h3>
+                    <p class="text-slate-500 dark:text-slate-400">Digital Assets</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-yellow-500">5</h3>
+                    <p class="text-slate-500 dark:text-slate-400">Languages</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-cyan-500">24/7</h3>
+                    <p class="text-slate-500 dark:text-slate-400">Access</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section id="manuscripts" class="py-20 bg-white dark:bg-slate-800">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16 dark:text-white">Digital Archives: Manuscripts & Murals
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <div class="aspect-square overflow-hidden rounded-lg shadow-lg group"><img
+                            src="manuscript1.png"
+                            alt="Prayer Wheels"
+                            data-description="Intricately carved prayer wheels at a monastery entrance."
+                            class="manuscript-img w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="aspect-square overflow-hidden rounded-lg shadow-lg group"><img
+                            src="manuscript2.png"
+                            alt="Thangka Painting"
+                            data-description="A detailed Thangka painting depicting Buddhist deities."
+                            class="manuscript-img w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="aspect-square overflow-hidden rounded-lg shadow-lg group"><img
+                            src="manuscript3.png"
+                            alt="Monastery Architecture"
+                            data-description="The unique architectural style of Sikkim's monasteries."
+                            class="manuscript-img w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="aspect-square overflow-hidden rounded-lg shadow-lg group"><img
+                            src="manuscript4.png"
+                            alt="Sacred Texts"
+                            data-description="Ancient manuscripts written in classical Tibetan script."
+                            class="manuscript-img w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="aspect-square overflow-hidden rounded-lg shadow-lg group"><img
+                            src="manuscript5.png"
+                            alt="Mandala Artwork"
+                            data-description="A complex mandala representing the universe in Buddhist cosmology."
+                            class="manuscript-img w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="monk-prayers" class="py-20 bg-slate-50 dark:bg-slate-900">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16 dark:text-white">Monk Prayers</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div
+                        class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="bg-amber-100 text-amber-600 rounded-full h-12 w-12 flex items-center justify-center mr-4 dark:bg-amber-500/10 dark:text-amber-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0M18.364 18.364A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                </svg></div>
+                            <div>
+                                <h3 class="text-xl font-semibold dark:text-white">Morning Chant of Compassion</h3>
+                                <p class="text-sm text-gray-500 dark:text-slate-400">Recorded at Pemayangtse</p>
+                            </div>
+                        </div>
+                        <audio controls class="w-full">
+                            <source src="prayar1.mp3" type="audio/mpeg">Your browser does not support the audio
+                            element.
+                        </audio>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="bg-red-100 text-red-600 rounded-full h-12 w-12 flex items-center justify-center mr-4 dark:bg-red-500/10 dark:text-red-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0M18.364 18.364A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                </svg></div>
+                            <div>
+                                <h3 class="text-xl font-semibold dark:text-white">Evening Prayer for Peace</h3>
+                                <p class="text-sm text-gray-500 dark:text-slate-400">Recorded at Rumtek Monastery</p>
+                            </div>
+                        </div>
+                        <audio controls class="w-full">
+                            <source src="prayar1.mp3" type="audio/mpeg">Your browser does not support the audio
+                            element.
+                        </audio>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="bg-emerald-100 text-emerald-600 rounded-full h-12 w-12 flex items-center justify-center mr-4 dark:bg-emerald-500/10 dark:text-emerald-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0M18.364 18.364A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                </svg></div>
+                            <div>
+                                <h3 class="text-xl font-semibold dark:text-white">Heart Sutra Recitation</h3>
+                                <p class="text-sm text-gray-500 dark:text-slate-400">Recorded at Tashiding</p>
+                            </div>
+                        </div>
+                        <audio controls class="w-full">
+                            <source src="prayar1.mp3" type="audio/mpeg">Your browser does not support the audio
+                            element.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prayer-videos" class="py-20 bg-white dark:bg-slate-800">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16 dark:text-white">Sacred Chants & Prayer Videos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+                <div class="bg-white dark:bg-slate-700 rounded-xl shadow-2xl overflow-hidden group transition-all duration-300 hover:scale-[1.03]">
+                    <div class="aspect-video">
+                        <video class="w-full h-full" controls preload="none">
+                            <source src="video1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 dark:text-white">Mani Mantra Chanting Ceremony</h3>
+                        <p class="text-gray-600 dark:text-slate-400">Experience the powerful resonance of the Om Mani Padme Hum chant, recorded live.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-700 rounded-xl shadow-2xl overflow-hidden group transition-all duration-300 hover:scale-[1.03]">
+                    <div class="aspect-video">
+                        <video class="w-full h-full" controls preload="none">
+                            <source src="video1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 dark:text-white">Vajra Guru Mantra Recitation</h3>
+                        <p class="text-gray-600 dark:text-slate-400">A visual journey accompanying the recitation of the Padmasambhava mantra.</p>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </section>
+
+        <section id="map" class="py-20 bg-slate-50 dark:bg-slate-900">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-4 dark:text-white">Interactive Map of Monasteries</h2>
+                <p class="text-gray-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">Find every monastery, plan your
+                    trip, and discover nearby attractions.</p>
+                <div class="rounded-xl shadow-2xl overflow-hidden mb-10 border-4 border-white dark:border-slate-600">
+                    <iframe src="https://maps.google.com/maps?q=sikkim%20monasteries&t=&z=9&ie=UTF8&iwloc=&output=embed"
+                        width="100%" height="450" frameborder="0" style="border:0" allowfullscreen=""
+                        aria-hidden="false" tabindex="0"></iframe>
+                </div>
+                <a href="https://www.google.com/maps/search/monasteries+in+sikkim/" target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-primary inline-block text-white font-bold py-4 px-10 rounded-full shadow-lg text-lg">Launch
+                    Live Map</a>
+            </div>
+        </section>
+
+        <section id="calendar" class="py-20 bg-white dark:bg-slate-800">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16 dark:text-white">Cultural Calendar</h2>
+                <div class="max-w-5xl mx-auto bg-gray-50 dark:bg-slate-700 p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="flex items-center justify-between mb-6 px-2">
+                        <h3 class="text-2xl font-semibold dark:text-white">September 2025</h3>
+                        <div class="flex space-x-2">
+                            <button
+                                class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-600 transition duration-300"
+                                aria-label="Previous Month"><svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7"></path>
+                                </svg></button>
+                            <button
+                                class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-600 transition duration-300"
+                                aria-label="Next Month"><svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7"></path>
+                                </svg></button>
+                        </div>
+                    </div>
+                    <div
+                        class="grid grid-cols-7 gap-2 text-center text-sm font-medium text-gray-500 dark:text-slate-400 mb-2">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 md:gap-2">
+                        <div class="aspect-square rounded-lg bg-gray-100 dark:bg-slate-800 opacity-50 p-2"></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">1</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">2</span></div>
+                        <div
+                            class="aspect-square rounded-lg border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/20 p-2 overflow-hidden relative">
+                            <span class="font-bold text-blue-700 dark:text-blue-400">3</span>
+                            <div
+                                class="mt-1 text-[10px] xl:text-xs bg-blue-500 text-white rounded px-1.5 py-0.5 font-semibold cursor-pointer truncate hidden md:block">
+                                Drupka Tsheshi</div>
+                            <div
+                                class="absolute bottom-2 left-2 right-2 md:hidden w-2 h-2 rounded-full bg-blue-500 mx-auto">
+                            </div>
+                        </div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">4</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">5</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">6</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">7</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">8</span></div>
+                        <div
+                            class="aspect-square rounded-lg border-2 border-red-500 bg-red-50 dark:bg-red-900/20 p-2 overflow-hidden relative">
+                            <span class="font-bold text-red-700 dark:text-red-400">9</span>
+                            <div
+                                class="mt-1 text-[10px] xl:text-xs bg-red-500 text-white rounded px-1.5 py-0.5 font-semibold cursor-pointer truncate hidden md:block">
+                                Pang Lhabsol</div>
+                            <div
+                                class="absolute bottom-2 left-2 right-2 md:hidden w-2 h-2 rounded-full bg-red-500 mx-auto">
+                            </div>
+                        </div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">10</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">11</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">12</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">13</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">14</span></div>
+                        <div
+                            class="aspect-square rounded-lg border-2 border-amber-500 bg-amber-50 dark:bg-amber-900/20 p-2 overflow-hidden relative">
+                            <span class="font-bold text-amber-700 dark:text-amber-400">15</span>
+                            <div
+                                class="mt-1 text-[10px] xl:text-xs bg-amber-500 text-white rounded px-1.5 py-0.5 font-semibold cursor-pointer truncate hidden md:block">
+                                Saga Dawa</div>
+                            <div
+                                class="absolute bottom-2 left-2 right-2 md:hidden w-2 h-2 rounded-full bg-amber-500 mx-auto">
+                            </div>
+                        </div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">16</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">17</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">18</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">19</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">20</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">21</span></div>
+                        <div
+                            class="aspect-square rounded-lg border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 p-2 overflow-hidden relative">
+                            <span class="font-bold text-emerald-700 dark:text-emerald-400">22</span>
+                            <div
+                                class="mt-1 text-[10px] xl:text-xs bg-emerald-500 text-white rounded px-1.5 py-0.5 font-semibold cursor-pointer truncate hidden md:block">
+                                Lhabab Duchen</div>
+                            <div
+                                class="absolute bottom-2 left-2 right-2 md:hidden w-2 h-2 rounded-full bg-emerald-500 mx-auto">
+                            </div>
+                        </div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">23</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">24</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">25</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">26</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">27</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">28</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">29</span></div>
+                        <div class="aspect-square rounded-lg border border-gray-200 dark:border-slate-600 p-2"><span
+                                class="font-bold">30</span></div>
+                        <div class="aspect-square rounded-lg bg-gray-100 dark:bg-slate-800 opacity-50 p-2"></div>
+                        <div class="aspect-square rounded-lg bg-gray-100 dark:bg-slate-800 opacity-50 p-2"></div>
+                        <div class="aspect-square rounded-lg bg-gray-100 dark:bg-slate-800 opacity-50 p-2"></div>
+                        <div class="aspect-square rounded-lg bg-gray-100 dark:bg-slate-800 opacity-50 p-2"></div>
+                        <div class="aspect-square rounded-lg bg-gray-100 dark:bg-slate-800 opacity-50 p-2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="festivals" class="py-20 bg-slate-50 dark:bg-slate-900">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12 dark:text-white">Upcoming Buddhist Festivals</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600 dark:text-red-500">Losar Festival</h3>
+                        <p class="font-medium text-gray-700 dark:text-slate-300 mb-4">February / March</p>
+                        <p class="text-gray-600 dark:text-slate-400">Marking the Tibetan New Year, Losar is a vibrant
+                            festival celebrated with immense fervor, symbolizing a farewell to the old year and a
+                            welcoming of the new with hope and purity.</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <h3 class="text-2xl font-semibold mb-3 text-amber-600 dark:text-amber-500">Saga Dawa</h3>
+                        <p class="font-medium text-gray-700 dark:text-slate-300 mb-4">May / June</p>
+                        <p class="text-gray-600 dark:text-slate-400">This is the most sacred Buddhist festival,
+                            commemorating the birth, enlightenment, and passing (parinirvana) of Lord Buddha through
+                            grand processions and acts of kindness.</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <h3 class="text-2xl font-semibold mb-3 text-blue-600 dark:text-blue-500">Drupka Tsheshi</h3>
+                        <p class="font-medium text-gray-700 dark:text-slate-300 mb-4">July / August</p>
+                        <p class="text-gray-600 dark:text-slate-400">This festival celebrates the Buddha's first sermon
+                            on the Four Noble Truths at the deer park in Sarnath. It is observed with prayers and yak
+                            races at the revered Muguthang monastery.</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <h3 class="text-2xl font-semibold mb-3 text-emerald-600 dark:text-emerald-500">Lhabab Duchen
+                        </h3>
+                        <p class="font-medium text-gray-700 dark:text-slate-300 mb-4">October / November</p>
+                        <p class="text-gray-600 dark:text-slate-400">One of the four great Buddhist festivals, it marks
+                            the anniversary of the Buddha's descent from the Heaven of Thirty-Three where he had been
+                            teaching the Dharma to his mother.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20 bg-white dark:bg-slate-800">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 dark:text-white">An All-Round Spiritual
+                    Experience</h2>
+                <p class="max-w-3xl mx-auto text-gray-600 dark:text-slate-400 mb-12 text-lg">
+                    Monastery360 is more than a website; it's a portal to the heart of Sikkim's spiritual heritage.
+                    Immerse yourself in a complete journey that touches every sense and enlightens the mind.
+                </p>
+
+                <div class="max-w-6xl mx-auto my-12">
+                <div class="rounded-xl shadow-2xl overflow-hidden">
+                    <video class="w-full max-h-[400px] object-cover" 
+                        src="allround experience.mp4" 
+                        autoplay 
+                        loop 
+                        muted 
+                        playsinline>
+                    Your browser does not support the video tag.
+                    </video>
+                </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-4xl mx-auto mb-12">
+                    <div class="text-center">
+                        <div
+                            class="bg-red-100 text-red-600 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4 dark:bg-red-500/10 dark:text-red-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg></div>
+                        <h3 class="text-xl font-semibold dark:text-white">Visual Splendor</h3>
+                        <p class="text-gray-600 dark:text-slate-400 mt-2">Explore every corner with 360° tours,
+                            high-resolution galleries, and videos.</p>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="bg-amber-100 text-amber-600 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4 dark:bg-amber-500/10 dark:text-amber-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0m12.728 0l-2.828 2.828" />
+                            </svg></div>
+                        <h3 class="text-xl font-semibold dark:text-white">Spiritual Serenity</h3>
+                        <p class="text-gray-600 dark:text-slate-400 mt-2">Listen to authentic monk prayers and watch
+                            sacred chanting ceremonies.</p>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="bg-emerald-100 text-emerald-600 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4 dark:bg-emerald-500/10 dark:text-emerald-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg></div>
+                        <h3 class="text-xl font-semibold dark:text-white">Cultural Depth</h3>
+                        <p class="text-gray-600 dark:text-slate-400 mt-2">Understand the heritage through digital
+                            archives and festival guides.</p>
+                    </div>
+                </div>
+                <a href="#tours"
+                    class="btn-primary text-white font-bold py-4 px-10 rounded-full shadow-lg text-lg">Begin Your
+                    Digital Pilgrimage</a>
+            </div>
+        </section>
+
+        <section id="visitor-info" class="py-20 bg-slate-50 dark:bg-slate-900">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12 dark:text-white">Plan Your Visit</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-4 dark:text-white ">Best Time to Visit</h3>
+                        <div class="space-y-4">
+                            <p class="dark:text-slate-400"><strong class="text-emerald-600 dark:text-emerald-500">Spring (March to May):</strong>
+                                Pleasant weather with clear views of the Himalayas. Rhododendrons are in full bloom,
+                                making it a picturesque time to travel.</p>
+                            <p class="dark:text-slate-400"><strong class="text-amber-600 dark:text-amber-500">Autumn (October to December):</strong>
+                                Crisp, clear skies after the monsoon, offering the best mountain views. Ideal for
+                                trekking and photography.</p>
+                            <p class="dark:text-slate-400"><strong class="text-gray-600 dark:text-slate-400">Monsoon season (June to September):</strong> Generally
+                                avoided due to heavy rainfall and potential landslides.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-4 dark:text-white">Getting There Safely</h3>
+                        <div class="space-y-4">
+                            <p class="dark:text-slate-400"><strong class="text-sky-600 dark:text-sky-500">By Air:</strong> The nearest major airport
+                                is Bagdogra (IXB) in West Bengal. From there, it's a 4-5 hour scenic drive to Gangtok.
+                                Pakyong Airport (PYG) in Sikkim has limited connectivity.</p>
+                            <p class="dark:text-slate-400"><strong class="text-sky-600 dark:text-sky-500">By Road:</strong> Roads from
+                                Siliguri/Bagdogra are the primary entry point. Always travel during the day and hire
+                                experienced local drivers who are familiar with mountain terrain. Check road conditions
+                                before travel, especially during monsoon.</p>
+                            <p class="dark:text-slate-400"><strong class="text-red-600 dark:text-red-500 font-semibold">Permits:</strong> An Inner Line Permit (ILP)
+                                is required for most international tourists. Ensure you have all necessary documents
+                                ready.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <div id="lightbox-modal" class="lightbox"><span id="lightbox-close-btn" class="lightbox-close">×</span><img
+                class="lightbox-content" id="lightbox-img">
+            <div id="lightbox-caption-text" class="lightbox-caption"></div>
+        </div>
+        <div id="tour-modal" class="lightbox"><span id="tour-close-btn" class="lightbox-close">×</span>
+            <div class="w-full h-full p-4 md:p-12"><iframe id="tour-iframe" class="w-full h-full border-0 rounded-lg"
+                    src="" allowfullscreen="" loading="lazy"></iframe></div>
+        </div>
+
+    </main>
+
+    <footer id="contact" class="bg-gray-900 text-white dark:bg-slate-800">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Monastery360</h3>
+                    <p class="text-gray-400 dark:text-slate-400">Preserving the spiritual heritage of Sikkim for future
+                        generations.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Home</a>
+                        </li>
+                        <li><a href="#tours"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Virtual
+                                Tours</a></li>
+                        <li><a href="galary.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Gallery</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                <div class="flex justify-center md:justify-start space-x-4">
+    
+                <!-- Facebook -->
+                <a href="https://facebook.com" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                clip-rule="evenodd" />
+                </svg>
+                </a>
+
+                <!-- X -->
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                    d="M18.244 2H21.5l-7.36 8.39L22 22h-6.82l-5.3-6.93L3.9 22H.64l7.87-8.96L2 2h6.91l4.78 6.33L18.24 2zM16.4 20h1.88L7.67 4H5.67L16.4 20z" />
+                </svg>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 4.25a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.5-.88a1.13 1.13 0 1 1-2.26 0 1.13 1.13 0 0 1 2.26 0z" />
+                </svg>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/Sougata2006/SIH-Demo-2" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.774.418-1.304.762-1.604-2.665-.304-5.467-1.332-5.467-5.932 0-1.31.468-2.382 1.235-3.222-.123-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 0 1 3-.403c1.02.004 2.045.138 3 .403 2.29-1.552 3.296-1.23 3.296-1.23.655 1.652.242 2.873.12 3.176.77.84 1.233 1.912 1.233 3.222 0 4.61-2.807 5.625-5.48 5.922.43.37.813 1.102.813 2.222 0 1.604-.015 2.896-.015 3.287 0 .32.218.694.825.576C20.565 21.796 24 17.303 24 12c0-6.63-5.37-12-12-12z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+
+            </div>
+            </div>
+
+            </div>
+            <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2025 Monastery360. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('loginBtn');
+    let loggedInUser = localStorage.getItem('loggedInUser');
+
+    function showLoggedIn(username) {
+        loginBtn.textContent = username;
+        loginBtn.href = "#"; // optional: disable redirect after login
+    }
+
+    // Check if user is logged in
+    if (loggedInUser) {
+        showLoggedIn(loggedInUser);
+    }
+
+    // Add click handler to login button if user is not logged in
+    loginBtn.addEventListener('click', function (e) {
+        if (!loggedInUser) {
+            e.preventDefault(); // prevent redirect to login.html
+            const username = prompt("Enter your username:");
+            if (username) {
+                localStorage.setItem('loggedInUser', username);
+                loggedInUser = username;
+                showLoggedIn(username);
+                alert("Login successful!");
+            }
+        }
+    });
+
+    // === Mobile menu toggle ===
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+    // === Lightbox modal ===
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const modalImg = document.getElementById('lightbox-img');
+    const captionText = document.getElementById('lightbox-caption-text');
+    const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+
+    document.querySelectorAll('.manuscript-img').forEach(img => {
+        img.onclick = function () {
+            lightboxModal.style.display = "flex";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.dataset.description || this.alt;
+        }
+    });
+
+    function closeLightboxModal() { lightboxModal.style.display = "none"; }
+    lightboxCloseBtn.onclick = closeLightboxModal;
+    lightboxModal.onclick = function (event) { if (event.target === lightboxModal) closeLightboxModal(); }
+
+    // === Tour modal ===
+    const tourModal = document.getElementById('tour-modal');
+    const tourIframe = document.getElementById('tour-iframe');
+    const tourCloseBtn = document.getElementById('tour-close-btn');
+
+    document.querySelectorAll('.tour-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const tourUrl = this.dataset.tourUrl;
+            if (tourUrl) {
+                tourIframe.src = tourUrl;
+                tourModal.style.display = "flex";
+            }
+        });
+    });
+
+    function closeTourModal() { tourModal.style.display = "none"; tourIframe.src = ""; }
+    tourCloseBtn.onclick = closeTourModal;
+    tourModal.onclick = function (event) { if (event.target === tourModal) closeTourModal(); }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === "Escape") {
+            if (lightboxModal.style.display === "flex") closeLightboxModal();
+            if (tourModal.style.display === "flex") closeTourModal();
+        }
+    });
+
+    // === Theme toggle ===
+    var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    var themeToggleButton = document.getElementById('theme-toggle');
+
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        themeToggleLightIcon.classList.remove('hidden');
+    } else {
+        themeToggleDarkIcon.classList.remove('hidden');
+    }
+
+    themeToggleButton.addEventListener('click', function () {
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        } else {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+    });
+});
+</script>
+
+<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2025/09/02/12/20250902123537-OK2N4Q6I.js" defer></script>
+    
+</body>
+
+</html>

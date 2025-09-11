@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monasteries of Sikkim | Monastery360</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+</head>
+
+<style>
+    body{
+        font-family: 'Cinzel', 'Inter', sans-serif;
+    }
+</style>
+
+  <header
+        class="bg-white/80 backdrop-blur-lg shadow-md fixed w-full top-0 z-50 transition-all duration-300 dark:bg-slate-900 dark:shadow-slate-700">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <a href="#"
+        class="flex items-center space-x-2 text-2xl font-bold text-red-700 transition-transform duration-300 hover:scale-105"
+        style="font-family: 'Cinzel', serif;">
+        <img src="logo.png" alt="Logo" class="w-8 h-8 object-contain">
+        <span>Monastery360</span>
+        </a>
+
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Home</a>
+                <a href="monasteries.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Monastery</a>
+                <a href="galary.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Gallery</a>
+                <a href="tourbooking.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">
+                    Book&nbsp; Tour
+                </a>
+
+                <a href="donation.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Donate</a>
+            </div>
+            <div class="flex items-center">
+                <button id="theme-toggle" type="button"
+                    class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5 mr-4">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+  
+                <button id="mobile-menu-button"
+                    class="md:hidden text-gray-700 focus:outline-none dark:text-slate-300 ml-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 dark:bg-slate-800"> <a href="index.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Home</a> <a href="monasteries.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Monastery</a> <a href="galary.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Gallery</a> <a href="Tour Booking.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Book Tour</a> <a href="donation.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Donate</a> <a href="login.html" id="loginBtn" class="block mt-2 btn-primary text-white font-semibold py-2 px-4 rounded-lg shadow-md text-center">Log in / Sign up</a> </div>
+
+
+    </header>
+
+
+<body class="bg-slate-50 dark:bg-slate-900 text-gray-800 dark:text-gray-200  mt-12 md:mt-16">
+
+  <section class="container mx-auto px-6 py-16">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-12">Monasteries of Sikkim</h1>
+
+    <!-- EAST SIKKIM -->
+    <h2 class="text-3xl font-bold mb-8 border-b border-gray-300 dark:border-gray-700 pb-2">East Sikkim</h2>
+    <div class="space-y-8">
+      <!-- Example Card -->
+      <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Rumtek Monastery.jpeg" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Rumtek Monastery 
+              <a href="https://maps.app.goo.gl/mpABRjYAPXzNLDcT7" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="https://www.google.com/maps/embed?pb=!4v1757522372794!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJRFptcjdvSlE.!2m2!1d27.28848553899807!2d88.56190567068603!3f134.277771500266!4f-5.049093399405606!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1966</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Largest</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Rumtek Monastery, also known as the Dharma Chakra Centre, is the most prominent monastery in Sikkim. Originally built in the 16th century and later rebuilt in 1966 by the 16th Karmapa, it serves as the main seat of the Kagyu sect outside Tibet. The monastery is admired for its traditional Tibetan architecture, massive prayer hall, golden stupa, and priceless relics. It also functions as a center for Buddhist learning and meditation, with hundreds of monks in residence. Surrounded by lush hills and offering panoramic views of Gangtok, Rumtek is both a spiritual haven and a cultural landmark.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Rumtek_Monastery" target="_blank">Read More</a></button>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Enchey Monastery.jpg" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Enchey Monastery
+              <a href="https://maps.app.goo.gl/YLp4gcayZe6pQtzYA" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="https://www.google.com/maps/embed?pb=!4v1757522518383!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJQ0pzTXEzOWdF!2m2!1d27.33593677395685!2d88.61916587167339!3f44.015686!4f0!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1909</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Sacred Site</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Enchey Monastery, perched on a hilltop overlooking Gangtok, is one of the most significant religious centers in Sikkim. Established in 1909 under the Nyingma order of Vajrayana Buddhism, it is believed to have been built on the site blessed by Lama Druptob Karpo, a revered tantric master known for his ability to fly. The monastery is dedicated to the protective deities Khangchendzonga and Yabdean, who are regarded as guardians of the region. Architecturally, Enchey reflects the style of a Chinese pagoda, with colorful murals and intricate woodwork adorning its prayer hall. Every year, the vibrant Cham Dance festival is celebrated here, attracting devotees and tourists alike. Surrounded by pine forests and offering sweeping views of Gangtok and Mount Kanchenjunga, Enchey is both a spiritual sanctuary and a cultural treasure.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Enchey_Monastery" target="_blank">Read More</a></button>
+        </div>
+      </div>
+
+    <!-- Repeat same structure for West, North, South -->
+    <h2 class="text-3xl font-bold mt-16 mb-8 border-b border-gray-300 dark:border-gray-700 pb-2">West Sikkim</h2>
+    <!-- Cards: Pemayangtse (Oldest), Dubdi, Tashiding -->
+            <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Dubdi Monastery.jpg" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Dubdi Monastery
+              <a href="https://maps.app.goo.gl/pBuFk5zJnrTf49HE7" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="https://www.google.com/maps/embed?pb=!4v1757522741337!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJRFVpdHkxNndF!2m2!1d27.36655288826205!2d88.22999220879571!3f239.3523521865996!4f-22.12289372594168!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1701</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Oldest</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Dubdi Monastery, located near Yuksom, holds the distinction of being the oldest monastery in Sikkim, founded in 1701 soon after the coronation of the first Chogyal (king). This monastery is modest yet deeply revered, set in a tranquil location amidst dense forests and scenic hills. Its interiors preserve rare manuscripts, ancient relics, and exquisite wall paintings depicting Buddhist deities. The monastery is closely associated with the foundation of Sikkim and the Nyingma order of Tibetan Buddhism. For visitors, Dubdi offers not just a religious experience but also a journey into the roots of Sikkimese culture and spirituality.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Dubdi_Monastery" target="_blank">Read More</a></button>
+        </div>
+      </div>
+
+            <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Pemayangtse Monastery.jpeg" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Pemayangtse Monastery
+              <a href="https://maps.app.goo.gl/zNBAbZ1K9nLWqaYd7" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="https://www.google.com/maps/embed?pb=!4v1757522930068!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJREVoSlhucEFF!2m2!1d27.30518919282202!2d88.25156580066201!3f249.57534099339875!4f-7.825135692190614!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1705</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Historic</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Pemayangtse Monastery, located near Pelling, is one of the most important and prestigious monasteries in Sikkim, established in the 17th century by Lama Lhatsun Chenpo. Belonging to the Nyingma order of Tibetan Buddhism, it was originally built for monks of pure Tibetan lineage. The monastery is renowned for its intricate architecture and rich artistic heritage, with beautifully painted walls, sculptures of Buddhist deities, and a striking seven-tiered wooden structure called “Sangtok Palri,” representing the heavenly abode of Guru Padmasambhava. Surrounded by panoramic views of the Kanchenjunga range, Pemayangtse holds a central place in Sikkimese religious and cultural life. It is also the venue of the annual Cham Dance, where masked monks perform ritual dances. For visitors, Pemayangtse offers a blend of spiritual depth, artistic beauty, and breathtaking natural surroundings.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Pemayangtse_Monastery" target="_blank">Read More</a></button>
+        </div>
+      </div>
+
+    <h2 class="text-3xl font-bold mt-16 mb-8 border-b border-gray-300 dark:border-gray-700 pb-2">North Sikkim</h2>
+    <!-- Cards: Phodong, Phensang, Labrang -->
+
+          <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Phodong Monastery.jpeg" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Phodong Monastery
+              <a href="https://maps.app.goo.gl/eLQA9Mergip9SZ4cA" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="
+https://www.google.com/maps/embed?pb=!4v1757522997774!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJRGg0OURqV3c.!2m2!1d27.41303405816734!2d88.58375766744783!3f359.6143907076638!4f-26.046948430933732!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1740</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Ancient</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Phodong Monastery, situated about 28 km from Gangtok, is one of the six major monasteries of Sikkim, originally built in the early 18th century by the Chogyal Gyurmed Namgyal. Belonging to the Kagyu sect of Tibetan Buddhism, the monastery is known for its striking murals, ancient scriptures, and the serene ambience of its hilltop location. The present structure was reconstructed in the 20th century after the original building was damaged, yet it continues to preserve the spiritual legacy of its past. Phodong is especially vibrant during its annual Chaam festival, when monks perform traditional mask dances that symbolize the triumph of good over evil. With its deep religious significance, artistic treasures, and scenic setting, Phodong Monastery remains a vital center of Buddhist practice and a captivating destination for visitors seeking peace and cultural insight.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"> <a href="https://en.wikipedia.org/wiki/Phodong_Monastery" target="_blank">Read More</a></button>
+        </div>
+      </div>
+
+            <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Phensang Monastery.avif" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Phensang Monastery
+              <a href="https://maps.app.goo.gl/DiHqqSphyzfiyF986" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="https://www.google.com/maps/embed?pb=!4v1757522372794!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJRFptcjdvSlE.!2m2!1d27.28848553899807!2d88.56190567068603!3f134.277771500266!4f-5.049093399405606!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1721</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Cultural</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Phensang Monastery, located on a gentle hill slope about 9 km north of Gangtok, is one of the largest monasteries in Sikkim. Established in 1721 during the reign of Jigme Pawo, it belongs to the Nyingma order of Tibetan Buddhism and holds great spiritual importance. The monastery was destroyed by a devastating fire in 1947 but was later rebuilt, continuing its legacy as a vibrant religious center. Surrounded by lush forests and offering picturesque views of the surrounding valleys, Phensang is especially famous for its annual festival held just before the Tibetan New Year, when monks perform sacred mask dances accompanied by traditional music. With its serene atmosphere, rich history, and cultural festivities, Phensang Monastery stands as a significant hub of spirituality and community life in Sikkim.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Phensang_Monastery" target="_blank">Read More</a></button>
+        </div>
+      </div>
+
+    <h2 class="text-3xl font-bold mt-16 mb-8 border-b border-gray-300 dark:border-gray-700 pb-2">South Sikkim</h2>
+    <!-- Cards: Ralang, Samdruptse, Tendong -->
+
+          <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Ralang Monastery.jpg" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Ralang Monastery
+              <a href="https://maps.app.goo.gl/89i2hoVLeuJ1vKfg9" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="https://www.google.com/maps/embed?pb=!4v1757523125608!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJRDh5NUc4RGc.!2m2!1d27.3284964274141!2d88.33524768412993!3f152.78369!4f0!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1995</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Largest (South Sikkim)</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Ralang Monastery, situated near Ravangla in South Sikkim, is a prominent center of the Kagyu sect of Tibetan Buddhism. It was originally built in 1730 by the fourth Chogyal, Gyurmed Namgyal, and later expanded with the establishment of the newer monastery, Palchen Choeling, in 1995. The monastery is renowned for its stunning architecture, vibrant frescoes, and a vast collection of thangkas and sacred relics. Ralang is also the venue for the grand Pang Lhabsol and Mahakala Dance festivals, where monks perform elaborate masked dances that attract devotees and visitors alike. Nestled amidst the scenic backdrop of the Himalayas, the monastery not only serves as a vital spiritual institution but also offers a deep cultural experience. For travelers, Ralang Monastery is both a place of devotion and a window into Sikkim’s enduring Buddhist traditions.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Ralang_Monastery" target="_blank">Read More</a></button>
+        </div>
+      </div>
+
+            <div class="flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <img src="Samdruptse Monastery.avif" 
+             alt="Rumtek Monastery" class="w-full md:w-1/3 h-64 object-cover">
+        <div class="p-6 flex flex-col justify-between md:w-2/3">
+          <div>
+            <h3 class="text-2xl font-semibold flex items-center gap-3">
+              Samdruptse Monastery
+              <a href="https://maps.app.goo.gl/g8o59dtVmxfTvHcS6" target="_blank" 
+                 class="text-red-600 hover:text-red-700">
+                <i class="fas fa-map-marker-alt"></i>
+              </a>
+
+<a href="#" data-tour-url="https://www.google.com/maps/embed?pb=!4v1757523170011!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ1J1TTdwVUE.!2m2!1d27.17997430510306!2d88.37967751567115!3f249.89458!4f0!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="tour-globe text-blue-600 hover:text-blue-700">
+    <i class="fas fa-globe-asia"></i>
+</a>
+
+              <span class="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Built: 1997</span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Newest</span>
+            </h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Samdruptse Monastery, located near Namchi in South Sikkim, is best known for the towering 135-foot statue of Guru Padmasambhava, which stands as one of the tallest of its kind in the world. Built in the late 20th century under the vision of the Dalai Lama, the monastery and statue complex symbolize peace and protection for the land. The golden-hued statue, seated in a meditative posture, overlooks the hills and valleys, offering a majestic sight visible from miles away. Inside the monastery, devotees can see sacred relics, vibrant wall paintings, and spaces for prayer and meditation. The site is also closely linked to the hill of Samdruptse, believed to be a “wish-fulfilling hill” in local tradition. Surrounded by panoramic views of the Himalayas, Samdruptse Monastery is not only a place of worship but also a cultural landmark, blending spirituality with breathtaking artistry.
+            </p>
+          </div>
+          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://namchi.nic.in/tourist-place/samdruptse-samdrupts/" target="_blank">Read More</a></button>
+        </div>
+      </div>
+  </section>
+
+<!-- 360° Viewer Modal -->
+<div id="tourModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
+  <div class="relative w-11/12 md:w-3/4 lg:w-1/2 h-96 bg-white rounded-xl overflow-hidden">
+    <button id="closeModal" class="absolute top-2 right-2 text-white bg-red-500 rounded-full px-3 py-1 hover:bg-red-600">X</button>
+    <iframe id="tourFrame" src="" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</div>
+
+    <footer id="contact" class="bg-gray-900 text-white dark:bg-slate-800">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Monastery360</h3>
+                    <p class="text-gray-400 dark:text-slate-400">Preserving the spiritual heritage of Sikkim for future
+                        generations.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Home</a>
+                        </li>
+                        <li><a href="monasteries.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Virtual
+                                Tours</a></li>
+                        <li><a href="galary.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Gallery</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                <div class="flex justify-center md:justify-start space-x-4">
+    
+                <!-- Facebook -->
+                <a href="https://facebook.com" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                clip-rule="evenodd" />
+                </svg>
+                </a>
+
+                <!-- X -->
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                    d="M18.244 2H21.5l-7.36 8.39L22 22h-6.82l-5.3-6.93L3.9 22H.64l7.87-8.96L2 2h6.91l4.78 6.33L18.24 2zM16.4 20h1.88L7.67 4H5.67L16.4 20z" />
+                </svg>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 4.25a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.5-.88a1.13 1.13 0 1 1-2.26 0 1.13 1.13 0 0 1 2.26 0z" />
+                </svg>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/Sougata2006/SIH-Demo-2" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.774.418-1.304.762-1.604-2.665-.304-5.467-1.332-5.467-5.932 0-1.31.468-2.382 1.235-3.222-.123-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 0 1 3-.403c1.02.004 2.045.138 3 .403 2.29-1.552 3.296-1.23 3.296-1.23.655 1.652.242 2.873.12 3.176.77.84 1.233 1.912 1.233 3.222 0 4.61-2.807 5.625-5.48 5.922.43.37.813 1.102.813 2.222 0 1.604-.015 2.896-.015 3.287 0 .32.218.694.825.576C20.565 21.796 24 17.303 24 12c0-6.63-5.37-12-12-12z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+
+            </div>
+            </div>
+
+            </div>
+            <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2025 Monastery360. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+<script>
+  const globeLinks = document.querySelectorAll('.tour-globe');
+  const tourModal = document.getElementById('tourModal');
+  const tourFrame = document.getElementById('tourFrame');
+  const closeModal = document.getElementById('closeModal');
+
+  globeLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault(); // prevent default anchor behavior
+      const url = link.getAttribute('data-tour-url');
+      tourFrame.src = url;
+      tourModal.classList.remove('hidden');
+    });
+  });
+
+  closeModal.addEventListener('click', () => {
+    tourModal.classList.add('hidden');
+    tourFrame.src = ""; // stop loading iframe
+  });
+
+  // Optional: click outside modal to close
+  tourModal.addEventListener('click', (e) => {
+    if (e.target === tourModal) {
+      tourModal.classList.add('hidden');
+      tourFrame.src = "";
+    }
+  });
+</script>
+
+<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2025/09/02/12/20250902123537-OK2N4Q6I.js" defer></script>
+
+
+</body>
+</html>
