@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="src/logo.png" type="image/x-icon">
+  <!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Sikkim Hotels</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#f59e0b;
+      --accent-600:#d97706;
+      --white:#ffffff;
+      --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Cinzel','Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(180deg,#071029 0%, #071a2e 100%);
+      color:var(--white);
+      line-height:1.6;
+    }
+
+    h1{
+      text-align:center;
+      color:var(--accent);
+      font-size:28px;
+      margin-bottom:28px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap:20px;
+    }
+
+    .card{
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius:12px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      transition: transform .15s ease;
+    }
+    .card:hover{ transform: translateY(-4px); }
+
+    .card img {
+    width: 100%;
+    height: 180px;   
+    object-fit: cover;  
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    }
+    .card-body{
+      padding:16px;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+     .rating {
+     color: gold;
+     font-size: 16px;
+     margin: 6px 0;
+    }
+     .rating .count {
+     color: var(--muted);
+     font-size: 14px;
+     margin-left: 4px;
+    }
+
+
+    .hotel-name{
+      font-size:18px;
+      font-weight:600;
+      margin:0 0 6px;
+    }
+    .location{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+    .rating{
+      color:gold;
+      margin-bottom:8px;
+      font-size:14px;
+    }
+    .price{
+      font-size:16px;
+      font-weight:700;
+      color:var(--accent);
+      margin:8px 0;
+    }
+
+    .btn-bottom {
+     background: linear-gradient(90deg,var(--accent),var(--accent-600));
+     color: var(--bg);
+     border: none;
+     padding: 12px 20px;
+     margin: 6px;
+     border-radius: 8px;
+     font-weight: 600;
+     cursor: pointer;
+     transition: transform .12s ease;
+    }
+    .btn-bottom:hover {
+     transform: translateY(-2px);
+    }
+
+    .page-title {
+  text-align: center;
+  color: #f59e0b; /* same as --accent */
+  font-size: 30px;
+  font-weight: bolder;
+  margin-bottom: 28px;
+  font-family: 'Cinzel', serif; /* matches Monastery360 font */
+}
+
+
+    .btn{
+      background: linear-gradient(90deg,var(--accent),var(--accent-600));
+      color:var(--bg);
+      border:none;
+      padding:10px 14px;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      text-align:center;
+      text-decoration:none;
+      transition:opacity .15s ease;
+    }
+    .btn:hover{ opacity:0.9; }
+  </style>
+
+  
+</head>
+
+
+<body class="pt-28 bg-white dark:bg-slate-900 text-white">
+
+  
+
+
+
+  <header
+        class="bg-white/80 backdrop-blur-lg shadow-md fixed w-full top-0 z-50 transition-all duration-300 dark:bg-slate-900 dark:shadow-slate-700">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+
+        <a href="#"
+        class="flex items-center space-x-2 text-2xl font-bold text-red-700 transition-transform duration-300 hover:scale-105"
+        style="font-family: 'Cinzel', serif;">
+        <img src="src/logo.png" alt="Logo" class="w-8 h-8 object-contain">
+        <span>Monastery360</span>
+        </a>
+
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Home</a>
+                <a href="monasteries.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Monastery</a>
+                <a href="galary.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Gallery</a>
+                <a href="tourbooking.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">
+                    Book&nbsp; Tour
+                </a>
+
+                <a href="donation.html"
+                    class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Donate</a>
+            </div>
+            <div class="flex items-center">
+                <button id="theme-toggle" type="button"
+                    class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5 mr-4">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+  
+                <button id="mobile-menu-button"
+                    class="md:hidden text-gray-700 focus:outline-none dark:text-slate-300 ml-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 dark:bg-slate-800"> <a href="in.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Home</a> <a href="monasteries.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Monastery/a> <a href="galary.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Gallery</a> <a href="Tour Booking.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Book Tour</a> <a href="donation.html" class="block text-gray-600 hover:text-red-600 py-2 dark:text-slate-200 dark:hover:text-red-500">Donate</a> <a href="login.html" id="loginBtn" class="block mt-2 btn-primary text-white font-semibold py-2 px-4 rounded-lg shadow-md text-center">Log in / Sign up</a> </div>
+
+
+    </header>
+
+
+
+
+  <h1 class="page-title">Hotels in Sikkim</h1>
+
+
+  <div class="grid">
+    <!-- Hotel 1 -->
+    <div class="card">
+      <img src="Gallery/Photos/Hotel1.webp" alt="Mayfair Spa Resort & Casino" loading="lazy">
+      <div class="card-body">
+        <div>
+          <h2 class="hotel-name">Mayfair Spa Resort & Casino</h2>
+          <p class="location">Gangtok, Sikkim</p>
+          <div class="rating">⭐⭐⭐⭐⭐<span class="count">(124)</span></div>
+          <div class="price">₹9,000 / night</div>
+        </div>
+        <a href="https://www.goibibo.com/hotels/mayfair-spa-resort-casino-hotel-in-gangtok-2435630674166942810/" target="_blank" class="btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Hotel 2 -->
+    <div class="card">
+      <img src="Gallery/Photos/Hotel2.webp" alt="The Elgin Nor-Khill" loading="lazy">
+      <div class="card-body">
+        <div>
+          <h2 class="hotel-name">The Elgin Nor-Khill</h2>
+          <p class="location">Gangtok, Sikkim</p>
+          <div class="rating">⭐⭐⭐⭐<span class="count">(97)</span></div>
+          <div class="price">₹7,500 / night</div>
+        </div>
+        <a href="https://www.goibibo.com/hotels/the-elgin-nor-khill-hotel-in-gangtok-7581034002519041022/" target="_blank" class="btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Hotel 3 -->
+    <div class="card">
+      <img src="Gallery/Photos/Hotel3.webp" alt="Summit Golden Crescent Resort" loading="lazy">
+      <div class="card-body">
+        <div>
+          <h2 class="hotel-name">Summit Golden Crescent Resort</h2>
+          <p class="location">Gangtok, Sikkim</p>
+          <div class="rating">⭐⭐⭐⭐<span class="count">(86)</span></div>
+          <div class="price">₹4,200 / night</div>
+        </div>
+        <a href="https://www.goibibo.com/hotels/summit-golden-crescent-resort-hotel-in-gangtok-7196906589982330116/" target="_blank" class="btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Hotel 4 -->
+    <div class="card">
+      <img src="Gallery/Photos/Hotel4.webp" alt="Lemon Tree Hotel" loading="lazy">
+      <div class="card-body">
+        <div>
+          <h2 class="hotel-name">Lemon Tree Hotel</h2>
+          <p class="location">Gangtok, Sikkim</p>
+          <div class="rating">⭐⭐⭐<span class="count">(63)</span></div>
+          <div class="price">₹3,800 / night</div>
+        </div>
+        <a href="https://www.goibibo.com/hotels/lemon-tree-hotel-in-gangtok-6329022842165479272/" target="_blank" class="btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Hotel 5 -->
+    <div class="card">
+      <img src="Gallery/Photos/Hotel5.webp" alt="Summit Ttakshang Residency" loading="lazy">
+      <div class="card-body">
+        <div>
+          <h2 class="hotel-name">Summit Ttakshang Residency</h2>
+          <p class="location">Gangtok, Sikkim</p>
+          <div class="rating">⭐⭐⭐<span class="count">(176)</span></div>
+          <div class="price">₹2,900 / night</div>
+        </div>
+        <a href="https://www.goibibo.com/hotels/summit-ttakshang-residency-hotel-in-gangtok-3493859025639058594/" target="_blank" class="btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Hotel 6 -->
+    <div class="card">
+      <img src="Gallery/Photos/Hotel6.webp" alt="Sinclairs Gangtok" loading="lazy">
+      <div class="card-body">
+        <div>
+          <h2 class="hotel-name">Sinclairs Gangtok</h2>
+          <p class="location">Gangtok, Sikkim</p>
+          <div class="rating">⭐⭐⭐<span class="count">(74)</span></div>
+          <div class="price">₹4,500 / night</div>
+        </div>
+        <a href="https://www.goibibo.com/hotels/sinclairs-gangtok-hotel-in-gangtok-2345610837035247500/" target="_blank" class="btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Hotel 7 -->
+<div class="card">
+  <img src="Gallery/Photos/Hotel7.webp" alt="Denzong Regency" loading="lazy">
+  <div class="card-body">
+    <div>
+      <h2 class="hotel-name">Denzong Regency</h2>
+      <p class="location">Gangtok, Sikkim</p>
+      <div class="rating">⭐⭐⭐⭐⭐<span class="count">(38)</span></div>
+      <div class="price">₹8,200 / night</div>
+    </div>
+    <a href="https://www.goibibo.com/hotels/denzong-regency-hotel-in-gangtok-4513090641786464803/" target="_blank" class="btn">Book Now</a>
+  </div>
+</div>
+
+<!-- Hotel 8 -->
+<div class="card">
+  <img src="Gallery/Photos/Hotel8.webp" alt="Summit Norling Resort & Spa" loading="lazy">
+  <div class="card-body">
+    <div>
+      <h2 class="hotel-name">Summit Norling Resort & Spa</h2>
+      <p class="location">Ranka, Sikkim</p>
+      <div class="rating">⭐⭐⭐⭐<span class="count">(106)</span></div>
+      <div class="price">₹4,700 / night</div>
+    </div>
+    <a href="https://www.goibibo.com/hotels/summit-norling-resort-spa-hotel-in-gangtok-2543366496531395564/" target="_blank" class="btn">Book Now</a>
+  </div>
+</div>
+
+<!-- Hotel 9 -->
+<div class="card">
+  <img src="Gallery/Photos/Hotel9.webp" alt="Club Mahindra Gangtok" loading="lazy">
+  <div class="card-body">
+    <div>
+      <h2 class="hotel-name">Club Mahindra Gangtok</h2>
+      <p class="location">Gangtok, Sikkim</p>
+      <div class="rating">⭐⭐⭐⭐<span class="count">(89)</span></div>
+      <div class="price">₹6,200 / night</div>
+    </div>
+    <a href="https://www.goibibo.com/hotels/club-mahindra-gangtok-hotel-in-gangtok-7826604923333452437/" target="_blank" class="btn">Book Now</a>
+  </div>
+</div>
+
+<!-- Hotel 10 -->
+<div class="card">
+  <img src="Gallery/Photos/Hotel10.webp" alt="Hotel Orchid Villa" loading="lazy">
+  <div class="card-body">
+    <div>
+      <h2 class="hotel-name">Hotel Orchid Villa</h2>
+      <p class="location">Pelling, Sikkim</p>
+      <div class="rating">⭐⭐⭐<span class="count">(64)</span></div>
+      <div class="price">₹2,500 / night</div>
+    </div>
+    <a href="https://www.goibibo.com/hotels/orchid-villa-hotel-in-pelling-8685935274518354606/" target="_blank" class="btn">Book Now</a>
+  </div>
+</div>
+  </div>
+
+  <div style="text-align:center; margin-top:32px;">
+    <button onclick="history.back()" 
+      class="btn-bottom">⬅ Go Back</button>
+  <button onclick="location.reload()" 
+          class="btn-bottom"> View More</button>
+</div>
+<br> <br>
+
+    <footer id="contact" class="bg-gray-900 text-white dark:bg-slate-800">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Monastery360</h3>
+                    <p class="text-gray-400 dark:text-slate-400">Preserving the spiritual heritage of Sikkim for future
+                        generations.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Home</a>
+                        </li>
+                        <li><a href="monasteries.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Virtual
+                                Tours</a></li>
+                        <li><a href="galary.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300 dark:text-slate-400 dark:hover:text-white">Gallery</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                <div class="flex justify-center md:justify-start space-x-4">
+    
+                <!-- Facebook -->
+                <a href="https://facebook.com" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                clip-rule="evenodd" />
+                </svg>
+                </a>
+
+                <!-- X -->
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                    d="M18.244 2H21.5l-7.36 8.39L22 22h-6.82l-5.3-6.93L3.9 22H.64l7.87-8.96L2 2h6.91l4.78 6.33L18.24 2zM16.4 20h1.88L7.67 4H5.67L16.4 20z" />
+                </svg>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 4.25a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.5-.88a1.13 1.13 0 1 1-2.26 0 1.13 1.13 0 0 1 2.26 0z" />
+                </svg>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/Sougata2006/SIH-Demo-2" target="_blank"
+                class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.238 1.84 1.238 1.07 1.834 2.807 1.304 3.492.997.108-.774.418-1.304.762-1.604-2.665-.304-5.467-1.332-5.467-5.932 0-1.31.468-2.382 1.235-3.222-.123-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 0 1 3-.403c1.02.004 2.045.138 3 .403 2.29-1.552 3.296-1.23 3.296-1.23.655 1.652.242 2.873.12 3.176.77.84 1.233 1.912 1.233 3.222 0 4.61-2.807 5.625-5.48 5.922.43.37.813 1.102.813 2.222 0 1.604-.015 2.896-.015 3.287 0 .32.218.694.825.576C20.565 21.796 24 17.303 24 12c0-6.63-5.37-12-12-12z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+
+            </div>
+            </div>
+
+            </div>
+            <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2025 Monastery360. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2025/09/02/12/20250902123537-OK2N4Q6I.js" defer></script>
+
+</body>
+</html>
