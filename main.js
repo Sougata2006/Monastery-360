@@ -5,6 +5,7 @@
 // Theme Management System
 // ========================
 
+
 class ThemeManager {
     constructor() {
         this.currentTheme = this.getStoredTheme() || this.getSystemTheme();
