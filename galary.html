@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gallery - Monastery360</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="shortcut icon" href="src/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="theme.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
   <style>
     /* Fade-in animation */
     .fade-in {
@@ -15,12 +22,30 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .btn-primary {
+      background-image: linear-gradient(to right, #f59e0b, #ef4444);
+      color: white;
+      padding: 12px 32px;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px 0 rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-image: linear-gradient(to right, #f97316, #dc2626);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
+    }
+
+    html.dark .btn-primary {
+      background-image: linear-gradient(to right, #f97316, #dc2626);
+    }
   </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
-
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
 
 <style>
     body{
@@ -54,6 +79,8 @@
                     class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Donate</a>
             </div>
             <div class="flex items-center">
+                <a href="login.html"
+                    class="hidden md:block btn-primary text-white font-semibold py-2 px-5 rounded-lg shadow-md mr-4">Log in / Sign up</a>
                 <button id="theme-toggle" type="button"
                     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5 mr-4">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -265,6 +292,8 @@
       if (e.key === "ArrowRight") showLightbox((currentIndex + 1) % galleryItems.length);
     });
   </script>
+  <script src="main.js"></script>
+  <script src="theme.js"></script>
 
 <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
 <script src="https://files.bpcontent.cloud/2025/09/02/12/20250902123537-OK2N4Q6I.js" defer></script>
