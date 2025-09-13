@@ -8,11 +8,38 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="src/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="theme.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
 </head>
 
 <style>
     body{
         font-family: 'Cinzel', 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background-image: linear-gradient(to right, #f59e0b, #ef4444);
+      color: white;
+      padding: 12px 32px;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px 0 rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-image: linear-gradient(to right, #f97316, #dc2626);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
+    }
+
+    html.dark .btn-primary {
+      background-image: linear-gradient(to right, #f97316, #dc2626);
     }
 </style>
 
@@ -42,6 +69,8 @@
                     class="text-gray-600 hover:text-red-600 font-medium transition duration-300 dark:text-slate-200 dark:hover:text-red-500">Donate</a>
             </div>
             <div class="flex items-center">
+                <a href="login.html"
+                    class="hidden md:block btn-primary text-white font-semibold py-2 px-5 rounded-lg shadow-md mr-4">Log in / Sign up</a>
                 <button id="theme-toggle" type="button"
                     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5 mr-4">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -399,34 +428,8 @@ https://www.google.com/maps/embed?pb=!4v1757522997774!6m8!1m7!1sCAoSFkNJSE0wb2dL
     </footer>
 
 
-<script>
-  const globeLinks = document.querySelectorAll('.tour-globe');
-  const tourModal = document.getElementById('tourModal');
-  const tourFrame = document.getElementById('tourFrame');
-  const closeModal = document.getElementById('closeModal');
-
-  globeLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault(); // prevent default anchor behavior
-      const url = link.getAttribute('data-tour-url');
-      tourFrame.src = url;
-      tourModal.classList.remove('hidden');
-    });
-  });
-
-  closeModal.addEventListener('click', () => {
-    tourModal.classList.add('hidden');
-    tourFrame.src = ""; // stop loading iframe
-  });
-
-  // Optional: click outside modal to close
-  tourModal.addEventListener('click', (e) => {
-    if (e.target === tourModal) {
-      tourModal.classList.add('hidden');
-      tourFrame.src = "";
-    }
-  });
-</script>
+<script src="main.js"></script>
+<script src="theme.js"></script>
 
 <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
 <script src="https://files.bpcontent.cloud/2025/09/02/12/20250902123537-OK2N4Q6I.js" defer></script>
