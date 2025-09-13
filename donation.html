@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="shortcut icon" href="src/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="theme.css">
   <title>Donate — Monastery360</title>
@@ -11,456 +12,1163 @@
     :root{
       /* Light theme */
       --bg: #f8fafc;
+      --bg-secondary: #e2e8f0;
       --card: #ffffff;
-      --muted: #6b7280;
+      --card-border: rgba(226, 232, 240, 0.8);
+      --muted: #64748b;
+      --muted-light: #94a3b8;
       --accent: #f59e0b;
       --accent-600: #d97706;
-      --white: #1f2937;
-      --glass: rgba(0,0,0,0.03);
+      --accent-700: #b45309;
+      --accent-light: #fbbf24;
+      --white: #1e293b;
+      --glass: rgba(255, 255, 255, 0.8);
+      --shadow: rgba(0, 0, 0, 0.1);
+      --shadow-strong: rgba(0, 0, 0, 0.25);
+      --error: #ef4444;
+      --success: #10b981;
+      --info: #3b82f6;
     }
 
     [data-theme="dark"] {
       /* Dark theme */
-      --bg: #0f1724;
-      --card: #0b1220;
+      --bg: #0f172a;
+      --bg-secondary: #1e293b;
+      --card: #1e293b;
+      --card-border: rgba(51, 65, 85, 0.6);
       --muted: #94a3b8;
+      --muted-light: #cbd5e1;
       --accent: #f59e0b;
       --accent-600: #d97706;
-      --white: #ffffff;
-      --glass: rgba(255,255,255,0.03);
+      --accent-700: #b45309;
+      --accent-light: #fbbf24;
+      --white: #f8fafc;
+      --glass: rgba(30, 41, 59, 0.8);
+      --shadow: rgba(0, 0, 0, 0.5);
+      --shadow-strong: rgba(0, 0, 0, 0.7);
+      --error: #f87171;
+      --success: #34d399;
+      --info: #60a5fa;
     }
 
-    *{box-sizing:border-box; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;}
-    body{
-      margin:0;
-      font-family:'Cinzel','Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background: var(--bg);
-      color:var(--white);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-      padding:32px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg) 0%, var(--bg-secondary) 100%);
+      color: var(--white);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated background particles */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 25% 25%, var(--accent) 0%, transparent 50%),
+                  radial-gradient(circle at 75% 75%, var(--accent-600) 0%, transparent 50%);
+      opacity: 0.03;
+      z-index: -1;
+      animation: float 20s ease-in-out infinite;
     }
 
     [data-theme="dark"] body {
-      background: linear-gradient(180deg,#071029 0%, #071a2e 100%);
+      background: linear-gradient(135deg, #0a0f1c 0%, #1a1f2e 50%, #0f1724 100%);
     }
 
-    /* container */
-    .wrap{
-      width:100%;
+    [data-theme="dark"] body::before {
+      opacity: 0.05;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-30px) rotate(1deg); }
+      66% { transform: translateY(-15px) rotate(-1deg); }
+    }
+
+    /* Back button modern styling */
+    .back-button {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 1000;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 32px var(--shadow);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px var(--shadow-strong);
+      border-color: var(--accent);
+    }
+
+    .back-button:active {
+      transform: translateY(0);
+    }
+
+    /* Main container */
+    .container {
       max-width: 1200px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;
-      padding:28px;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-      border: 1px solid rgba(255,255,255,0.04);
+      margin: 0 auto;
+      margin-top: 60px;
     }
 
-    header{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      margin-bottom:18px;
-    }
-    .logo{
-      width:56px;
-      height:56px;
-      border-radius:10px;
-      background: linear-gradient(135deg,var(--accent),var(--accent-600));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      color:var(--bg);
-      font-size:20px;
-    }
-    h1{margin:0;font-size:20px}
-    p.lead{margin:6px 0 0;color:var(--muted);font-size:14px}
-
-    /* layout */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 380px;
-      gap:20px;
-      margin-top:18px;
-    }
-    @media (max-width:880px){
-      .grid{grid-template-columns:1fr}
+    .main-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 
+        0 25px 50px var(--shadow),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      animation: slideUp 0.6s ease-out;
     }
 
-    /* left column (info) */
-    .about{
-      padding:18px;
-      border-radius:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-      border:1px solid rgba(255,255,255,0.02);
-    }
-    .about h2{margin:0 0 8px;font-size:16px}
-    .about p{margin:0;color:var(--muted);font-size:14px}
-
-    /* donation card */
-    .card{
-      padding:18px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .amount-grid{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-    .amt{
-      flex:0 0 30%;
-      min-width:98px;
-      padding:10px;
-      border-radius:10px;
-      text-align:center;
-      background:var(--glass);
-      border:1px solid rgba(255,255,255,0.03);
-      cursor:pointer;
-      transition:all .18s ease;
-      color:var(--white);
-      font-weight:600;
-    }
-    .amt:hover{transform:translateY(-4px)}
-    .amt.active{
-      background: linear-gradient(90deg, rgba(245,158,11,0.12), rgba(215,119,6,0.08));
-      border:1px solid rgba(245,158,11,0.28);
-      box-shadow:0 6px 18px rgba(215,119,6,0.12);
-      color:var(--accent);
-    }
-    .custom {
-      display:flex;
-      gap:8px;
-      align-items:center;
-      margin-top:8px;
-    }
-    input[type="number"], input[type="text"], input[type="email"]{
-      width:100%;
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:transparent;
-      color:var(--white);
-      outline:none;
-      font-size:14px;
-    }
-    label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px}
-
-    .submit-row{
-      margin-top:14px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
+    .main-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.6;
     }
 
-    .donate-btn{
-      background: linear-gradient(90deg,var(--accent),var(--accent-600));
-      color:var(--bg);
-      border:none;
-      padding:10px 18px;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow:0 8px 24px rgba(215,119,6,0.16);
-      transition:transform .12s ease, box-shadow .12s ease;
-      font-size:15px;
-    }
-    .donate-btn:active{transform:translateY(1px)}
-    .note{font-size:13px;color:var(--muted)}
-
-    /* right column summary */
-    .summary{
-      padding:18px;
-      border-radius:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.005));
-      border:1px solid rgba(255,255,255,0.02);
-      min-height:220px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-    .summary .total{
-      font-size:28px;
-      font-weight:800;
-      color:var(--accent);
-    }
-    .summary .meta{color:var(--muted);font-size:13px;margin-top:8px}
-
-    /* modal */
-    .overlay{
-      position:fixed;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      background:rgba(2,6,23,0.6);
-      z-index:1200;
-    }
-    .overlay.show{display:flex}
-    .modal{
-      width:90%;
-      max-width:520px;
-      background:linear-gradient(180deg,#041226,#06182b);
-      padding:22px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.04);
-      text-align:center;
-      box-shadow:0 18px 50px rgba(2,6,23,0.72);
-    }
-    .modal h3{margin:0 0 8px}
-    .modal p{color:var(--muted);margin:0 0 16px}
-    .close{
-      cursor:pointer;
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.06);
-      padding:8px 14px;
-      border-radius:8px;
-      color:var(--white);
-      font-weight:600;
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    /* tiny helpers */
-    .small{font-size:13px;color:var(--muted)}
-    .muted{color:var(--muted)}
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-600));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: white;
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3);
+      position: relative;
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+      100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    }
+
+    .header-content h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--white), var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-content .subtitle {
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* Layout grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    /* Info section */
+    .info-section {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-section h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--white);
+    }
+
+    .info-section p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .impact-list {
+      background: rgba(245, 158, 11, 0.05);
+      border: 1px solid rgba(245, 158, 11, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .impact-list h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .impact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .impact-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .impact-item i {
+      color: var(--accent);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Donation card */
+    .donation-card {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 100px;
+    }
+
+    .donation-card h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: var(--white);
+    }
+
+    /* Amount selection */
+    .amount-section {
+      margin-bottom: 24px;
+    }
+
+    .amount-label {
+      display: block;
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .amount-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .amount-option {
+      background: var(--glass);
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .amount-option:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.2);
+      border-color: var(--accent);
+    }
+
+    .amount-option.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(215, 119, 6, 0.1));
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3);
+    }
+
+    .amount-option.active::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .amount-option.active::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 20px;
+      height: 20px;
+      color: white;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    /* Custom amount input */
+    .custom-amount {
+      position: relative;
+    }
+
+    .custom-input {
+      width: 100%;
+      padding: 16px 20px;
+      padding-left: 50px;
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .custom-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .currency-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    /* Form fields */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid var(--card-border);
+      border-radius: 16px;
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      color: var(--white);
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .form-input::placeholder {
+      color: var(--muted-light);
+    }
+
+    /* Donate button */
+    .donate-button {
+      background: linear-gradient(135deg, var(--accent), var(--accent-600));
+      color: white;
+      border: none;
+      padding: 18px 32px;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .donate-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.4);
+    }
+
+    .donate-button:active {
+      transform: translateY(0);
+    }
+
+    .donate-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .donate-button .button-text {
+      transition: opacity 0.2s ease;
+    }
+
+    .donate-button .loading-spinner {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .donate-button.loading .button-text {
+      opacity: 0;
+    }
+
+    .donate-button.loading .loading-spinner {
+      opacity: 1;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Security note */
+    .security-note {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .security-note i {
+      color: var(--info);
+      font-size: 18px;
+    }
+
+    .security-note-text {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    /* Summary sidebar */
+    .summary-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(215, 119, 6, 0.03));
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 20px;
+      padding: 32px;
+      margin-top: 24px;
+    }
+
+    .summary-amount {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .summary-total {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: 'Cinzel', serif;
+    }
+
+    .summary-note {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* Payment methods */
+    .payment-methods {
+      margin-top: 24px;
+    }
+
+    .payment-methods h4 {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .payment-options {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .payment-option {
+      background: var(--glass);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 8px 16px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .payment-option i {
+      font-size: 14px;
+    }
+
+    /* Terms */
+    .terms {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--card-border);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .terms a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    /* Success Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 25px 50px var(--shadow-strong);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-overlay.show .modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--success), #059669);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+      color: white;
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--white);
+      font-family: 'Cinzel', serif;
+    }
+
+    .modal-message {
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    .modal-button {
+      background: var(--card-border);
+      color: var(--white);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .modal-button:hover {
+      background: var(--muted);
+      transform: translateY(-2px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        margin-top: 80px;
+      }
+
+      .main-card {
+        padding: 24px;
+        border-radius: 20px;
+      }
+
+      .header {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .header-content h1 {
+        font-size: 28px;
+      }
+
+      .header-content .subtitle {
+        font-size: 16px;
+      }
+
+      .content-grid {
+        gap: 20px;
+      }
+
+      .info-section,
+      .donation-card {
+        padding: 24px;
+      }
+
+      .amount-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .logo {
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+        padding: 6px;
+      }
+
+      .logo img {
+        border-radius: 10px;
+      }
+
+      .donation-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .amount-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .back-button {
+        top: 16px;
+        left: 16px;
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+
+      .container {
+        margin-top: 60px;
+      }
+
+      .main-card {
+        padding: 20px;
+        margin: 0 -10px;
+      }
+    }
+
+    /* Utility classes */
+    .text-center { text-align: center; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mt-24 { margin-top: 24px; }
   </style>
-
-<div style="
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 1000;
-">
-  <button onclick="history.back()" 
-          style="
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-            color: #0f1724;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(215,119,6,0.2);
-            transition: transform 0.12s ease;
-          "
-          onmousedown="this.style.transform='translateY(1px)';" 
-          onmouseup="this.style.transform='translateY(0)';"
-          onmouseleave="this.style.transform='translateY(0)';">
-    ← Back
-  </button>
-</div>
-
-
-
 </head>
 
-
-
 <body>
-  <div class="wrap" role="main">
-    <header>
-      <div class="logo">M</div>
-      <div>
-        <h1>Support Monastery360</h1>
-        <p class="lead">Help us preserve Sikkim’s spiritual and cultural heritage. Choose an amount and donate securely.</p>
+  <!-- Modern back button -->
+  <button class="back-button" onclick="history.back()">
+    <i class="fas fa-arrow-left"></i>
+    <span>Back</span>
+  </button>
+
+  <div class="container">
+    <div class="main-card">
+      <!-- Header -->
+      <div class="header">
+        <div class="logo">
+          <img src="src/logo.png" alt="Monastery360 Logo" />
+        </div>
+        <div class="header-content">
+          <h1>Support Our Mission</h1>
+          <p class="subtitle">Help us preserve Sikkim's spiritual and cultural heritage for future generations</p>
+        </div>
       </div>
-    </header>
 
-    <div class="grid" aria-live="polite">
-      <section class="about" aria-labelledby="about-title">
-        <h2 id="about-title">Why donate?</h2>
-        <p>
-          Donations support virtual tours, preservation projects, community outreach and free educational
-          resources about Sikkim’s monasteries. Even a small gift helps keep the heritage alive.
-        </p>
+      <!-- Content Grid -->
+      <div class="content-grid">
+        <!-- Info Section -->
+        <div class="info-section">
+          <h2>Why Your Support Matters</h2>
+          <p>
+            Your generous donations directly support the preservation of Sikkim's sacred monasteries, 
+            virtual heritage tours, and educational resources that keep ancient traditions alive 
+            in our digital age.
+          </p>
 
-        <div style="margin-top:12px">
-          <h3 class="small">Ways you can help</h3>
-          <ul class="small" style="padding-left:18px;color:var(--muted);margin-top:8px">
-            <li>Fund virtual 3D tours and archival work</li>
-            <li>Support local caretakers and guides</li>
-            <li>Keep educational content free for students</li>
-          </ul>
-        </div>
-      </section>
-
-      <aside class="card" aria-labelledby="donate-title">
-        <h2 id="donate-title" style="margin-top:0">Make a donation</h2>
-
-        <form id="donationForm" novalidate>
-          <div>
-            <label class="muted">Choose amount</label>
-            <div class="amount-grid" role="list">
-              <div class="amt" role="button" tabindex="0" data-amount="250">₹250</div>
-              <div class="amt" role="button" tabindex="0" data-amount="500">₹500</div>
-              <div class="amt" role="button" tabindex="0" data-amount="1000">₹1000</div>
-              <div class="amt" role="button" tabindex="0" data-amount="2000">₹2000</div>
-              <div class="amt" role="button" tabindex="0" data-amount="5000">₹5000</div>
-              <div class="amt" role="button" tabindex="0" data-amount="10000">₹10000</div>
+          <div class="impact-list">
+            <h3>
+              <i class="fas fa-heart"></i>
+              Your Impact
+            </h3>
+            
+            <div class="impact-item">
+              <i class="fas fa-camera"></i>
+              <span>Fund high-quality 3D scanning and virtual tour creation for remote monasteries</span>
             </div>
-
-            <div class="custom">
-              <input id="customAmount" type="number" min="1" placeholder="Or enter custom amount (₹)" aria-label="Custom amount">
+            
+            <div class="impact-item">
+              <i class="fas fa-users"></i>
+              <span>Support local monastery caretakers and knowledgeable guides</span>
             </div>
-          </div>
-
-          <div style="margin-top:12px">
-            <label for="name" class="muted">Name (optional)</label>
-            <input id="name" type="text" placeholder="Your name">
-          </div>
-
-          <div style="margin-top:10px">
-            <label for="email" class="muted">Email (optional)</label>
-            <input id="email" type="email" placeholder="you@example.com">
-          </div>
-
-          <div class="submit-row">
-            <div>
-              <div class="note">Secure checkout. No fees taken by Monastery360.</div>
+            
+            <div class="impact-item">
+              <i class="fas fa-graduation-cap"></i>
+              <span>Keep educational content free and accessible for students worldwide</span>
             </div>
-            <div style="margin-left:auto">
-              <button type="submit" class="donate-btn" id="donateNow">Donate</button>
+            
+            <div class="impact-item">
+              <i class="fas fa-archive"></i>
+              <span>Preserve ancient manuscripts and artifacts through digital archiving</span>
+            </div>
+            
+            <div class="impact-item">
+              <i class="fas fa-globe"></i>
+              <span>Expand cultural outreach programs to global communities</span>
             </div>
           </div>
-
-        </form>
-      </aside>
-
-      <aside class="summary" aria-hidden="false">
-        <div>
-          <div class="small">Selected donation</div>
-          <div class="total" id="displayAmount">₹0</div>
-          <div class="meta">You can change this amount before checkout. All donations are tax-deductible where applicable.</div>
         </div>
 
-        <div style="margin-top:18px">
-          <div class="small">Payment methods</div>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <div class="small" style="padding:6px 8px;border-radius:8px;background:var(--glass);border:1px solid rgba(255,255,255,0.03)">Card</div>
-            <div class="small" style="padding:6px 8px;border-radius:8px;background:var(--glass);border:1px solid rgba(255,255,255,0.03)">UPI</div>
-            <div class="small" style="padding:6px 8px;border-radius:8px;background:var(--glass);border:1px solid rgba(255,255,255,0.03)">Netbanking</div>
+        <!-- Donation Form -->
+        <div class="donation-card">
+          <h2>Make a Donation</h2>
+
+          <form id="donationForm" novalidate>
+            <!-- Amount Selection -->
+            <div class="amount-section">
+              <label class="amount-label">Choose Amount</label>
+              <div class="amount-grid">
+                <div class="amount-option" data-amount="250">₹250</div>
+                <div class="amount-option" data-amount="500">₹500</div>
+                <div class="amount-option" data-amount="1000">₹1000</div>
+                <div class="amount-option" data-amount="2000">₹2000</div>
+                <div class="amount-option" data-amount="5000">₹5000</div>
+                <div class="amount-option" data-amount="10000">₹10000</div>
+              </div>
+
+              <!-- Custom Amount -->
+              <div class="custom-amount">
+                <input 
+                  id="customAmount" 
+                  type="number" 
+                  min="1" 
+                  class="custom-input" 
+                  placeholder="Enter custom amount"
+                  aria-label="Custom donation amount"
+                >
+                <span class="currency-icon">₹</span>
+              </div>
+            </div>
+
+            <!-- Donor Information -->
+            <div class="form-group">
+              <label for="donorName" class="form-label">Name (Optional)</label>
+              <input 
+                id="donorName" 
+                type="text" 
+                class="form-input" 
+                placeholder="Your full name"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="donorEmail" class="form-label">Email (Optional)</label>
+              <input 
+                id="donorEmail" 
+                type="email" 
+                class="form-input" 
+                placeholder="your@email.com"
+              >
+            </div>
+
+            <!-- Security Note -->
+            <div class="security-note">
+              <i class="fas fa-shield-alt"></i>
+              <div class="security-note-text">
+                <strong>Secure & Trusted:</strong> All donations are processed through encrypted, secure payment gateways. No fees are deducted by Monastery360.
+              </div>
+            </div>
+
+            <!-- Donate Button -->
+            <button type="submit" class="donate-button" id="donateButton">
+              <span class="button-text">
+                <i class="fas fa-heart"></i>
+                Donate Securely
+              </span>
+              <div class="loading-spinner">
+                <div class="spinner"></div>
+              </div>
+            </button>
+          </form>
+
+          <!-- Summary Card -->
+          <div class="summary-card">
+            <div class="summary-amount">
+              <div class="summary-label">Selected Donation</div>
+              <div class="summary-total" id="displayAmount">₹0</div>
+              <div class="summary-note">
+                You can modify this amount during checkout. All donations are tax-deductible where applicable.
+              </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+              <h4>Accepted Payment Methods</h4>
+              <div class="payment-options">
+                <div class="payment-option">
+                  <i class="fas fa-credit-card"></i>
+                  <span>Cards</span>
+                </div>
+                <div class="payment-option">
+                  <i class="fab fa-google-pay"></i>
+                  <span>UPI</span>
+                </div>
+                <div class="payment-option">
+                  <i class="fas fa-university"></i>
+                  <span>Net Banking</span>
+                </div>
+                <div class="payment-option">
+                  <i class="fas fa-wallet"></i>
+                  <span>Wallets</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </aside>
-    </div>
+      </div>
 
-    <div style="margin-top:16px;text-align:center;color:var(--muted);font-size:13px">
-      By donating you agree to our <a href="term.html" style="color:var(--accent);text-decoration:underline">terms</a>.
+      <!-- Terms -->
+      <div class="terms">
+        By donating, you agree to our <a href="term.html">Terms of Service</a> and confirm that 
+        your donation will be used to support monastery preservation and educational initiatives.
+      </div>
     </div>
   </div>
 
-  <!-- Modal / overlay -->
-  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <h3>Thank you for your support ❤️</h3>
-      <p id="modalText">We are redirecting you to the payment provider. If nothing happens, a new tab will open.</p>
-      <div style="margin-top:18px;display:flex;gap:10px;justify-content:center">
-        <button id="closeModal" class="close">Close</button>
+  <!-- Success Modal -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-icon">
+        <i class="fas fa-heart"></i>
       </div>
+      <h3 class="modal-title">Thank You for Your Support!</h3>
+      <p class="modal-message" id="modalMessage">
+        We're redirecting you to our secure payment processor. Your generosity helps preserve Sikkim's heritage for future generations.
+      </p>
+      <button id="modalClose" class="modal-button">Continue</button>
     </div>
   </div>
 
   <script>
-    (function(){
-      const amtEls = Array.from(document.querySelectorAll('.amt'));
-      const custom = document.getElementById('customAmount');
-      const display = document.getElementById('displayAmount');
-      const form = document.getElementById('donationForm');
-      const overlay = document.getElementById('overlay');
-      const closeModal = document.getElementById('closeModal');
+    // DOM Elements
+    const amountOptions = Array.from(document.querySelectorAll('.amount-option'));
+    const customAmount = document.getElementById('customAmount');
+    const displayAmount = document.getElementById('displayAmount');
+    const form = document.getElementById('donationForm');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const modalMessage = document.getElementById('modalMessage');
+    const donateButton = document.getElementById('donateButton');
+    const donorName = document.getElementById('donorName');
+    const donorEmail = document.getElementById('donorEmail');
 
-      let selectedAmount = 0;
+    let selectedAmount = 0;
 
-      function setActive(el){
-        amtEls.forEach(a=>a.classList.remove('active'));
-        if(el) el.classList.add('active');
+    // Set active amount option
+    function setActiveAmount(selectedOption) {
+      amountOptions.forEach(option => option.classList.remove('active'));
+      if (selectedOption) {
+        selectedOption.classList.add('active');
       }
+    }
 
-      function updateDisplay(){
-        display.textContent = selectedAmount ? '₹' + Number(selectedAmount).toLocaleString('en-IN') : '₹0';
-      }
+    // Update display amount
+    function updateDisplayAmount() {
+      const formattedAmount = selectedAmount ? 
+        '₹' + Number(selectedAmount).toLocaleString('en-IN') : '₹0';
+      displayAmount.textContent = formattedAmount;
+    }
 
-      // amount click handlers
-      amtEls.forEach(el=>{
-        el.addEventListener('click', ()=>{
-          selectedAmount = Number(el.dataset.amount) || 0;
-          custom.value = '';
-          setActive(el);
-          updateDisplay();
-        });
-        el.addEventListener('keydown', (e)=>{
-          if(e.key === 'Enter' || e.key === ' '){
-            e.preventDefault();
-            el.click();
-          }
-        });
+    // Amount option click handlers
+    amountOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        selectedAmount = Number(option.dataset.amount) || 0;
+        customAmount.value = '';
+        setActiveAmount(option);
+        updateDisplayAmount();
       });
 
-      // custom input
-      custom.addEventListener('input', ()=>{
-        const v = Number(custom.value);
-        if(v > 0){
-          selectedAmount = v;
-          setActive(null);
-        } else {
-          selectedAmount = 0;
+      // Keyboard accessibility
+      option.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          option.click();
         }
-        updateDisplay();
       });
+    });
 
-      // form submit: open placeholder payment URL and show modal
-      form.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        if(!selectedAmount || selectedAmount <= 0){
-          alert('Please choose or enter an amount to donate.');
-          return;
-        }
+    // Custom amount input handler
+    customAmount.addEventListener('input', () => {
+      const value = Number(customAmount.value);
+      if (value > 0) {
+        selectedAmount = value;
+        setActiveAmount(null);
+      } else {
+        selectedAmount = 0;
+      }
+      updateDisplayAmount();
+    });
 
-        // grab optional details
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-        // build a placeholder payment URL (replace with real payment endpoint)
-        const paymentUrl = new URL('https://example.com/donate'); // <-- replace with your real provider link
+      if (!selectedAmount || selectedAmount <= 0) {
+        alert('Please select or enter a donation amount.');
+        return;
+      }
+
+      // Show loading state
+      donateButton.classList.add('loading');
+      donateButton.disabled = true;
+
+      try {
+        // Get donor information
+        const name = donorName.value.trim();
+        const email = donorEmail.value.trim();
+
+        // Simulate payment processing
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Create payment URL (replace with actual payment gateway)
+        const paymentUrl = new URL('https://example.com/donate');
         paymentUrl.searchParams.set('amount', selectedAmount);
-        if(name) paymentUrl.searchParams.set('name', name);
-        if(email) paymentUrl.searchParams.set('email', email);
+        if (name) paymentUrl.searchParams.set('name', name);
+        if (email) paymentUrl.searchParams.set('email', email);
 
-        // open payment in new tab
-        window.open(paymentUrl.toString(), '_blank', 'noopener');
+        // Update modal message
+        modalMessage.textContent = `We're opening a secure payment page for ₹${selectedAmount.toLocaleString('en-IN')}. Thank you for your generous support!`;
 
-        // show modal
-        overlay.classList.add('show');
-        overlay.setAttribute('aria-hidden','false');
-        document.getElementById('modalText').textContent = `We opened a secure payment tab for ₹${selectedAmount}. If you completed payment, thank you!`;
-      });
+        // Show modal
+        modalOverlay.classList.add('show');
 
-      closeModal.addEventListener('click', ()=>{
-        overlay.classList.remove('show');
-        overlay.setAttribute('aria-hidden','true');
-      });
+        // Open payment in new tab
+        setTimeout(() => {
+          window.open(paymentUrl.toString(), '_blank', 'noopener,noreferrer');
+        }, 1000);
 
-      // Clicking outside modal closes it
-      overlay.addEventListener('click', (e)=>{
-        if(e.target === overlay){
-          overlay.classList.remove('show');
-          overlay.setAttribute('aria-hidden','true');
-        }
-      });
+      } catch (error) {
+        console.error('Payment processing failed:', error);
+        alert('Payment processing failed. Please try again.');
+      } finally {
+        donateButton.classList.remove('loading');
+        donateButton.disabled = false;
+      }
+    });
 
-      // initialize
-      updateDisplay();
-    })();
+    // Modal close functionality
+    modalClose.addEventListener('click', () => {
+      modalOverlay.classList.remove('show');
+    });
+
+    // Close modal on overlay click
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('show');
+      }
+    });
+
+    // Theme management
+    function initializeTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeTheme();
+      updateDisplayAmount();
+    });
   </script>
   <script src="main.js"></script>
   <script src="theme.js"></script>
 </body>
 </html>
-
