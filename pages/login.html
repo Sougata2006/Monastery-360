@@ -3,11 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="src/logo.png" type="image/x-icon">
-  <link rel="stylesheet" href="theme.css">
+  <link rel="shortcut icon" href="../src/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="../src/theme.css">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <title>Sign Up — Monastery360</title>
+  <title>Login — Monastery360</title>
+  <script>
+    // Apply theme immediately to prevent flash
+    (function() {
+      const savedTheme = localStorage.getItem('color-theme') || 
+                        localStorage.getItem('monastery360-theme') || 
+                        localStorage.getItem('theme') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
   <style>
     :root{
       /* Light theme */
@@ -107,7 +124,7 @@
       position: relative;
     }
 
-    .signup-card {
+    .login-card {
       background: var(--glass);
       backdrop-filter: blur(20px);
       border: 1px solid var(--card-border);
@@ -121,7 +138,7 @@
       animation: slideUp 0.6s ease-out;
     }
 
-    .signup-card::before {
+    .login-card::before {
       content: '';
       position: absolute;
       top: 0;
@@ -215,7 +232,7 @@
     .form {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
     }
 
     .form-group {
@@ -298,40 +315,25 @@
       color: var(--accent);
     }
 
-    .password-strength {
+    .forgot-password {
+      text-align: right;
       margin-top: 8px;
-      display: none;
     }
 
-    .password-strength.show {
-      display: block;
+    .forgot-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
     }
 
-    .strength-bar {
-      height: 4px;
-      background: var(--card-border);
-      border-radius: 2px;
-      margin-bottom: 8px;
-      overflow: hidden;
+    .forgot-link:hover {
+      color: var(--accent-light);
+      text-decoration: underline;
     }
 
-    .strength-fill {
-      height: 100%;
-      width: 0%;
-      transition: all 0.3s ease;
-      border-radius: 2px;
-    }
-
-    .strength-weak { background: var(--error); width: 33%; }
-    .strength-medium { background: var(--accent); width: 66%; }
-    .strength-strong { background: var(--success); width: 100%; }
-
-    .strength-text {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .signup-button {
+    .login-button {
       background: linear-gradient(135deg, var(--accent), var(--accent-600));
       color: white;
       border: none;
@@ -347,26 +349,26 @@
       margin-top: 8px;
     }
 
-    .signup-button:hover {
+    .login-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(245, 158, 11, 0.4);
     }
 
-    .signup-button:active {
+    .login-button:active {
       transform: translateY(0);
     }
 
-    .signup-button:disabled {
+    .login-button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
     }
 
-    .signup-button .button-text {
+    .login-button .button-text {
       transition: opacity 0.2s ease;
     }
 
-    .signup-button .loading-spinner {
+    .login-button .loading-spinner {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -375,11 +377,11 @@
       transition: opacity 0.2s ease;
     }
 
-    .signup-button.loading .button-text {
+    .login-button.loading .button-text {
       opacity: 0;
     }
 
-    .signup-button.loading .loading-spinner {
+    .login-button.loading .loading-spinner {
       opacity: 1;
     }
 
@@ -421,20 +423,20 @@
       backdrop-filter: blur(10px);
     }
 
-    .login-link {
+    .signup-link {
       text-align: center;
       color: var(--muted);
       font-size: 14px;
     }
 
-    .login-link a {
+    .signup-link a {
       color: var(--accent);
       text-decoration: none;
       font-weight: 600;
       transition: color 0.2s ease;
     }
 
-    .login-link a:hover {
+    .signup-link a:hover {
       color: var(--accent-light);
       text-decoration: underline;
     }
@@ -455,8 +457,7 @@
     .terms-text a:hover {
       text-decoration: underline;
     }
-
-    /* Success Modal Styles */
+    /* Modal Styles */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -541,7 +542,7 @@
         padding: 0 10px;
       }
 
-      .signup-card {
+      .login-card {
         padding: 32px 24px;
         border-radius: 20px;
       }
@@ -570,10 +571,6 @@
       .logo img {
         border-radius: 10px;
       }
-
-      .form {
-        gap: 18px;
-      }
     }
 
     /* Error states */
@@ -596,96 +593,63 @@
     .form-group.error .error-message {
       display: block;
     }
-
-    /* Success states */
-    .form-group.success .form-input {
-      border-color: var(--success);
-      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-    }
-
-    .form-group.success .input-icon {
-      color: var(--success);
-    }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <div class="signup-card">
+    <div class="login-card">
       <div class="header">
         <div class="logo">
-          <img src="src/logo.png" alt="Monastery360 Logo" />
+          <img src="../src/logo.png" alt="Monastery360 Logo" />
         </div>
-        <h1 class="title">Join Monastery360</h1>
-        <p class="subtitle">Create your account to explore Sikkim's sacred heritage</p>
+        <h1 class="title">Welcome Back</h1>
+        <p class="subtitle">Sign in to your Monastery360 account</p>
       </div>
 
-      <form id="signupForm" class="form" novalidate>
+      <form id="loginForm" class="form" novalidate>
         <div class="form-group">
-          <label for="name" class="form-label">Full Name</label>
+          <label for="username" class="form-label">Username</label>
           <div class="input-wrapper">
-            <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
+            <input type="text" id="username" class="form-input" placeholder="Enter your username" required>
             <i class="fas fa-user input-icon"></i>
           </div>
-          <div class="error-message">Please enter your full name</div>
-        </div>
-
-        <div class="form-group">
-          <label for="email" class="form-label">Email Address</label>
-          <div class="input-wrapper">
-            <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
-            <i class="fas fa-envelope input-icon"></i>
-          </div>
-          <div class="error-message">Please enter a valid email address</div>
+          <div class="error-message">Please enter a valid username</div>
         </div>
 
         <div class="form-group">
           <label for="password" class="form-label">Password</label>
           <div class="input-wrapper">
-            <input type="password" id="password" class="form-input" placeholder="Create a password" required>
+            <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
             <i class="fas fa-lock input-icon"></i>
             <button type="button" class="password-toggle" id="passwordToggle">
               <i class="fas fa-eye"></i>
             </button>
           </div>
-          <div class="password-strength" id="passwordStrength">
-            <div class="strength-bar">
-              <div class="strength-fill" id="strengthFill"></div>
-            </div>
-            <div class="strength-text" id="strengthText">Password strength</div>
+          <div class="error-message">Please enter your password</div>
+          <div class="forgot-password">
+            <a href="#" class="forgot-link" onclick="alert('Reset link sent to your email!')">Forgot password?</a>
           </div>
-          <div class="error-message">Password must be at least 8 characters</div>
         </div>
 
-        <div class="form-group">
-          <label for="confirmPassword" class="form-label">Confirm Password</label>
-          <div class="input-wrapper">
-            <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
-            <i class="fas fa-lock input-icon"></i>
-            <button type="button" class="password-toggle" id="confirmPasswordToggle">
-              <i class="fas fa-eye"></i>
-            </button>
-          </div>
-          <div class="error-message">Passwords do not match</div>
-        </div>
-
-        <button type="submit" class="signup-button" id="signupButton">
-          <span class="button-text">Create Account</span>
+        <button type="submit" class="login-button" id="loginButton">
+          <span class="button-text">Sign In</span>
           <div class="loading-spinner">
             <div class="spinner"></div>
           </div>
         </button>
 
         <div class="terms-text">
-          By creating an account, you agree to our <a href="term.html">Terms of Service</a> and Privacy Policy
+          By signing in, you agree to our <a href="term.html">Terms of Service</a>
         </div>
       </form>
 
       <div class="divider">
-        <span>Already have an account?</span>
+        <span>New to Monastery360?</span>
       </div>
 
-      <div class="login-link">
-        <a href="login.html">Sign in instead</a>
+      <div class="signup-link">
+        <a href="sign up.html">Create an account</a>
       </div>
     </div>
   </div>
@@ -696,192 +660,16 @@
       <div class="modal-icon">
         <i class="fas fa-check"></i>
       </div>
-      <h3 class="modal-title">Account Created!</h3>
-      <p class="modal-message">Welcome to Monastery360! Your account has been successfully created.</p>
-      <button id="modalClose" class="modal-button">Get Started</button>
+      <h3 class="modal-title">Welcome Back!</h3>
+      <p class="modal-message">You have successfully signed in to your account.</p>
+      <button id="modalClose" class="modal-button">Continue</button>
     </div>
   </div>
 
-  <script>
-    // DOM Elements
-    const form = document.getElementById('signupForm');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const modalClose = document.getElementById('modalClose');
-    const signupButton = document.getElementById('signupButton');
-    const passwordToggle = document.getElementById('passwordToggle');
-    const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const passwordStrength = document.getElementById('passwordStrength');
-    const strengthFill = document.getElementById('strengthFill');
-    const strengthText = document.getElementById('strengthText');
+<script src="../src/main.js"></script>
+<script src="../src/theme.js"></script>
 
-    // Password toggle functionality
-    function setupPasswordToggle(toggle, input) {
-      toggle.addEventListener('click', () => {
-        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-        input.setAttribute('type', type);
-        
-        const icon = toggle.querySelector('i');
-        icon.classList.toggle('fa-eye');
-        icon.classList.toggle('fa-eye-slash');
-      });
-    }
-
-    setupPasswordToggle(passwordToggle, passwordInput);
-    setupPasswordToggle(confirmPasswordToggle, confirmPasswordInput);
-
-    // Password strength checker
-    function checkPasswordStrength(password) {
-      let strength = 0;
-      let feedback = '';
-
-      if (password.length >= 8) strength++;
-      if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
-      if (password.match(/[0-9]/)) strength++;
-      if (password.match(/[^a-zA-Z0-9]/)) strength++;
-
-      strengthFill.className = 'strength-fill';
-      
-      if (strength === 0) {
-        feedback = 'Very weak';
-      } else if (strength === 1) {
-        feedback = 'Weak';
-        strengthFill.classList.add('strength-weak');
-      } else if (strength === 2) {
-        feedback = 'Fair';
-        strengthFill.classList.add('strength-weak');
-      } else if (strength === 3) {
-        feedback = 'Good';
-        strengthFill.classList.add('strength-medium');
-      } else {
-        feedback = 'Strong';
-        strengthFill.classList.add('strength-strong');
-      }
-
-      strengthText.textContent = feedback;
-      return strength;
-    }
-
-    // Show/hide password strength
-    passwordInput.addEventListener('focus', () => {
-      passwordStrength.classList.add('show');
-    });
-
-    passwordInput.addEventListener('input', () => {
-      checkPasswordStrength(passwordInput.value);
-    });
-
-    // Form validation
-    function validateInput(input) {
-      const formGroup = input.closest('.form-group');
-      const value = input.value.trim();
-      
-      formGroup.classList.remove('error', 'success');
-      
-      if (input.type === 'email') {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-          formGroup.classList.add('error');
-          return false;
-        }
-      } else if (input.id === 'password') {
-        if (value.length < 8) {
-          formGroup.classList.add('error');
-          return false;
-        }
-      } else if (input.id === 'confirmPassword') {
-        if (value !== passwordInput.value) {
-          formGroup.classList.add('error');
-          return false;
-        }
-      } else if (!value) {
-        formGroup.classList.add('error');
-        return false;
-      }
-      
-      formGroup.classList.add('success');
-      return true;
-    }
-
-    // Real-time validation
-    [nameInput, emailInput, passwordInput, confirmPasswordInput].forEach(input => {
-      input.addEventListener('blur', () => validateInput(input));
-      input.addEventListener('input', () => {
-        if (input.closest('.form-group').classList.contains('error')) {
-          validateInput(input);
-        }
-      });
-    });
-
-    // Form submission
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Validate all inputs
-      const isNameValid = validateInput(nameInput);
-      const isEmailValid = validateInput(emailInput);
-      const isPasswordValid = validateInput(passwordInput);
-      const isConfirmPasswordValid = validateInput(confirmPasswordInput);
-
-      if (!isNameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
-        return;
-      }
-
-      // Show loading state
-      signupButton.classList.add('loading');
-      signupButton.disabled = true;
-
-      try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // Store user data
-        localStorage.setItem('loggedInUser', nameInput.value.trim());
-
-        // Show success modal
-        modalOverlay.classList.add('show');
-
-        // Redirect after modal closes
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 2500);
-
-      } catch (error) {
-        console.error('Signup failed:', error);
-        alert('Signup failed. Please try again.');
-      } finally {
-        signupButton.classList.remove('loading');
-        signupButton.disabled = false;
-      }
-    });
-
-    // Modal close functionality
-    modalClose.addEventListener('click', () => {
-      modalOverlay.classList.remove('show');
-      window.location.href = 'index.html';
-    });
-
-    // Close modal on overlay click
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) {
-        modalOverlay.classList.remove('show');
-        window.location.href = 'index.html';
-      }
-    });
-
-    // Theme management
-    function initializeTheme() {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-
-    // Initialize theme on load
-    document.addEventListener('DOMContentLoaded', initializeTheme);
-  </script>
-  <script src="main.js"></script>
-  <script src="theme.js"></script>
 </body>
 </html>
+
+

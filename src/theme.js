@@ -13,7 +13,10 @@ class ThemeManager {
     }
 
     getStoredTheme() {
-        return localStorage.getItem('monastery360-theme');
+        // Try multiple keys for backward compatibility
+        return localStorage.getItem('color-theme') || 
+               localStorage.getItem('monastery360-theme') || 
+               localStorage.getItem('theme');
     }
 
     getSystemTheme() {
@@ -31,7 +34,11 @@ class ThemeManager {
             document.documentElement.classList.remove('dark');
         }
         
+        // Store with all possible keys for consistency across all pages
+        localStorage.setItem('color-theme', theme);
         localStorage.setItem('monastery360-theme', theme);
+        localStorage.setItem('theme', theme);
+        
         this.updateToggleButton();
     }
 
