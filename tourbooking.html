@@ -12,6 +12,22 @@
       darkMode: 'class',
     }
   </script>
+  
+  <script>
+    // Theme initialization - synced with central theme system
+    const savedTheme = localStorage.getItem('color-theme') || 
+                      localStorage.getItem('monastery360-theme') || 
+                      localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <title>Book Tour - Monastery360</title>
@@ -500,5 +516,3 @@
 
 </body>
 </html>
-
-
