@@ -40,3 +40,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === "ArrowRight") showLightbox((currentIndex + 1) % galleryItems.length);
     });
 });
+
+  const landscapeViewMore = document.getElementById("landscapeViewMore");
+  const landscapeViewLess = document.getElementById("landscapeViewLess");
+  const landscapeExtras = document.querySelectorAll(".landscape-extra");
+
+  landscapeViewMore.addEventListener("click", () => {
+    landscapeExtras.forEach(el => el.classList.remove("hidden"));
+    landscapeViewMore.classList.add("hidden");
+    landscapeViewLess.classList.remove("hidden");
+  });
+
+  landscapeViewLess.addEventListener("click", () => {
+    landscapeExtras.forEach(el => el.classList.add("hidden"));
+    landscapeViewLess.classList.add("hidden");
+    landscapeViewMore.classList.remove("hidden");
+    window.scrollTo({ top: document.getElementById("landscape-grid").offsetTop, behavior: "smooth" });
+  });
