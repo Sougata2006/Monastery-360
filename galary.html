@@ -13,6 +13,22 @@
       darkMode: 'class',
     }
   </script>
+  
+  <script>
+    // Theme initialization - synced with central theme system
+    const savedTheme = localStorage.getItem('color-theme') || 
+                      localStorage.getItem('monastery360-theme') || 
+                      localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+  </script>
   <style>
     /* Fade-in animation */
     .fade-in {
@@ -267,45 +283,12 @@
     </footer>
 
 
-  <script>
-    const galleryItems = document.querySelectorAll('.group');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    const closeBtn = document.getElementById('closeBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    let currentIndex = 0;
-
-    function showLightbox(index) {
-      const item = galleryItems[index].querySelector('img');
-      lightboxImg.src = item.src;
-      lightboxCaption.textContent = galleryItems[index].dataset.description || item.alt;
-      lightbox.classList.remove('hidden');
-      currentIndex = index;
-    }
-
-    galleryItems.forEach((item, index) => {
-      item.addEventListener('click', () => showLightbox(index));
-    });
-
-    closeBtn.addEventListener('click', () => lightbox.classList.add('hidden'));
-    prevBtn.addEventListener('click', () => showLightbox((currentIndex - 1 + galleryItems.length) % galleryItems.length));
-    nextBtn.addEventListener('click', () => showLightbox((currentIndex + 1) % galleryItems.length));
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.add('hidden'); });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === "Escape") lightbox.classList.add('hidden');
-      if (e.key === "ArrowLeft") showLightbox((currentIndex - 1 + galleryItems.length) % galleryItems.length);
-      if (e.key === "ArrowRight") showLightbox((currentIndex + 1) % galleryItems.length);
-    });
-  </script>
   <script src="main.js"></script>
   <script src="theme.js"></script>
+  <script src="scripts/galary.js"></script>
 
 <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
 <script src="https://files.bpcontent.cloud/2025/09/02/12/20250902123537-OK2N4Q6I.js" defer></script>
 
 </body>
 </html>
-
-
