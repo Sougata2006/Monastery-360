@@ -569,3 +569,554 @@ window.monastery360 = {
     closeLightbox: () => window.monastery360App?.lightboxManager?.closeLightbox(),
     closeTourModal: () => window.monastery360App?.tourModalManager?.closeTourModal()
 };
+
+// ========================
+// Signup Page Functionality
+// ========================
+
+class SignupManager {
+    constructor() {
+        this.elements = {};
+        this.init();
+    }
+
+    init() {
+        // Only initialize if we're on the signup page
+        if (document.getElementById('signupForm')) {
+            this.initializeElements();
+            this.bindEvents();
+            this.initializeTheme();
+        }
+    }
+
+    initializeElements() {
+        // DOM Elements
+        this.elements = {
+            form: document.getElementById('signupForm'),
+            modalOverlay: document.getElementById('modalOverlay'),
+            modalClose: document.getElementById('modalClose'),
+            signupButton: document.getElementById('signupButton'),
+            passwordToggle: document.getElementById('passwordToggle'),
+            confirmPasswordToggle: document.getElementById('confirmPasswordToggle'),
+            passwordInput: document.getElementById('password'),
+            confirmPasswordInput: document.getElementById('confirmPassword'),
+            nameInput: document.getElementById('name'),
+            emailInput: document.getElementById('email'),
+            passwordStrength: document.getElementById('passwordStrength'),
+            strengthFill: document.getElementById('strengthFill'),
+            strengthText: document.getElementById('strengthText'),
+            
+            // Role selection elements
+            roleInputs: document.querySelectorAll('input[name="role"]'),
+            studentFields: document.getElementById('studentFields'),
+            researcherFields: document.getElementById('researcherFields'),
+            operatorFields: document.getElementById('operatorFields'),
+            idProofUpload: document.getElementById('idProof'),
+            idProofFileName: document.getElementById('idProofFileName')
+        };
+    }
+
+    bindEvents() {
+        // Password toggle functionality
+        this.setupPasswordToggle(this.elements.passwordToggle, this.elements.passwordInput);
+        this.setupPasswordToggle(this.elements.confirmPasswordToggle, this.elements.confirmPasswordInput);
+
+        // Role selection events
+        this.elements.roleInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                this.showConditionalFields(e.target.value);
+                this.validateRole();
+            });
+        });
+
+        // File upload handling
+        if (this.elements.idProofUpload) {
+            this.elements.idProofUpload.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    this.elements.idProofFileName.textContent = `Selected: ${file.name}`;
+                } else {
+                    this.elements.idProofFileName.textContent = '';
+                }
+            });
+        }
+
+        // Password strength events
+        this.elements.passwordInput.addEventListener('focus', () => {
+            this.elements.passwordStrength.classList.add('show');
+        });
+
+        this.elements.passwordInput.addEventListener('input', () => {
+            this.checkPasswordStrength(this.elements.passwordInput.value);
+        });
+
+        // Real-time validation
+        [this.elements.nameInput, this.elements.emailInput, this.elements.passwordInput, this.elements.confirmPasswordInput].forEach(input => {
+            input.addEventListener('blur', () => this.validateInput(input));
+            input.addEventListener('input', () => {
+                if (input.closest('.form-group').classList.contains('error')) {
+                    this.validateInput(input);
+                }
+            });
+        });
+
+        // Form submission
+        this.elements.form.addEventListener('submit', (e) => this.handleFormSubmission(e));
+
+        // Modal events
+        this.elements.modalClose.addEventListener('click', () => {
+            this.elements.modalOverlay.classList.remove('show');
+            window.location.href = 'index.html';
+        });
+
+        this.elements.modalOverlay.addEventListener('click', (e) => {
+            if (e.target === this.elements.modalOverlay) {
+                this.elements.modalOverlay.classList.remove('show');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Initialize conditional field validation
+        this.addConditionalFieldValidation();
+    }
+
+    setupPasswordToggle(toggle, input) {
+        if (toggle && input) {
+            toggle.addEventListener('click', () => {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                
+                const icon = toggle.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+        }
+    }
+
+    showConditionalFields(role) {
+        // Hide all conditional fields first
+        if (this.elements.studentFields) this.elements.studentFields.classList.remove('show');
+        if (this.elements.researcherFields) this.elements.researcherFields.classList.remove('show');
+        if (this.elements.operatorFields) this.elements.operatorFields.classList.remove('show');
+
+        // Show relevant fields based on role
+        switch(role) {
+            case 'student':
+                if (this.elements.studentFields) this.elements.studentFields.classList.add('show');
+                break;
+            case 'researcher':
+                if (this.elements.researcherFields) this.elements.researcherFields.classList.add('show');
+                break;
+            case 'operator':
+                if (this.elements.operatorFields) this.elements.operatorFields.classList.add('show');
+                break;
+            // Tourist doesn't need additional fields
+        }
+    }
+
+    checkPasswordStrength(password) {
+        let strength = 0;
+        let feedback = '';
+
+        if (password.length >= 8) strength++;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+        if (password.match(/[0-9]/)) strength++;
+        if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+        this.elements.strengthFill.className = 'strength-fill';
+        
+        if (strength === 0) {
+            feedback = 'Very weak';
+        } else if (strength === 1) {
+            feedback = 'Weak';
+            this.elements.strengthFill.classList.add('strength-weak');
+        } else if (strength === 2) {
+            feedback = 'Fair';
+            this.elements.strengthFill.classList.add('strength-weak');
+        } else if (strength === 3) {
+            feedback = 'Good';
+            this.elements.strengthFill.classList.add('strength-medium');
+        } else {
+            feedback = 'Strong';
+            this.elements.strengthFill.classList.add('strength-strong');
+        }
+
+        this.elements.strengthText.textContent = feedback;
+        return strength;
+    }
+
+    validateInput(input) {
+        const formGroup = input.closest('.form-group');
+        const value = input.value.trim();
+        
+        formGroup.classList.remove('error', 'success');
+        
+        if (input.type === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                formGroup.classList.add('error');
+                return false;
+            }
+        } else if (input.id === 'password') {
+            if (value.length < 8) {
+                formGroup.classList.add('error');
+                return false;
+            }
+        } else if (input.id === 'confirmPassword') {
+            if (value !== this.elements.passwordInput.value) {
+                formGroup.classList.add('error');
+                return false;
+            }
+        } else if (input.type === 'file') {
+            // File validation for ID proof (only required for researchers)
+            if (!input.files || input.files.length === 0) {
+                formGroup.classList.add('error');
+                return false;
+            }
+        } else if (!value) {
+            formGroup.classList.add('error');
+            return false;
+        }
+        
+        formGroup.classList.add('success');
+        return true;
+    }
+
+    validateRole() {
+        const selectedRole = document.querySelector('input[name="role"]:checked');
+        const roleGroup = document.querySelector('.role-selection');
+        
+        if (roleGroup) {
+            roleGroup.classList.remove('error', 'success');
+            
+            if (!selectedRole) {
+                roleGroup.classList.add('error');
+                return false;
+            }
+            
+            roleGroup.classList.add('success');
+        }
+        return true;
+    }
+
+    validateConditionalFields() {
+        const selectedRole = document.querySelector('input[name="role"]:checked');
+        if (!selectedRole) return false;
+
+        let isValid = true;
+        
+        switch(selectedRole.value) {
+            case 'student':
+                if (this.elements.studentFields) {
+                    const studentInputs = this.elements.studentFields.querySelectorAll('input[required], input:not([id=""])');
+                    studentInputs.forEach(input => {
+                        if (!this.validateInput(input)) {
+                            isValid = false;
+                        }
+                    });
+                }
+                break;
+                
+            case 'researcher':
+                if (this.elements.researcherFields) {
+                    const researcherInputs = this.elements.researcherFields.querySelectorAll('input:not([id="researcherId"])'); // researcherId is optional
+                    researcherInputs.forEach(input => {
+                        if (!this.validateInput(input)) {
+                            isValid = false;
+                        }
+                    });
+                }
+                break;
+                
+            case 'operator':
+                if (this.elements.operatorFields) {
+                    const operatorInputs = this.elements.operatorFields.querySelectorAll('input');
+                    operatorInputs.forEach(input => {
+                        if (!this.validateInput(input)) {
+                            isValid = false;
+                        }
+                    });
+                }
+                break;
+        }
+        
+        return isValid;
+    }
+
+    addConditionalFieldValidation() {
+        const allConditionalInputs = [];
+        
+        if (this.elements.studentFields) {
+            allConditionalInputs.push(...this.elements.studentFields.querySelectorAll('input'));
+        }
+        if (this.elements.researcherFields) {
+            allConditionalInputs.push(...this.elements.researcherFields.querySelectorAll('input'));
+        }
+        if (this.elements.operatorFields) {
+            allConditionalInputs.push(...this.elements.operatorFields.querySelectorAll('input'));
+        }
+
+        allConditionalInputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                // Only validate if the field is visible (parent has 'show' class)
+                if (input.closest('.conditional-fields').classList.contains('show')) {
+                    this.validateInput(input);
+                }
+            });
+            
+            input.addEventListener('input', () => {
+                // Only validate if the field is visible and has error state
+                if (input.closest('.conditional-fields').classList.contains('show') && 
+                    input.closest('.form-group').classList.contains('error')) {
+                    this.validateInput(input);
+                }
+            });
+        });
+    }
+
+    async handleFormSubmission(e) {
+        e.preventDefault();
+
+        // Validate all inputs
+        const isNameValid = this.validateInput(this.elements.nameInput);
+        const isEmailValid = this.validateInput(this.elements.emailInput);
+        const isPasswordValid = this.validateInput(this.elements.passwordInput);
+        const isConfirmPasswordValid = this.validateInput(this.elements.confirmPasswordInput);
+        const isRoleValid = this.validateRole();
+        const areConditionalFieldsValid = this.validateConditionalFields();
+
+        if (!isNameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isRoleValid || !areConditionalFieldsValid) {
+            return;
+        }
+
+        // Show loading state
+        this.elements.signupButton.classList.add('loading');
+        this.elements.signupButton.disabled = true;
+
+        try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Store user data
+            localStorage.setItem('loggedInUser', this.elements.nameInput.value.trim());
+
+            // Show success modal
+            this.elements.modalOverlay.classList.add('show');
+
+            // Redirect after modal closes
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2500);
+
+        } catch (error) {
+            console.error('Signup failed:', error);
+            alert('Signup failed. Please try again.');
+        } finally {
+            this.elements.signupButton.classList.remove('loading');
+            this.elements.signupButton.disabled = false;
+        }
+    }
+
+    initializeTheme() {
+        // Use the same key as index.html for consistency
+        const savedTheme = localStorage.getItem('color-theme') || 
+                          localStorage.getItem('monastery360-theme') || 
+                          localStorage.getItem('theme') || 
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Also handle Tailwind CSS dark mode for compatibility with index.html
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        // Ensure the theme is stored with the correct key
+        localStorage.setItem('color-theme', savedTheme);
+        localStorage.setItem('monastery360-theme', savedTheme);
+    }
+}
+
+// ========================
+// Login Page Functionality
+// ========================
+
+class LoginManager {
+    constructor() {
+        this.elements = {};
+        this.init();
+    }
+
+    init() {
+        // Only initialize if we're on the login page
+        if (document.getElementById('loginForm')) {
+            this.initializeElements();
+            this.bindEvents();
+            this.initializeTheme();
+        }
+    }
+
+    initializeElements() {
+        // DOM Elements
+        this.elements = {
+            form: document.getElementById('loginForm'),
+            modalOverlay: document.getElementById('modalOverlay'),
+            modalClose: document.getElementById('modalClose'),
+            loginButton: document.getElementById('loginButton'),
+            passwordToggle: document.getElementById('passwordToggle'),
+            passwordInput: document.getElementById('password'),
+            usernameInput: document.getElementById('username')
+        };
+
+        // Get redirect URL from query params
+        const urlParams = new URLSearchParams(window.location.search);
+        this.redirectURL = urlParams.get('redirect') || 'index.html';
+    }
+
+    bindEvents() {
+        // Password toggle functionality
+        if (this.elements.passwordToggle && this.elements.passwordInput) {
+            this.elements.passwordToggle.addEventListener('click', () => {
+                const type = this.elements.passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                this.elements.passwordInput.setAttribute('type', type);
+                
+                const icon = this.elements.passwordToggle.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        // Real-time validation
+        [this.elements.usernameInput, this.elements.passwordInput].forEach(input => {
+            input.addEventListener('blur', () => this.validateInput(input));
+            input.addEventListener('input', () => {
+                if (input.closest('.form-group').classList.contains('error')) {
+                    this.validateInput(input);
+                }
+            });
+        });
+
+        // Form submission
+        this.elements.form.addEventListener('submit', (e) => this.handleFormSubmission(e));
+
+        // Modal events
+        this.elements.modalClose.addEventListener('click', () => {
+            this.elements.modalOverlay.classList.remove('show');
+            window.location.href = this.redirectURL;
+        });
+
+        this.elements.modalOverlay.addEventListener('click', (e) => {
+            if (e.target === this.elements.modalOverlay) {
+                this.elements.modalOverlay.classList.remove('show');
+                window.location.href = this.redirectURL;
+            }
+        });
+    }
+
+    validateInput(input) {
+        const formGroup = input.closest('.form-group');
+        const value = input.value.trim();
+        
+        if (!value) {
+            formGroup.classList.add('error');
+            return false;
+        } else {
+            formGroup.classList.remove('error');
+            return true;
+        }
+    }
+
+    async handleFormSubmission(e) {
+        e.preventDefault();
+
+        // Validate all inputs
+        const isUsernameValid = this.validateInput(this.elements.usernameInput);
+        const isPasswordValid = this.validateInput(this.elements.passwordInput);
+
+        if (!isUsernameValid || !isPasswordValid) {
+            return;
+        }
+
+        // Show loading state
+        this.elements.loginButton.classList.add('loading');
+        this.elements.loginButton.disabled = true;
+
+        try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Store user data
+            localStorage.setItem('loggedInUser', this.elements.usernameInput.value.trim());
+
+            // Show success modal
+            this.elements.modalOverlay.classList.add('show');
+
+            // Redirect after modal closes
+            setTimeout(() => {
+                window.location.href = this.redirectURL;
+            }, 2000);
+
+        } catch (error) {
+            console.error('Login failed:', error);
+            alert('Login failed. Please try again.');
+        } finally {
+            this.elements.loginButton.classList.remove('loading');
+            this.elements.loginButton.disabled = false;
+        }
+    }
+
+    initializeTheme() {
+        // Use the same key as index.html for consistency
+        const savedTheme = localStorage.getItem('color-theme') || 
+                          localStorage.getItem('monastery360-theme') || 
+                          localStorage.getItem('theme') || 
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Also handle Tailwind CSS dark mode for compatibility with index.html
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        // Ensure the theme is stored with the correct key
+        localStorage.setItem('color-theme', savedTheme);
+        localStorage.setItem('monastery360-theme', savedTheme);
+    }
+}
+
+// ========================
+// Initialize All Managers
+// ========================
+
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize signup manager
+    new SignupManager();
+    
+    // Initialize login manager
+    new LoginManager();
+    
+    // Initialize theme for any page using consistent key
+    const savedTheme = localStorage.getItem('color-theme') || 
+                      localStorage.getItem('monastery360-theme') || 
+                      localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Also handle Tailwind CSS dark mode for compatibility with index.html
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+    
+    // Ensure the theme is stored with the correct key
+    localStorage.setItem('color-theme', savedTheme);
+    localStorage.setItem('monastery360-theme', savedTheme);
+});

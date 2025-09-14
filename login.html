@@ -8,6 +8,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Login — Monastery360</title>
+  <script>
+    // Apply theme immediately to prevent flash
+    (function() {
+      const savedTheme = localStorage.getItem('color-theme') || 
+                        localStorage.getItem('monastery360-theme') || 
+                        localStorage.getItem('theme') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
   <style>
     :root{
       /* Light theme */
@@ -649,117 +666,6 @@
     </div>
   </div>
 
-<script>
-  // DOM Elements
-  const form = document.getElementById('loginForm');
-  const modalOverlay = document.getElementById('modalOverlay');
-  const modalClose = document.getElementById('modalClose');
-  const loginButton = document.getElementById('loginButton');
-  const passwordToggle = document.getElementById('passwordToggle');
-  const passwordInput = document.getElementById('password');
-  const usernameInput = document.getElementById('username');
-
-  // Get redirect URL from query params
-  const urlParams = new URLSearchParams(window.location.search);
-  const redirectURL = urlParams.get('redirect') || 'index.html';
-
-  // Password toggle functionality
-  passwordToggle.addEventListener('click', () => {
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    
-    const icon = passwordToggle.querySelector('i');
-    icon.classList.toggle('fa-eye');
-    icon.classList.toggle('fa-eye-slash');
-  });
-
-  // Form validation
-  function validateInput(input) {
-    const formGroup = input.closest('.form-group');
-    const value = input.value.trim();
-    
-    if (!value) {
-      formGroup.classList.add('error');
-      return false;
-    } else {
-      formGroup.classList.remove('error');
-      return true;
-    }
-  }
-
-  // Real-time validation
-  [usernameInput, passwordInput].forEach(input => {
-    input.addEventListener('blur', () => validateInput(input));
-    input.addEventListener('input', () => {
-      if (input.closest('.form-group').classList.contains('error')) {
-        validateInput(input);
-      }
-    });
-  });
-
-  // Form submission
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    // Validate all inputs
-    const isUsernameValid = validateInput(usernameInput);
-    const isPasswordValid = validateInput(passwordInput);
-
-    if (!isUsernameValid || !isPasswordValid) {
-      return;
-    }
-
-    // Show loading state
-    loginButton.classList.add('loading');
-    loginButton.disabled = true;
-
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Store user data
-      localStorage.setItem('loggedInUser', usernameInput.value.trim());
-
-      // Show success modal
-      modalOverlay.classList.add('show');
-
-      // Redirect after modal closes
-      setTimeout(() => {
-        window.location.href = redirectURL;
-      }, 2000);
-
-    } catch (error) {
-      console.error('Login failed:', error);
-      alert('Login failed. Please try again.');
-    } finally {
-      loginButton.classList.remove('loading');
-      loginButton.disabled = false;
-    }
-  });
-
-  // Modal close functionality
-  modalClose.addEventListener('click', () => {
-    modalOverlay.classList.remove('show');
-    window.location.href = redirectURL;
-  });
-
-  // Close modal on overlay click
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) {
-      modalOverlay.classList.remove('show');
-      window.location.href = redirectURL;
-    }
-  });
-
-  // Theme management
-  function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }
-
-  // Initialize theme on load
-  document.addEventListener('DOMContentLoaded', initializeTheme);
-</script>
 <script src="main.js"></script>
 <script src="theme.js"></script>
 

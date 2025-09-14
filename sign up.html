@@ -8,6 +8,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Sign Up — Monastery360</title>
+  <script>
+    // Apply theme immediately to prevent flash
+    (function() {
+      const savedTheme = localStorage.getItem('color-theme') || 
+                        localStorage.getItem('monastery360-theme') || 
+                        localStorage.getItem('theme') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
   <style>
     :root{
       /* Light theme */
@@ -103,7 +120,7 @@
 
     .container {
       width: 100%;
-      max-width: 440px;
+      max-width: 520px;
       position: relative;
     }
 
@@ -535,6 +552,172 @@
       background: var(--muted);
     }
 
+    /* Role Selection Styles */
+    .role-selection {
+      margin: 20px 0;
+    }
+
+    .role-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .role-option {
+      position: relative;
+    }
+
+    .role-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .role-option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: var(--card);
+      border: 2px solid var(--card-border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      font-weight: 500;
+      color: var(--muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-option label i {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .role-option label:hover {
+      border-color: var(--accent);
+      background: rgba(245, 158, 11, 0.05);
+      color: var(--white);
+    }
+
+    .role-option input[type="radio"]:checked + label {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-600));
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+    }
+
+    .role-option label::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: transform 0.6s ease;
+      opacity: 0;
+    }
+
+    .role-option input[type="radio"]:checked + label::before {
+      opacity: 1;
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+
+    /* Conditional Field Groups */
+    .conditional-fields {
+      display: none;
+      margin-top: 24px;
+      padding: 24px;
+      background: rgba(245, 158, 11, 0.05);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 16px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .conditional-fields.show {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .conditional-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .conditional-title i {
+      font-size: 20px;
+    }
+
+    /* File Upload Styles */
+    .file-upload-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-upload {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      background: var(--card);
+      border: 2px dashed var(--card-border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--muted);
+      min-height: 60px;
+    }
+
+    .file-upload-label:hover {
+      border-color: var(--accent);
+      background: rgba(245, 158, 11, 0.05);
+      color: var(--white);
+    }
+
+    .file-upload-label i {
+      font-size: 20px;
+    }
+
+    .file-name {
+      font-size: 14px;
+      color: var(--accent);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
     /* Responsive Design */
     @media (max-width: 480px) {
       .container {
@@ -558,6 +741,25 @@
         padding: 14px 18px;
         padding-left: 45px;
         font-size: 16px; /* Prevent zoom on iOS */
+      }
+
+      .role-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .role-option label {
+        padding: 14px 16px;
+        font-size: 14px;
+      }
+
+      .conditional-fields {
+        padding: 16px;
+        margin-top: 16px;
+      }
+
+      .conditional-title {
+        font-size: 16px;
       }
 
       .logo {
@@ -668,6 +870,168 @@
           <div class="error-message">Passwords do not match</div>
         </div>
 
+        <!-- Role Selection -->
+        <div class="form-group role-selection">
+          <label class="form-label">Select Your Role</label>
+          <div class="role-options">
+            <div class="role-option">
+              <input type="radio" id="researcher" name="role" value="researcher">
+              <label for="researcher">
+                <i class="fas fa-microscope"></i>
+                <span>Researcher</span>
+              </label>
+            </div>
+            <div class="role-option">
+              <input type="radio" id="student" name="role" value="student">
+              <label for="student">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Student</span>
+              </label>
+            </div>
+            <div class="role-option">
+              <input type="radio" id="tourist" name="role" value="tourist">
+              <label for="tourist">
+                <i class="fas fa-camera"></i>
+                <span>Tourist</span>
+              </label>
+            </div>
+            <div class="role-option">
+              <input type="radio" id="operator" name="role" value="operator">
+              <label for="operator">
+                <i class="fas fa-map-signs"></i>
+                <span>Tourism Operator</span>
+              </label>
+            </div>
+          </div>
+          <div class="error-message">Please select your role</div>
+        </div>
+
+        <!-- Student Conditional Fields -->
+        <div id="studentFields" class="conditional-fields">
+          <div class="conditional-title">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Student Information</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="studentId" class="form-label">Student ID / Roll No.</label>
+            <div class="input-wrapper">
+              <input type="text" id="studentId" class="form-input" placeholder="Enter your student ID or roll number">
+              <i class="fas fa-id-card input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your student ID</div>
+          </div>
+
+          <div class="form-group">
+            <label for="college" class="form-label">College / University Name</label>
+            <div class="input-wrapper">
+              <input type="text" id="college" class="form-input" placeholder="Enter your college or university name">
+              <i class="fas fa-university input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your college/university name</div>
+          </div>
+
+          <div class="form-group">
+            <label for="department" class="form-label">Department / Course</label>
+            <div class="input-wrapper">
+              <input type="text" id="department" class="form-input" placeholder="Enter your department or course">
+              <i class="fas fa-book input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your department/course</div>
+          </div>
+
+          <div class="form-group">
+            <label for="yearOfStudy" class="form-label">Year of Study</label>
+            <div class="input-wrapper">
+              <input type="text" id="yearOfStudy" class="form-input" placeholder="e.g., 3rd Year, Master's 1st Year">
+              <i class="fas fa-calendar-alt input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your year of study</div>
+          </div>
+        </div>
+
+        <!-- Researcher Conditional Fields -->
+        <div id="researcherFields" class="conditional-fields">
+          <div class="conditional-title">
+            <i class="fas fa-microscope"></i>
+            <span>Researcher Information</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="institution" class="form-label">Institution / Organization</label>
+            <div class="input-wrapper">
+              <input type="text" id="institution" class="form-input" placeholder="Enter your institution or organization">
+              <i class="fas fa-building input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your institution</div>
+          </div>
+
+          <div class="form-group">
+            <label for="designation" class="form-label">Designation</label>
+            <div class="input-wrapper">
+              <input type="text" id="designation" class="form-input" placeholder="e.g., PhD Student, Postdoc, Professor">
+              <i class="fas fa-user-tie input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your designation</div>
+          </div>
+
+          <div class="form-group">
+            <label for="researchArea" class="form-label">Research Area / Domain</label>
+            <div class="input-wrapper">
+              <input type="text" id="researchArea" class="form-input" placeholder="Enter your research area or domain">
+              <i class="fas fa-flask input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your research area</div>
+          </div>
+
+          <div class="form-group">
+            <label for="researcherId" class="form-label">ORCID / ResearcherID / Google Scholar ID</label>
+            <div class="input-wrapper">
+              <input type="text" id="researcherId" class="form-input" placeholder="Enter your researcher ID (optional)">
+              <i class="fas fa-fingerprint input-icon"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="idProof" class="form-label">ID Proof Upload</label>
+            <div class="file-upload-wrapper">
+              <input type="file" id="idProof" class="file-upload" accept=".pdf,.jpg,.jpeg,.png">
+              <label for="idProof" class="file-upload-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Upload ID Proof (PDF, JPG, PNG)</span>
+              </label>
+            </div>
+            <div class="file-name" id="idProofFileName"></div>
+            <div class="error-message">Please upload your ID proof</div>
+          </div>
+        </div>
+
+        <!-- Tourism Operator Conditional Fields -->
+        <div id="operatorFields" class="conditional-fields">
+          <div class="conditional-title">
+            <i class="fas fa-map-signs"></i>
+            <span>Tourism Operator Information</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="businessName" class="form-label">Business Name</label>
+            <div class="input-wrapper">
+              <input type="text" id="businessName" class="form-input" placeholder="Enter your business name">
+              <i class="fas fa-store input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your business name</div>
+          </div>
+
+          <div class="form-group">
+            <label for="location" class="form-label">Business Location</label>
+            <div class="input-wrapper">
+              <input type="text" id="location" class="form-input" placeholder="Enter your business location">
+              <i class="fas fa-map-marker-alt input-icon"></i>
+            </div>
+            <div class="error-message">Please enter your business location</div>
+          </div>
+        </div>
+
         <button type="submit" class="signup-button" id="signupButton">
           <span class="button-text">Create Account</span>
           <div class="loading-spinner">
@@ -702,185 +1066,6 @@
     </div>
   </div>
 
-  <script>
-    // DOM Elements
-    const form = document.getElementById('signupForm');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const modalClose = document.getElementById('modalClose');
-    const signupButton = document.getElementById('signupButton');
-    const passwordToggle = document.getElementById('passwordToggle');
-    const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const passwordStrength = document.getElementById('passwordStrength');
-    const strengthFill = document.getElementById('strengthFill');
-    const strengthText = document.getElementById('strengthText');
-
-    // Password toggle functionality
-    function setupPasswordToggle(toggle, input) {
-      toggle.addEventListener('click', () => {
-        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-        input.setAttribute('type', type);
-        
-        const icon = toggle.querySelector('i');
-        icon.classList.toggle('fa-eye');
-        icon.classList.toggle('fa-eye-slash');
-      });
-    }
-
-    setupPasswordToggle(passwordToggle, passwordInput);
-    setupPasswordToggle(confirmPasswordToggle, confirmPasswordInput);
-
-    // Password strength checker
-    function checkPasswordStrength(password) {
-      let strength = 0;
-      let feedback = '';
-
-      if (password.length >= 8) strength++;
-      if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
-      if (password.match(/[0-9]/)) strength++;
-      if (password.match(/[^a-zA-Z0-9]/)) strength++;
-
-      strengthFill.className = 'strength-fill';
-      
-      if (strength === 0) {
-        feedback = 'Very weak';
-      } else if (strength === 1) {
-        feedback = 'Weak';
-        strengthFill.classList.add('strength-weak');
-      } else if (strength === 2) {
-        feedback = 'Fair';
-        strengthFill.classList.add('strength-weak');
-      } else if (strength === 3) {
-        feedback = 'Good';
-        strengthFill.classList.add('strength-medium');
-      } else {
-        feedback = 'Strong';
-        strengthFill.classList.add('strength-strong');
-      }
-
-      strengthText.textContent = feedback;
-      return strength;
-    }
-
-    // Show/hide password strength
-    passwordInput.addEventListener('focus', () => {
-      passwordStrength.classList.add('show');
-    });
-
-    passwordInput.addEventListener('input', () => {
-      checkPasswordStrength(passwordInput.value);
-    });
-
-    // Form validation
-    function validateInput(input) {
-      const formGroup = input.closest('.form-group');
-      const value = input.value.trim();
-      
-      formGroup.classList.remove('error', 'success');
-      
-      if (input.type === 'email') {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-          formGroup.classList.add('error');
-          return false;
-        }
-      } else if (input.id === 'password') {
-        if (value.length < 8) {
-          formGroup.classList.add('error');
-          return false;
-        }
-      } else if (input.id === 'confirmPassword') {
-        if (value !== passwordInput.value) {
-          formGroup.classList.add('error');
-          return false;
-        }
-      } else if (!value) {
-        formGroup.classList.add('error');
-        return false;
-      }
-      
-      formGroup.classList.add('success');
-      return true;
-    }
-
-    // Real-time validation
-    [nameInput, emailInput, passwordInput, confirmPasswordInput].forEach(input => {
-      input.addEventListener('blur', () => validateInput(input));
-      input.addEventListener('input', () => {
-        if (input.closest('.form-group').classList.contains('error')) {
-          validateInput(input);
-        }
-      });
-    });
-
-    // Form submission
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Validate all inputs
-      const isNameValid = validateInput(nameInput);
-      const isEmailValid = validateInput(emailInput);
-      const isPasswordValid = validateInput(passwordInput);
-      const isConfirmPasswordValid = validateInput(confirmPasswordInput);
-
-      if (!isNameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
-        return;
-      }
-
-      // Show loading state
-      signupButton.classList.add('loading');
-      signupButton.disabled = true;
-
-      try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // Store user data
-        localStorage.setItem('loggedInUser', nameInput.value.trim());
-
-        // Show success modal
-        modalOverlay.classList.add('show');
-
-        // Redirect after modal closes
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 2500);
-
-      } catch (error) {
-        console.error('Signup failed:', error);
-        alert('Signup failed. Please try again.');
-      } finally {
-        signupButton.classList.remove('loading');
-        signupButton.disabled = false;
-      }
-    });
-
-    // Modal close functionality
-    modalClose.addEventListener('click', () => {
-      modalOverlay.classList.remove('show');
-      window.location.href = 'index.html';
-    });
-
-    // Close modal on overlay click
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) {
-        modalOverlay.classList.remove('show');
-        window.location.href = 'index.html';
-      }
-    });
-
-    // Theme management
-    function initializeTheme() {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-
-    // Initialize theme on load
-    document.addEventListener('DOMContentLoaded', initializeTheme);
-  </script>
   <script src="main.js"></script>
   <script src="theme.js"></script>
 </body>
