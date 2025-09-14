@@ -1120,3 +1120,25 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('color-theme', savedTheme);
     localStorage.setItem('monastery360-theme', savedTheme);
 });
+
+// ========================
+// View more and less button for manuscripts
+// ========================
+
+  const viewMoreBtn = document.getElementById("viewMoreBtn");
+  const viewLessBtn = document.getElementById("viewLessBtn");
+  const extraItems = document.querySelectorAll(".extra-item");
+
+  viewMoreBtn.addEventListener("click", function () {
+    extraItems.forEach(el => el.classList.remove("hidden"));
+    viewMoreBtn.classList.add("hidden");
+    viewLessBtn.classList.remove("hidden");
+  });
+
+  viewLessBtn.addEventListener("click", function () {
+    extraItems.forEach(el => el.classList.add("hidden"));
+    viewLessBtn.classList.add("hidden");
+    viewMoreBtn.classList.remove("hidden");
+    window.scrollTo({ top: document.getElementById("manuscripts").offsetTop, behavior: "smooth" });
+  });
+
