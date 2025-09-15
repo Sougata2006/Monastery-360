@@ -57,6 +57,35 @@
     html.dark .btn-primary {
       background-image: linear-gradient(to right, #f97316, #dc2626);
     }
+
+    .gradient-text {
+      background: linear-gradient(to right, #f59e0b, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.3s ease;
+    }
+
+    .gradient-text:hover {
+      background: linear-gradient(to right, #f97316, #dc2626);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    html.dark .gradient-text {
+      background: linear-gradient(to right, #f97316, #dc2626);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    html.dark .gradient-text:hover {
+      background: linear-gradient(to right, #fbbf24, #f87171);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 </style>
 
   <header
@@ -64,11 +93,11 @@
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
         <a 
           href="#"
-          class="flex items-center space-x-2 text-xl sm:text-2xl md:text-3xl font-bold text-red-700 transition-transform duration-300 hover:scale-105"
+          class="flex items-center space-x-2 text-xl sm:text-2xl md:text-3xl font-bold transition-transform duration-300 hover:scale-105"
           style="font-family: 'Cinzel', serif"
         >
           <img src="src/logo.png" alt="Logo" class="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
-          <span class="text-base sm:text-lg md:text-xl lg:text-2xl">Monastery360</span>
+          <span class="text-base sm:text-lg md:text-xl lg:text-2xl gradient-text">Monastery360</span>
         </a>
 
             <div class="hidden md:flex space-x-8 items-center">
@@ -168,7 +197,7 @@
               Rumtek Monastery, also known as the Dharma Chakra Centre, is the most prominent monastery in Sikkim. Originally built in the 16th century and later rebuilt in 1966 by the 16th Karmapa, it serves as the main seat of the Kagyu sect outside Tibet. The monastery is admired for its traditional Tibetan architecture, massive prayer hall, golden stupa, and priceless relics. It also functions as a center for Buddhist learning and meditation, with hundreds of monks in residence. Surrounded by lush hills and offering panoramic views of Gangtok, Rumtek is both a spiritual haven and a cultural landmark.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Rumtek_Monastery" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"><a href="https://en.wikipedia.org/wiki/Rumtek_Monastery" target="_blank">Read More</a></button>
         </div>
       </div>
 
@@ -197,7 +226,7 @@
               Enchey Monastery, perched on a hilltop overlooking Gangtok, is one of the most significant religious centers in Sikkim. Established in 1909 under the Nyingma order of Vajrayana Buddhism, it is believed to have been built on the site blessed by Lama Druptob Karpo, a revered tantric master known for his ability to fly. The monastery is dedicated to the protective deities Khangchendzonga and Yabdean, who are regarded as guardians of the region. Architecturally, Enchey reflects the style of a Chinese pagoda, with colorful murals and intricate woodwork adorning its prayer hall. Every year, the vibrant Cham Dance festival is celebrated here, attracting devotees and tourists alike. Surrounded by pine forests and offering sweeping views of Gangtok and Mount Kanchenjunga, Enchey is both a spiritual sanctuary and a cultural treasure.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Enchey_Monastery" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"><a href="https://en.wikipedia.org/wiki/Enchey_Monastery" target="_blank">Read More</a></button>
         </div>
       </div>
 
@@ -230,7 +259,7 @@
               Dubdi Monastery, located near Yuksom, holds the distinction of being the oldest monastery in Sikkim, founded in 1701 soon after the coronation of the first Chogyal (king). This monastery is modest yet deeply revered, set in a tranquil location amidst dense forests and scenic hills. Its interiors preserve rare manuscripts, ancient relics, and exquisite wall paintings depicting Buddhist deities. The monastery is closely associated with the foundation of Sikkim and the Nyingma order of Tibetan Buddhism. For visitors, Dubdi offers not just a religious experience but also a journey into the roots of Sikkimese culture and spirituality.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Dubdi_Monastery" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"><a href="https://en.wikipedia.org/wiki/Dubdi_Monastery" target="_blank">Read More</a></button>
         </div>
       </div>
 
@@ -259,7 +288,7 @@
               Pemayangtse Monastery, located near Pelling, is one of the most important and prestigious monasteries in Sikkim, established in the 17th century by Lama Lhatsun Chenpo. Belonging to the Nyingma order of Tibetan Buddhism, it was originally built for monks of pure Tibetan lineage. The monastery is renowned for its intricate architecture and rich artistic heritage, with beautifully painted walls, sculptures of Buddhist deities, and a striking seven-tiered wooden structure called “Sangtok Palri,” representing the heavenly abode of Guru Padmasambhava. Surrounded by panoramic views of the Kanchenjunga range, Pemayangtse holds a central place in Sikkimese religious and cultural life. It is also the venue of the annual Cham Dance, where masked monks perform ritual dances. For visitors, Pemayangtse offers a blend of spiritual depth, artistic beauty, and breathtaking natural surroundings.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Pemayangtse_Monastery" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"><a href="https://en.wikipedia.org/wiki/Pemayangtse_Monastery" target="_blank">Read More</a></button>
         </div>
       </div>
 
@@ -291,7 +320,7 @@
               Phodong Monastery, situated about 28 km from Gangtok, is one of the six major monasteries of Sikkim, originally built in the early 18th century by the Chogyal Gyurmed Namgyal. Belonging to the Kagyu sect of Tibetan Buddhism, the monastery is known for its striking murals, ancient scriptures, and the serene ambience of its hilltop location. The present structure was reconstructed in the 20th century after the original building was damaged, yet it continues to preserve the spiritual legacy of its past. Phodong is especially vibrant during its annual Chaam festival, when monks perform traditional mask dances that symbolize the triumph of good over evil. With its deep religious significance, artistic treasures, and scenic setting, Phodong Monastery remains a vital center of Buddhist practice and a captivating destination for visitors seeking peace and cultural insight.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"> <a href="https://en.wikipedia.org/wiki/Phodong_Monastery" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"> <a href="https://en.wikipedia.org/wiki/Phodong_Monastery" target="_blank">Read More</a></button>
         </div>
       </div>
 
@@ -320,7 +349,7 @@
               Phensang Monastery, located on a gentle hill slope about 9 km north of Gangtok, is one of the largest monasteries in Sikkim. Established in 1721 during the reign of Jigme Pawo, it belongs to the Nyingma order of Tibetan Buddhism and holds great spiritual importance. The monastery was destroyed by a devastating fire in 1947 but was later rebuilt, continuing its legacy as a vibrant religious center. Surrounded by lush forests and offering picturesque views of the surrounding valleys, Phensang is especially famous for its annual festival held just before the Tibetan New Year, when monks perform sacred mask dances accompanied by traditional music. With its serene atmosphere, rich history, and cultural festivities, Phensang Monastery stands as a significant hub of spirituality and community life in Sikkim.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Phensang_Monastery" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"><a href="https://en.wikipedia.org/wiki/Phensang_Monastery" target="_blank">Read More</a></button>
         </div>
       </div>
 
@@ -352,7 +381,7 @@
               Ralang Monastery, situated near Ravangla in South Sikkim, is a prominent center of the Kagyu sect of Tibetan Buddhism. It was originally built in 1730 by the fourth Chogyal, Gyurmed Namgyal, and later expanded with the establishment of the newer monastery, Palchen Choeling, in 1995. The monastery is renowned for its stunning architecture, vibrant frescoes, and a vast collection of thangkas and sacred relics. Ralang is also the venue for the grand Pang Lhabsol and Mahakala Dance festivals, where monks perform elaborate masked dances that attract devotees and visitors alike. Nestled amidst the scenic backdrop of the Himalayas, the monastery not only serves as a vital spiritual institution but also offers a deep cultural experience. For travelers, Ralang Monastery is both a place of devotion and a window into Sikkim’s enduring Buddhist traditions.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://en.wikipedia.org/wiki/Ralang_Monastery" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"><a href="https://en.wikipedia.org/wiki/Ralang_Monastery" target="_blank">Read More</a></button>
         </div>
       </div>
 
@@ -381,7 +410,7 @@
               Samdruptse Monastery, located near Namchi in South Sikkim, is best known for the towering 135-foot statue of Guru Padmasambhava, which stands as one of the tallest of its kind in the world. Built in the late 20th century under the vision of the Dalai Lama, the monastery and statue complex symbolize peace and protection for the land. The golden-hued statue, seated in a meditative posture, overlooks the hills and valleys, offering a majestic sight visible from miles away. Inside the monastery, devotees can see sacred relics, vibrant wall paintings, and spaces for prayer and meditation. The site is also closely linked to the hill of Samdruptse, believed to be a “wish-fulfilling hill” in local tradition. Surrounded by panoramic views of the Himalayas, Samdruptse Monastery is not only a place of worship but also a cultural landmark, blending spirituality with breathtaking artistry.
             </p>
           </div>
-          <button class="mt-4 self-start px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700"><a href="https://namchi.nic.in/tourist-place/samdruptse-samdrupts/" target="_blank">Read More</a></button>
+          <button class="mt-4 self-start btn-primary"><a href="https://namchi.nic.in/tourist-place/samdruptse-samdrupts/" target="_blank">Read More</a></button>
         </div>
       </div>
   </section>
