@@ -136,18 +136,14 @@ class AuthManager {
         // Check if user is already logged in
         if (this.loggedInUser) {
             this.showLoggedIn(this.loggedInUser);
+        } else {
+            // Ensure it behaves as a normal navigation link to login page on all devices
+            // Use only the current file name (relative) for redirect to avoid file:/// absolute paths
+            const path = window.location.pathname;
+            const currentFile = (path.split('/').pop() || 'index.html');
+            const baseHref = 'login.html';
+            loginBtn.setAttribute('href', `${baseHref}?redirect=${encodeURIComponent(currentFile)}`);
         }
-
-        // Add click handler to login button
-        loginBtn.addEventListener('click', (e) => {
-            if (!this.loggedInUser) {
-                e.preventDefault();
-                const username = prompt("Enter your username:");
-                if (username) {
-                    this.login(username);
-                }
-            }
-        });
     }
 
     login(username) {
@@ -972,7 +968,21 @@ class LoginManager {
 
         // Get redirect URL from query params
         const urlParams = new URLSearchParams(window.location.search);
-        this.redirectURL = urlParams.get('redirect') || 'index.html';
+        const rawRedirect = urlParams.get('redirect');
+        this.redirectURL = this.sanitizeRedirect(rawRedirect) || 'index.html';
+    }
+
+    sanitizeRedirect(redirect) {
+        if (!redirect) return null;
+        // Reject absolute paths, protocols, traversal, or backslashes
+        if (redirect.includes('://') || redirect.includes('..') || redirect.startsWith('/') || redirect.includes('\\')) {
+            return 'index.html';
+        }
+        // Only allow simple html filenames within same folder
+        if (!/^[\w\- ]+\.html$/i.test(redirect)) {
+            return 'index.html';
+        }
+        return redirect;
     }
 
     bindEvents() {
