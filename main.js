@@ -126,49 +126,60 @@ class AuthManager {
     }
 
     init() {
-        this.setupLoginButton();
+        this.setupLoginLinks();
     }
 
-    setupLoginButton() {
-        const loginBtn = document.getElementById('loginBtn');
-        if (!loginBtn) return;
+    setupLoginLinks() {
+        // Update all login links on page load
+        this.updateLoginLinks();
+    }
 
-        // Check if user is already logged in
-        if (this.loggedInUser) {
-            this.showLoggedIn(this.loggedInUser);
-        } else {
-            // Ensure it behaves as a normal navigation link to login page on all devices
-            // Use only the current file name (relative) for redirect to avoid file:/// absolute paths
-            const path = window.location.pathname;
-            const currentFile = (path.split('/').pop() || 'index.html');
-            const baseHref = 'login.html';
-            loginBtn.setAttribute('href', `${baseHref}?redirect=${encodeURIComponent(currentFile)}`);
-        }
+    getLoginLinks() {
+        // Select all anchors that target login.html (with or without params)
+        return Array.from(document.querySelectorAll('a[href^="login.html"], a[href*="login.html?"]'));
+    }
+
+    getCurrentFileName() {
+        const path = window.location.pathname || '';
+        const file = path.split('/').pop();
+        return file && /\.html?$/i.test(file) ? file : 'index.html';
+    }
+
+    updateLoginLinks() {
+        const links = this.getLoginLinks();
+        const currentFile = this.getCurrentFileName();
+        const baseHref = 'login.html';
+
+        links.forEach(link => {
+            if (this.loggedInUser) {
+                link.textContent = this.loggedInUser;
+                link.setAttribute('href', '#');
+                link.setAttribute('title', 'Logged in');
+            } else {
+                link.textContent = 'Log in / Sign up';
+                link.setAttribute('href', `${baseHref}?redirect=${encodeURIComponent(currentFile)}`);
+                link.removeAttribute('title');
+            }
+        });
     }
 
     login(username) {
         localStorage.setItem('loggedInUser', username);
         this.loggedInUser = username;
-        this.showLoggedIn(username);
+        this.updateLoginLinks();
         alert("Login successful!");
     }
 
     showLoggedIn(username) {
-        const loginBtn = document.getElementById('loginBtn');
-        if (loginBtn) {
-            loginBtn.textContent = username;
-            loginBtn.href = "#";
-        }
+        // Keep for backward compatibility; now just update all links
+        this.loggedInUser = username;
+        this.updateLoginLinks();
     }
 
     logout() {
         localStorage.removeItem('loggedInUser');
         this.loggedInUser = null;
-        const loginBtn = document.getElementById('loginBtn');
-        if (loginBtn) {
-            loginBtn.textContent = "Login";
-            loginBtn.href = "login.html";
-        }
+        this.updateLoginLinks();
     }
 }
 
