@@ -93,6 +93,35 @@
         background-image: linear-gradient(to right, #f97316, #dc2626);
       }
 
+      .gradient-text {
+        background: linear-gradient(to right, #f59e0b, #ef4444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        transition: all 0.3s ease;
+      }
+
+      .gradient-text:hover {
+        background: linear-gradient(to right, #f97316, #dc2626);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      html.dark .gradient-text {
+        background: linear-gradient(to right, #f97316, #dc2626);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      html.dark .gradient-text:hover {
+        background: linear-gradient(to right, #fbbf24, #f87171);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
       .lightbox {
         display: none;
         position: fixed;
@@ -221,7 +250,7 @@
       >
         <a
           href="#"
-          class="flex items-center space-x-2 text-xl sm:text-2xl md:text-3xl font-bold text-red-700 transition-transform duration-300 hover:scale-105"
+          class="flex items-center space-x-2 text-xl sm:text-2xl md:text-3xl font-bold transition-transform duration-300 hover:scale-105"
           style="font-family: 'Cinzel', serif"
         >
           <img
@@ -229,7 +258,7 @@
             alt="Logo"
             class="w-6 h-6 sm:w-8 sm:h-8 object-contain"
           />
-          <span class="text-base sm:text-lg md:text-xl lg:text-2xl"
+          <span class="text-base sm:text-lg md:text-xl lg:text-2xl gradient-text"
             >Monastery360</span
           >
         </a>
@@ -370,7 +399,7 @@
         id="home"
         class="pt-20 h-screen bg-cover bg-center flex items-center justify-center text-white"
         style="
-          background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/8f/64/9f/ralong-monastery-view.jpg?w=900&h=-1&s=1');
+          background-image: url('Gallery/Photos/enchy.jpg');
         "
       >
         <div
@@ -380,7 +409,7 @@
             class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight hero-text-animation"
           >
             Monastery <br />
-            <span class="text-red-700">The Soul of Sikkim</span>
+            <span class="gradient-text">The Soul of Sikkim</span>
           </h1>
 
           <p class="text-lg md:text-xl mb-8 hero-text-animation">
@@ -729,7 +758,7 @@
           <div class="text-center mt-8">
             <button
               id="viewMoreBtn"
-              class="px-6 py-2 bg-orange-600 text-white rounded-lg transition transform hover:scale-110 hover:bg-orange-700"
+              class="btn-primary px-6 py-2 text-white rounded-lg transition transform hover:scale-110"
             >
               View More
             </button>
@@ -941,7 +970,7 @@
                 </h3>
                 <p class="text-gray-600 dark:text-slate-400">
                   Experience the powerful resonance of the Om Mani Padme Hum
-                  chant, recorded live.
+                  chant.
                 </p>
               </div>
             </div>

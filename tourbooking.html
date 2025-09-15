@@ -88,7 +88,7 @@
 
       h1 {
         text-align: center;
-        color: var(--accent);
+        color: var(--white);
         font-size: 28px;
         margin-bottom: 28px;
       }
@@ -162,18 +162,21 @@
       }
 
       .btn-bottom {
-        background: linear-gradient(90deg, var(--accent), var(--accent-600));
-        color: var(--bg);
+        background-image: linear-gradient(to right, #f59e0b, #ef4444);
+        color: white;
         border: none;
         padding: 12px 20px;
         margin: 6px;
         border-radius: 8px;
         font-weight: 600;
         cursor: pointer;
-        transition: transform 0.12s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px 0 rgba(239, 68, 68, 0.3);
       }
       .btn-bottom:hover {
+        background-image: linear-gradient(to right, #f97316, #dc2626);
         transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
       }
 
       .page-title {
@@ -186,8 +189,8 @@
       }
 
       .btn {
-        background: linear-gradient(90deg, var(--accent), var(--accent-600));
-        color: var(--bg);
+        background-image: linear-gradient(to right, #f59e0b, #ef4444);
+        color: white;
         border: none;
         padding: 10px 14px;
         border-radius: 8px;
@@ -195,10 +198,13 @@
         cursor: pointer;
         text-align: center;
         text-decoration: none;
-        transition: opacity 0.15s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px 0 rgba(239, 68, 68, 0.3);
       }
       .btn:hover {
-        opacity: 0.9;
+        background-image: linear-gradient(to right, #f97316, #dc2626);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
       }
 
       .btn-primary {
@@ -218,8 +224,39 @@
         box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
       }
 
-      html.dark .btn-primary {
+      html.dark .btn-primary,
+      html.dark .btn,
+      html.dark .btn-bottom {
         background-image: linear-gradient(to right, #f97316, #dc2626);
+      }
+
+      .gradient-text {
+        background: linear-gradient(to right, #f59e0b, #ef4444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        transition: all 0.3s ease;
+      }
+
+      .gradient-text:hover {
+        background: linear-gradient(to right, #f97316, #dc2626);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      html.dark .gradient-text {
+        background: linear-gradient(to right, #f97316, #dc2626);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      html.dark .gradient-text:hover {
+        background: linear-gradient(to right, #fbbf24, #f87171);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
     </style>
   </head>
@@ -233,7 +270,7 @@
       >
         <a
           href="#"
-          class="flex items-center space-x-2 text-xl sm:text-2xl md:text-3xl font-bold text-red-700 transition-transform duration-300 hover:scale-105"
+          class="flex items-center space-x-2 text-xl sm:text-2xl md:text-3xl font-bold transition-transform duration-300 hover:scale-105"
           style="font-family: 'Cinzel', serif"
         >
           <img
@@ -241,7 +278,7 @@
             alt="Logo"
             class="w-6 h-6 sm:w-8 sm:h-8 object-contain"
           />
-          <span class="text-base sm:text-lg md:text-xl lg:text-2xl"
+          <span class="text-base sm:text-lg md:text-xl lg:text-2xl gradient-text"
             >Monastery360</span
           >
         </a>
@@ -377,7 +414,7 @@
       </div>
     </header>
 
-    <h1 class="page-title">Hotels in Sikkim</h1>
+    <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-12">Hotels in Sikkim</h1>
 
     <div class="grid">
       <!-- Hotel 1 -->
