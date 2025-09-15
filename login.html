@@ -334,7 +334,7 @@
     }
 
     .login-button {
-      background: linear-gradient(135deg, var(--accent), var(--accent-600));
+      background-image: linear-gradient(to right, #f59e0b, #ef4444);
       color: white;
       border: none;
       padding: 18px 24px;
@@ -342,20 +342,26 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px 0 rgba(239, 68, 68, 0.3);
       position: relative;
       overflow: hidden;
       margin-top: 8px;
     }
 
     .login-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.4);
+      background-image: linear-gradient(to right, #f97316, #dc2626);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
     }
 
     .login-button:active {
       transform: translateY(0);
+    }
+
+    [data-theme="dark"] .login-button,
+    html.dark .login-button {
+      background-image: linear-gradient(to right, #f97316, #dc2626);
     }
 
     .login-button:disabled {
