@@ -1142,3 +1142,44 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: document.getElementById("manuscripts").offsetTop, behavior: "smooth" });
   });
 
+// ========================
+// Video Autoplay Manager
+// ========================
+
+// Intersection Observer for video autoplay when section is visible
+function initVideoAutoplay() {
+    const prayerVideosSection = document.getElementById('prayer-videos');
+    const maniMantraVideo = document.getElementById('mani-mantra-video');
+    const vajraGuruVideo = document.getElementById('vajra-guru-video');
+    
+    if (!prayerVideosSection) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Play videos when section is visible
+                if (maniMantraVideo) {
+                    maniMantraVideo.play().catch(e => console.log('Mani Mantra video play failed:', e));
+                }
+                if (vajraGuruVideo) {
+                    vajraGuruVideo.play().catch(e => console.log('Vajra Guru video play failed:', e));
+                }
+            } else {
+                // Pause videos when section is not visible
+                if (maniMantraVideo) {
+                    maniMantraVideo.pause();
+                }
+                if (vajraGuruVideo) {
+                    vajraGuruVideo.pause();
+                }
+            }
+        });
+    }, {
+        threshold: 0.3 // Trigger when 30% of the section is visible
+    });
+    
+    observer.observe(prayerVideosSection);
+}
+
+// Initialize video autoplay when DOM is loaded
+document.addEventListener('DOMContentLoaded', initVideoAutoplay);
