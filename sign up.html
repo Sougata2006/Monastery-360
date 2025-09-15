@@ -216,7 +216,29 @@
       font-size: 28px;
       font-weight: 600;
       margin-bottom: 8px;
-      background: linear-gradient(135deg, var(--white), var(--muted));
+      background: linear-gradient(to right, #f59e0b, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.3s ease;
+    }
+
+    .title:hover {
+      background: linear-gradient(to right, #f97316, #dc2626);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    [data-theme="dark"] .title {
+      background: linear-gradient(to right, #f97316, #dc2626);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    [data-theme="dark"] .title:hover {
+      background: linear-gradient(to right, #fbbf24, #f87171);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -349,7 +371,7 @@
     }
 
     .signup-button {
-      background: linear-gradient(135deg, var(--accent), var(--accent-600));
+      background-image: linear-gradient(to right, #f59e0b, #ef4444);
       color: white;
       border: none;
       padding: 18px 24px;
@@ -357,20 +379,26 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px 0 rgba(239, 68, 68, 0.3);
       position: relative;
       overflow: hidden;
       margin-top: 8px;
     }
 
     .signup-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.4);
+      background-image: linear-gradient(to right, #f97316, #dc2626);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
     }
 
     .signup-button:active {
       transform: translateY(0);
+    }
+
+    [data-theme="dark"] .signup-button,
+    html.dark .signup-button {
+      background-image: linear-gradient(to right, #f97316, #dc2626);
     }
 
     .signup-button:disabled {
@@ -598,14 +626,15 @@
     }
 
     .role-option label:hover {
-      border-color: var(--accent);
-      background: rgba(245, 158, 11, 0.05);
+      border-color: #f59e0b;
+      background: linear-gradient(to right, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
       color: var(--white);
+      transform: translateY(-1px);
     }
 
     .role-option input[type="radio"]:checked + label {
-      border-color: var(--accent);
-      background: linear-gradient(135deg, var(--accent), var(--accent-600));
+      border-color: #f59e0b;
+      background: linear-gradient(to right, #f59e0b, #ef4444);
       color: white;
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
@@ -627,6 +656,18 @@
     .role-option input[type="radio"]:checked + label::before {
       opacity: 1;
       transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+
+    /* Dark mode enhancements for role options */
+    [data-theme="dark"] .role-option label:hover {
+      border-color: #f59e0b;
+      background: linear-gradient(to right, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.15));
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.1);
+    }
+
+    [data-theme="dark"] .role-option input[type="radio"]:checked + label {
+      background: linear-gradient(to right, #f97316, #dc2626);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
     }
 
     /* Conditional Field Groups */
