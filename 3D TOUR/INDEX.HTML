@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monastery 3D Tour</title>
+    <link rel="shortcut icon" href="../src/logo.png" type="image/x-icon" />
 
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
@@ -52,16 +53,37 @@
             align-items: center; z-index: 100;
             animation: fadeOut 1.5s ease-out 2.5s forwards;
         }
-        .splash-screen h1 { font-size: 3rem; text-transform: uppercase; letter-spacing: 5px; text-align: center; padding: 10px; color: #63b3ed; }
+        .splash-screen h1 { 
+            font-size: 3rem; text-transform: uppercase; letter-spacing: 5px; 
+            text-align: center; padding: 10px; color: #63b3ed; 
+            margin: 0; width: 100%; 
+        }
         @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
 
-        .top-bar, .bottom-bar { position: absolute; left: 0; width: 100%; padding: 20px 30px; box-sizing: border-box; z-index: 10; transition: opacity 0.5s ease-in-out; }
-        .top-bar { top: 0; background: linear-gradient(to bottom, rgba(26, 32, 44, 0.8), transparent); display: flex; align-items: center; gap: 20px; }
+        .top-bar, .bottom-bar { 
+            position: absolute; left: 0; width: 100%; padding: 20px 30px; 
+            box-sizing: border-box; z-index: 10; transition: opacity 0.5s ease-in-out; 
+        }
+        .top-bar { 
+            top: 0; background: linear-gradient(to bottom, rgba(26, 32, 44, 0.8), transparent); 
+            display: flex; align-items: center; justify-content: flex-start; gap: 20px; 
+        }
         #logo { height: 45px; width: 45px; filter: drop-shadow(0 0 8px rgba(99, 179, 237, 0.6)); }
-        #main-title { font-size: 1.5rem; margin: 0; letter-spacing: 2px; color: #e2e8f0; }
-        .bottom-bar { bottom: 0; height: 160px; /* Increased height for button */ background: linear-gradient(to top, rgba(26, 32, 44, 0.9), transparent); display: flex; justify-content: space-between; align-items: center; }
-        .nav-controls { display: flex; align-items: center; gap: 20px; }
-        .nav-button { font-size: 2.5rem; cursor: pointer; color: #63b3ed; transition: color 0.3s ease; user-select: none; }
+        #main-title { 
+            font-size: 1.5rem; margin: 0; letter-spacing: 2px; color: #e2e8f0; 
+            text-align: left; 
+        }
+        .bottom-bar { 
+            bottom: 0; height: 160px; 
+            background: linear-gradient(to top, rgba(26, 32, 44, 0.9), transparent); 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .nav-controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .nav-button { 
+            font-size: 2.5rem; cursor: pointer; color: #63b3ed; 
+            transition: color 0.3s ease; user-select: none; 
+            display: flex; align-items: center; justify-content: center;
+        }
         .nav-button:hover { color: #bee3f8; } /* Lighter Blue */
         
         .scene-info {
@@ -69,14 +91,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
-        .scene-info h2 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; color: #e2e8f0; }
-        .scene-info p { margin: 5px 0 0; font-size: 1rem; opacity: 0.8; }
+        .scene-info h2 { 
+            margin: 0; font-size: 1.8rem; letter-spacing: 1px; color: #e2e8f0; 
+            text-align: center; 
+        }
+        .scene-info p { 
+            margin: 5px 0 0; font-size: 1rem; opacity: 0.8; 
+            text-align: center; 
+        }
 
         #enter-video-cta {
             margin-top: 10px;
             z-index: 20;
             transition: opacity 0.5s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #enter-video-cta button {
@@ -91,6 +123,9 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #enter-video-cta button:hover {
@@ -99,13 +134,208 @@
             box-shadow: 0 0 20px rgba(99, 179, 237, 0.5);
         }
 
-        .gallery-section { padding: 80px 20px; background-color: #2d3748; text-align: center; }
-        .gallery-section h2 { font-size: 2.5rem; margin-bottom: 50px; border-bottom: 1px solid #63b3ed; display: inline-block; padding-bottom: 10px; color: #e2e8f0; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .gallery-item { background-color: #1a202c; border: 1px solid #4a5568; border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; }
+        .gallery-section { 
+            padding: 80px 20px; background-color: #2d3748; 
+            text-align: center; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; 
+        }
+        .gallery-section h2 { 
+            font-size: 2.5rem; margin-bottom: 50px; border-bottom: 1px solid #63b3ed; 
+            display: inline-block; padding-bottom: 10px; color: #e2e8f0; 
+            text-align: center; 
+        }
+        .gallery-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+            gap: 30px; max-width: 1200px; margin: 0 auto; 
+            width: 100%; justify-items: center; 
+        }
+        .gallery-item { 
+            background-color: #1a202c; border: 1px solid #4a5568; border-radius: 8px; 
+            overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            text-align: center; text-decoration: none; display: flex; 
+            flex-direction: column; align-items: center; justify-content: center; 
+            width: 100%; max-width: 400px; 
+        }
         .gallery-item:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(99, 179, 237, 0.2); border-color: #63b3ed; }
         .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; }
-        .gallery-item h3 { font-size: 1.5rem; margin: 20px; color: #e2e8f0; }
+        .gallery-item h3 { 
+            font-size: 1.5rem; margin: 20px; color: #e2e8f0; 
+            text-align: center; width: 100%; 
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .splash-screen h1 {
+                font-size: 2rem;
+                letter-spacing: 3px;
+                padding: 0 20px;
+            }
+
+            .top-bar {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                text-align: center;
+            }
+
+            #logo {
+                height: 35px;
+                width: 35px;
+            }
+
+            #main-title {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+                text-align: center;
+                margin: 0;
+            }
+
+            .bottom-bar {
+                height: 140px;
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .nav-controls {
+                gap: 15px;
+                justify-content: center;
+            }
+
+            .nav-button {
+                font-size: 2rem;
+            }
+
+            .scene-info {
+                order: -1;
+                width: 100%;
+                text-align: center;
+            }
+
+            .scene-info h2 {
+                font-size: 1.4rem;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+
+            .scene-info p {
+                font-size: 0.9rem;
+                text-align: center;
+            }
+
+            #enter-video-cta button {
+                font-size: 0.8rem;
+                padding: 6px 14px;
+                letter-spacing: 1px;
+            }
+
+            .gallery-section {
+                padding: 40px 15px;
+            }
+
+            .gallery-section h2 {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                max-width: 100%;
+                justify-items: center;
+                align-items: center;
+            }
+
+            .gallery-item img {
+                height: 200px;
+            }
+
+            .gallery-item h3 {
+                font-size: 1.2rem;
+                margin: 15px;
+            }
+
+            /* Make touch targets larger on mobile */
+            .nav-button {
+                padding: 10px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #enter-video-cta button {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .splash-screen h1 {
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+            }
+
+            .top-bar {
+                padding: 10px 15px;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #main-title {
+                font-size: 1rem;
+                text-align: center;
+            }
+
+            .bottom-bar {
+                height: 120px;
+                padding: 10px 15px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .scene-info h2 {
+                font-size: 1.2rem;
+                text-align: center;
+            }
+
+            .scene-info p {
+                font-size: 0.8rem;
+                text-align: center;
+            }
+
+            .nav-button {
+                font-size: 1.8rem;
+            }
+
+            .gallery-section {
+                padding: 30px 10px;
+            }
+
+            .gallery-section h2 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+            .gallery-item img {
+                height: 180px;
+            }
+
+            .gallery-item h3 {
+                font-size: 1.1rem;
+                margin: 12px;
+            }
+        }
         
     </style>
 </head>
