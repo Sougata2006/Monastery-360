@@ -62,53 +62,119 @@ Sikkim is home to over **200 monasteries**, many dating back to the 17th and 18t
 
 ```plaintext
 Monastery360
-│ 
-├── Gallery/
-│   ├── Photos/
-│   │   ├── LANDING.png
-│   │   ├── 360view.png
-│   │   ├── culture1.jpg
-│   │   ├── culture2.jpg
-│   │   ├── Dubdi Monastery.jpg
-│   │   ├── Enchey Monastery.jpg
-│   │   ├── Hotel1.webp … Hotel10.webp
-│   │   ├── manuscript1.png
-│   │   ├── landscape1.jpg … landscape10.avif
-│   │   └── more images...
-│   │
-│   ├── Videos/
-│   │   ├── allround experience.mp4
-│   │   ├── ManiMantraChanting.mp4
-│   │   ├── VajraGuruMantra.mp4
-│   │   └── video1.mp4
-│   │
-│   └── Audio/
-│       ├── eveningprayer.mp3
-│       ├── HeartSutraprayer.mp3
-│       └── prayer1.mp3
 │
-├── scripts/
-│   ├── donation.js
-│   └── galary.js
-│
-├── src/
-│   └── logo.png
-│
-├── index.html
-├── galary.html
-├── monasteries.html
+├── .gitattributes
+├── 3D TOUR
+    ├── 3d tour.glb
+    ├── 3d tour2.glb
+    ├── DUBDI INSIDE 3.jpg
+    ├── DUBDI INSIDE.jpg
+    ├── DUBDI INSIDE2.jpg
+    ├── DUBDI NANO BANANA.png
+    ├── DUBDI.jpg
+    ├── EXTERIOR.mp4
+    ├── INDEX.HTML
+    ├── INTERIOR TOUR DUBDI.mp4
+    ├── RUMTEK2-3D.glb
+    ├── RUMTEK3D.glb
+    ├── RUMTEKNANO.png
+    ├── SOUND.m4a
+    └── TASHIDINGNANO.png
+├── Gallery
+    ├── Audio
+    │   ├── HeartSutraprayer.mp3
+    │   ├── eveningprayer.mp3
+    │   └── prayar1.mp3
+    ├── Photos
+    │   ├── 360view.png
+    │   ├── Divine The Celeste.jpg
+    │   ├── Dubdi Monastery.jpg
+    │   ├── Enchey Monastery.jpg
+    │   ├── Gemini_Generated_P.png
+    │   ├── Hotel1.webp
+    │   ├── Hotel10.webp
+    │   ├── Hotel2.webp
+    │   ├── Hotel3.webp
+    │   ├── Hotel4.webp
+    │   ├── Hotel5.webp
+    │   ├── Hotel6.webp
+    │   ├── Hotel7.webp
+    │   ├── Hotel8.webp
+    │   ├── Hotel9.webp
+    │   ├── LANDING.png
+    │   ├── Pemayangtse Monastery.jpeg
+    │   ├── Phensang Monastery.avif
+    │   ├── Phensang_Monastery.jpg
+    │   ├── Phodong Monastery.jpeg
+    │   ├── Ralang Monastery.jpg
+    │   ├── Rumtek Monastery.jpeg
+    │   ├── Rumtek Monastery2.webp
+    │   ├── Rumtek.jpeg
+    │   ├── Samdruptse Monastery.avif
+    │   ├── Sarv_Dharm_Sthal_near_Gurudongmar_Lake.jpg
+    │   ├── Taj Guras Kutir Resort & Spa.jpg
+    │   ├── Tashiding-Monastery2.png
+    │   ├── The Elgin Mountain Pandim.jpg
+    │   ├── Vivanta Sikkim Pakyong.jpg
+    │   ├── Yashshree Pelling Chekhim Retreat.jpg
+    │   ├── back3.jpeg
+    │   ├── background.jpg
+    │   ├── culture 3.jpg
+    │   ├── culture1.jpg
+    │   ├── culture2.jpg
+    │   ├── enchy.jpg
+    │   ├── landscape10.avif
+    │   ├── landscape4.jpg
+    │   ├── landscpe2.jpg
+    │   ├── landscpe3.jpg
+    │   ├── landscpe5.jpg
+    │   ├── mansteric life 1.jpg
+    │   ├── manuscript1.png
+    │   ├── manuscript2.png
+    │   ├── manuscript3.png
+    │   ├── manuscript4.png
+    │   ├── manuscript5.png
+    │   ├── map.png
+    │   ├── monasterc life4.jpg
+    │   ├── monasteric life 12.jpg
+    │   ├── monasteric life 13.jpg
+    │   ├── monasteric life 2.jpg
+    │   ├── monasteric life 3.jpg
+    │   ├── monasteric life10.jpg
+    │   ├── monasteric life11.jpg
+    │   ├── newmanuscript1.png
+    │   ├── newmanuscript2.png
+    │   ├── newmanuscript3.png
+    │   ├── newmanuscript4.png
+    │   ├── newmanuscript5.png
+    │   ├── phodong-monastery.jpeg
+    │   └── ralang.jpg
+    └── Videos
+    │   ├── ManiMantraChanting.mp4
+    │   ├── VajraGuruMantra.mp4
+    │   ├── allround experience.mp4
+    │   └── video1.mp4
+├── LICENSE
+├── README.md
 ├── donation.html
+├── galary.html
+├── index.html
+├── license.html
 ├── login.html
-├── sign up.html
-├── term.html
-├── tourbooking.html
+├── main.js
+├── monasteries.html
 ├── notAvailable.html
-├── rumtek-3D.html
+├── scripts
+    ├── donation.js
+    ├── galary.js
+    └── monasteries.js
+├── sign up.html
+├── src
+    └── logo.png
+├── term.html
 ├── theme.css
 ├── theme.js
-├── main.js
-├── LICENSE
-└── README.md
+└── tourbooking.html
 
 
 ```
