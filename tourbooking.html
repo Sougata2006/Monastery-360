@@ -21,24 +21,181 @@
       };
     </script>
 
-    <script>
-      // Theme initialization - synced with central theme system
-      const savedTheme =
-        localStorage.getItem("color-theme") ||
-        localStorage.getItem("monastery360-theme") ||
-        localStorage.getItem("theme") ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
+<script>
+  // Theme initialization - synced with central theme system
+  const savedTheme =
+    localStorage.getItem("color-theme") ||
+    localStorage.getItem("monastery360-theme") ||
+    localStorage.getItem("theme") ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light");
 
-      if (savedTheme === "dark") {
-        document.documentElement.classList.add("dark");
-        document.documentElement.setAttribute("data-theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        document.documentElement.setAttribute("data-theme", "light");
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+    document.documentElement.setAttribute("data-theme", "light");
+  }
+
+  // Hotel sorting and filtering functionality
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get all hotels and store original order
+    const hotelsGrid = document.getElementById("hotelsGrid");
+    const allHotels = Array.from(hotelsGrid.children);
+    const resultsInfo = document.getElementById("resultsInfo");
+
+    // Filter and sort functions
+    function updateResults() {
+      const ratingSort = document.getElementById("ratingSort").value;
+      const priceSort = document.getElementById("priceSort").value;
+      const locationFilter = document.getElementById("locationFilter").value;
+      const maxPrice = document.getElementById("maxPrice").value;
+
+      let filteredHotels = [...allHotels];
+
+      // Apply location filter
+      if (locationFilter) {
+        filteredHotels = filteredHotels.filter(
+          (hotel) => hotel.dataset.location === locationFilter
+        );
       }
-    </script>
+
+      // Apply price filter
+      if (maxPrice) {
+        filteredHotels = filteredHotels.filter(
+          (hotel) => parseInt(hotel.dataset.price) <= parseInt(maxPrice)
+        );
+      }
+
+      // Apply rating sort
+      if (ratingSort === "desc") {
+        filteredHotels.sort(
+          (a, b) => parseInt(b.dataset.rating) - parseInt(a.dataset.rating)
+        );
+      } else if (ratingSort === "asc") {
+        filteredHotels.sort(
+          (a, b) => parseInt(a.dataset.rating) - parseInt(b.dataset.rating)
+        );
+      }
+
+      // Apply price sort
+      if (priceSort === "asc") {
+        filteredHotels.sort(
+          (a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price)
+        );
+      } else if (priceSort === "desc") {
+        filteredHotels.sort(
+          (a, b) => parseInt(b.dataset.price) - parseInt(a.dataset.price)
+        );
+      }
+
+      // Update grid
+      hotelsGrid.innerHTML = "";
+      filteredHotels.forEach((hotel) => {
+        hotelsGrid.appendChild(hotel);
+      });
+
+      // Update results info
+      resultsInfo.innerHTML = `
+        <i class="fas fa-info-circle"></i>
+        Showing ${filteredHotels.length} of ${allHotels.length} hotels
+      `;
+    }
+
+    // Quick filter functions
+    function applyQuickFilter(filterType) {
+      // Clear existing filters first
+      clearAllFilters();
+
+      let filteredHotels = [...allHotels];
+
+      switch (filterType) {
+        case "luxury": // only 5-star hotels
+          filteredHotels = filteredHotels.filter(
+            (hotel) => hotel.dataset.rating === "5"
+          );
+          break;
+        case "premium": // only 4-star hotels
+          filteredHotels = filteredHotels.filter(
+            (hotel) => hotel.dataset.rating === "4"
+          );
+          break;
+            case "standard": // only 3-star hotels
+          filteredHotels = filteredHotels.filter(
+            (hotel) => hotel.dataset.rating === "3"
+          );
+          break;
+        case "budget": // price under 5000
+          filteredHotels = filteredHotels.filter(
+            (hotel) => parseInt(hotel.dataset.price) <= 5000
+          );
+          break;
+        case "gangtok":
+          filteredHotels = filteredHotels.filter(
+            (hotel) => hotel.dataset.location === "Gangtok"
+          );
+          break;
+        case "spa":
+          filteredHotels = filteredHotels.filter(
+            (hotel) =>
+              hotel.dataset.name.toLowerCase().includes("spa") ||
+              hotel.dataset.name.toLowerCase().includes("resort")
+          );
+          break;
+      }
+
+      // Update grid with filtered hotels
+      hotelsGrid.innerHTML = "";
+      filteredHotels.forEach((hotel) => hotelsGrid.appendChild(hotel));
+
+      // Update results info
+      resultsInfo.innerHTML = `
+        <i class="fas fa-info-circle"></i>
+        Showing ${filteredHotels.length} of ${allHotels.length} hotels
+      `;
+    }
+
+    function clearAllFilters() {
+      document.getElementById("ratingSort").value = "";
+      document.getElementById("priceSort").value = "";
+      document.getElementById("locationFilter").value = "";
+      document.getElementById("maxPrice").value = "";
+
+      // Remove active class from quick filter buttons
+      document.querySelectorAll(".quick-filter-btn").forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      updateResults();
+    }
+
+    // Event listeners
+    document.getElementById("ratingSort").addEventListener("change", updateResults);
+    document.getElementById("priceSort").addEventListener("change", updateResults);
+    document.getElementById("locationFilter").addEventListener("change", updateResults);
+    document.getElementById("maxPrice").addEventListener("input", updateResults);
+    document.getElementById("clearFilters").addEventListener("click", clearAllFilters);
+
+    // Quick filter buttons
+    document.querySelectorAll(".quick-filter-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        // Toggle active state
+        document.querySelectorAll(".quick-filter-btn").forEach((b) =>
+          b.classList.remove("active")
+        );
+        btn.classList.add("active");
+
+        applyQuickFilter(btn.dataset.filter);
+      });
+    });
+
+    // Initialize
+    updateResults();
+  });
+</script>
+
 
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap"
@@ -258,6 +415,152 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
+
+      /* Sorting Section Styles */
+      .sorting-section {
+        background: var(--glass);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 32px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .sorting-title {
+        color: var(--accent);
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: "Cinzel", serif;
+      }
+
+      .filters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .filter-label {
+        color: var(--white);
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .filter-select, .filter-input {
+        background: var(--glass);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: var(--white);
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .filter-select:focus, .filter-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        background: rgba(245, 158, 11, 0.05);
+      }
+
+      .filter-select:hover, .filter-input:hover {
+        border-color: rgba(245, 158, 11, 0.5);
+        background: rgba(245, 158, 11, 0.03);
+      }
+
+      .filter-select option {
+        background: var(--card);
+        color: var(--white);
+      }
+
+      /* Quick Filter Buttons */
+      .quick-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 16px;
+      }
+
+      .quick-filter-btn {
+        background: var(--glass);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .quick-filter-btn:hover {
+        background: linear-gradient(to right, #f59e0b, #ef4444);
+        border-color: var(--accent);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      }
+
+      .quick-filter-btn.active {
+        background: linear-gradient(to right, #f59e0b, #ef4444);
+        border-color: var(--accent);
+        color: white;
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      }
+
+      .clear-filters-btn {
+        background: transparent;
+        border: 1px solid #ef4444;
+        color: #ef4444;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 16px;
+      }
+
+      .clear-filters-btn:hover {
+        background: #ef4444;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+      }
+
+      /* Results Info */
+      .results-info {
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 24px;
+        padding: 12px;
+        background: var(--glass);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      /* Dark mode adjustments */
+      [data-theme="dark"] .filter-select,
+      [data-theme="dark"] .filter-input {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
     </style>
   </head>
 
@@ -416,14 +719,111 @@
 
     <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-12">Hotels in Sikkim</h1>
 
-    <div class="grid">
+    <!-- Sorting and Filtering Section -->
+    <div class="sorting-section">
+        <h2 class="sorting-title">
+            <i class="fas fa-filter"></i>
+            Find Your Perfect Stay
+        </h2>
+        
+        <div class="filters-grid">
+            <!-- Sort by Rating -->
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-star text-yellow-400"></i>
+                    Sort by Rating
+                </label>
+                <select id="ratingSort" class="filter-select">
+                    <option value="">All Ratings</option>
+                    <option value="desc">Highest Rated First</option>
+                    <option value="asc">Lowest Rated First</option>
+                </select>
+            </div>
+
+            <!-- Sort by Price -->
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-rupee-sign text-green-400"></i>
+                    Sort by Price
+                </label>
+                <select id="priceSort" class="filter-select">
+                    <option value="">Default</option>
+                    <option value="asc">Price: Low to High</option>
+                    <option value="desc">Price: High to Low</option>
+                </select>
+            </div>
+
+            <!-- Filter by Location -->
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-map-marker-alt text-red-400"></i>
+                    Location
+                </label>
+                <select id="locationFilter" class="filter-select">
+                    <option value="">All Locations</option>
+                    <option value="Gangtok">Gangtok</option>
+                    <option value="Pelling">Pelling</option>
+                    <option value="Ranka">Ranka</option>
+                </select>
+            </div>
+
+            <!-- Price Range -->
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-money-bill-wave text-blue-400"></i>
+                    Max Price (₹)
+                </label>
+                <input type="number" id="maxPrice" class="filter-input" placeholder="e.g. 5000" min="0">
+            </div>
+        </div>
+
+        <!-- Quick Filter Buttons -->
+        <div class="quick-filters">
+            <button class="quick-filter-btn" data-filter="luxury">
+                <i class="fas fa-crown"></i>
+                Luxury (5⭐)
+            </button>
+            <button class="quick-filter-btn" data-filter="premium">
+                <i class="fas fa-gem"></i>
+                Premium (4⭐)
+            </button>
+            <button class="quick-filter-btn" data-filter="standard">
+              <i class="fas fa-star"></i> 
+              Standard (3⭐)
+            </button>
+            <button class="quick-filter-btn" data-filter="budget">
+                <i class="fas fa-wallet"></i>
+                Budget (≤₹5000)
+            </button>
+            <button class="quick-filter-btn" data-filter="gangtok">
+                <i class="fas fa-city"></i>
+                Gangtok Only
+            </button>
+            <button class="quick-filter-btn" data-filter="spa">
+                <i class="fas fa-spa"></i>
+                Resort & Spa
+            </button>
+        </div>
+
+        <div style="text-align: center;">
+            <button id="clearFilters" class="clear-filters-btn">
+                <i class="fas fa-times"></i>
+                Clear All Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Info -->
+    <div id="resultsInfo" class="results-info">
+        <i class="fas fa-info-circle"></i>
+        Showing all 10 hotels
+    </div>
+
+
+    <div class="grid" id="hotelsGrid">
       <!-- Hotel 1 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel1.webp"
-          alt="Mayfair Spa Resort & Casino"
-          loading="lazy"
-        />
+      <div class="card" data-rating="5" data-price="9000" data-location="Gangtok" data-name="Mayfair Spa Resort & Casino">
+        <img src="Gallery/Photos/Hotel1.webp" alt="Mayfair Spa Resort & Casino" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Mayfair Spa Resort & Casino</h2>
@@ -431,22 +831,13 @@
             <div class="rating">⭐⭐⭐⭐⭐<span class="count">(124)</span></div>
             <div class="price">₹9,000 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/mayfair-gangtok.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=28879018_421091920_2_0_0&checkin=2025-11-03&checkout=2025-11-08&dest_id=288790&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=28879018_421091920_2_0_0&hpos=1&matching_block_id=28879018_421091920_2_0_0&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&sr_pri_blocks=28879018_421091920_2_0_0__5829500&srepoch=1758300523&srpvid=d4b2762da30a0584&type=total&ucfs=1&"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/mayfair-gangtok.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 2 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel2.webp"
-          alt="The Elgin Nor-Khill"
-          loading="lazy"
-        />
+      <div class="card" data-rating="4" data-price="7500" data-location="Gangtok" data-name="The Elgin Nor-Khill">
+        <img src="Gallery/Photos/Hotel2.webp" alt="The Elgin Nor-Khill" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">The Elgin Nor-Khill</h2>
@@ -454,22 +845,13 @@
             <div class="rating">⭐⭐⭐⭐<span class="count">(97)</span></div>
             <div class="price">₹7,500 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/the-elgin-nor-khill.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=86197302_347152544_2_1_0&checkin=2025-11-03&checkout=2025-11-08&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=86197302_347152544_2_1_0&hpos=1&matching_block_id=86197302_347152544_2_1_0&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=distance_from_search&sr_pri_blocks=86197302_347152544_2_1_0__7000000&srepoch=1758300604&srpvid=0ef9765dd4b70a1b&type=total&ucfs=1&"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/the-elgin-nor-khill.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 3 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel3.webp"
-          alt="Summit Golden Crescent Resort"
-          loading="lazy"
-        />
+      <div class="card" data-rating="4" data-price="4200" data-location="Gangtok" data-name="Summit Golden Crescent Resort">
+        <img src="Gallery/Photos/Hotel3.webp" alt="Summit Golden Crescent Resort" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Summit Golden Crescent Resort</h2>
@@ -477,22 +859,13 @@
             <div class="rating">⭐⭐⭐⭐<span class="count">(86)</span></div>
             <div class="price">₹4,200 / night</div>
           </div>
-          <a
-            href="https://www.goibibo.com/hotels/golden-crescent-resort-spa-gangtok-hotel-in-gangtok-3855420283760496401/"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.goibibo.com/hotels/golden-crescent-resort-spa-gangtok-hotel-in-gangtok-3855420283760496401/" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 4 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel4.webp"
-          alt="Lemon Tree Hotel"
-          loading="lazy"
-        />
+      <div class="card" data-rating="3" data-price="3800" data-location="Gangtok" data-name="Lemon Tree Hotel">
+        <img src="Gallery/Photos/Hotel4.webp" alt="Lemon Tree Hotel" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Lemon Tree Hotel</h2>
@@ -500,22 +873,13 @@
             <div class="rating">⭐⭐⭐<span class="count">(63)</span></div>
             <div class="price">₹3,800 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/lemon-tree-gangtok.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=251780201_405110151_2_2_0&checkin=2025-11-03&checkout=2025-11-08&dest_id=2517802&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=251780201_405110151_2_2_0&hpos=1&matching_block_id=251780201_405110151_2_2_0&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&show_room=251780201&sr_order=popularity&sr_pri_blocks=251780201_405110151_2_2_0__4208000&srepoch=1758300901&srpvid=5f3676ecb6cb010e&type=total&ucfs=1&#RD251780201"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/lemon-tree-gangtok.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 5 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel5.webp"
-          alt="Summit Ttakshang Residency"
-          loading="lazy"
-        />
+      <div class="card" data-rating="3" data-price="2900" data-location="Gangtok" data-name="Summit Ttakshang Residency">
+        <img src="Gallery/Photos/Hotel5.webp" alt="Summit Ttakshang Residency" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Summit Ttakshang Residency</h2>
@@ -523,22 +887,13 @@
             <div class="rating">⭐⭐⭐<span class="count">(176)</span></div>
             <div class="price">₹2,900 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/la-ttakshang-residency-amp-spa-gangtok-sikkim.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=230292604_420122872_2_42_0_1197240&checkin=2025-11-03&checkout=2025-11-08&dest_id=2302926&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=230292604_420122872_2_42_0_1197240&hpos=1&matching_block_id=230292604_420122872_2_42_0_1197240&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&sr_pri_blocks=230292604_420122872_2_42_0_1197240_1510200&srepoch=1758301043&srpvid=1a21773829ff03c2&type=total&ucfs=1&"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/la-ttakshang-residency-amp-spa-gangtok-sikkim.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 6 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel6.webp"
-          alt="Sinclairs Gangtok"
-          loading="lazy"
-        />
+      <div class="card" data-rating="3" data-price="4500" data-location="Gangtok" data-name="Sinclairs Gangtok">
+        <img src="Gallery/Photos/Hotel6.webp" alt="Sinclairs Gangtok" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Sinclairs Gangtok</h2>
@@ -546,22 +901,13 @@
             <div class="rating">⭐⭐⭐<span class="count">(74)</span></div>
             <div class="price">₹4,500 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/sinclairs-gangtok.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&checkin=2025-11-03&checkout=2025-11-08&dest_id=6262178&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&soh=1&sr_order=popularity&srepoch=1758301105&srpvid=47ef7758a966042b&type=total&ucfs=1&#no_availability_msg"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/sinclairs-gangtok.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 7 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel7.webp"
-          alt="Denzong Regency"
-          loading="lazy"
-        />
+      <div class="card" data-rating="5" data-price="8200" data-location="Gangtok" data-name="Denzong Regency">
+        <img src="Gallery/Photos/Hotel7.webp" alt="Denzong Regency" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Denzong Regency</h2>
@@ -569,22 +915,13 @@
             <div class="rating">⭐⭐⭐⭐⭐<span class="count">(38)</span></div>
             <div class="price">₹8,200 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/denzong-regency.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=1404484201_412261701_2_1_0&checkin=2025-11-03&checkout=2025-11-08&dest_id=14044842&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=1404484201_412261701_2_1_0&hpos=1&matching_block_id=1404484201_412261701_2_1_0&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&sr_pri_blocks=1404484201_412261701_2_1_0__977075&srepoch=1758301174&srpvid=d2b9777a8c0e06e2&type=total&ucfs=1&"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/denzong-regency.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 8 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel8.webp"
-          alt="Summit Norling Resort & Spa"
-          loading="lazy"
-        />
+      <div class="card" data-rating="4" data-price="4700" data-location="Ranka" data-name="Summit Norling Resort & Spa">
+        <img src="Gallery/Photos/Hotel8.webp" alt="Summit Norling Resort & Spa" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Summit Norling Resort & Spa</h2>
@@ -592,22 +929,13 @@
             <div class="rating">⭐⭐⭐⭐<span class="count">(106)</span></div>
             <div class="price">₹4,700 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/norling-resort.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=39257007_420177070_0_42_0_1197236&checkin=2025-11-03&checkout=2025-11-08&dest_id=392570&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=39257007_420177070_0_42_0_1197236&hpos=1&matching_block_id=39257007_420177070_0_42_0_1197236&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&sr_pri_blocks=39257007_420177070_0_42_0_1197236_1764180&srepoch=1758301227&srpvid=4e6f7794b8b201ae&type=total&ucfs=1&"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/norling-resort.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 9 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel9.webp"
-          alt="Club Mahindra Gangtok"
-          loading="lazy"
-        />
+      <div class="card" data-rating="4" data-price="6200" data-location="Gangtok" data-name="Club Mahindra Gangtok">
+        <img src="Gallery/Photos/Hotel9.webp" alt="Club Mahindra Gangtok" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Club Mahindra Gangtok</h2>
@@ -615,22 +943,13 @@
             <div class="rating">⭐⭐⭐⭐<span class="count">(89)</span></div>
             <div class="price">₹6,200 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/club-mahindra-le-vintuna-gangtok.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=866682801_420712152_2_1_0&checkin=2025-11-03&checkout=2025-11-08&dest_id=8666828&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=866682801_420712152_2_1_0&hpos=1&matching_block_id=866682801_420712152_2_1_0&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&sr_pri_blocks=866682801_420712152_2_1_0__3312450&srepoch=1758301303&srpvid=7ee377bbc3280163&type=total&ucfs=1&"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/club-mahindra-le-vintuna-gangtok.html" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
 
       <!-- Hotel 10 -->
-      <div class="card">
-        <img
-          src="Gallery/Photos/Hotel10.webp"
-          alt="Hotel Orchid Villa"
-          loading="lazy"
-        />
+      <div class="card" data-rating="3" data-price="2500" data-location="Pelling" data-name="Hotel Orchid Villa">
+        <img src="Gallery/Photos/Hotel10.webp" alt="Hotel Orchid Villa" loading="lazy" />
         <div class="card-body">
           <div>
             <h2 class="hotel-name">Hotel Orchid Villa</h2>
@@ -638,12 +957,77 @@
             <div class="rating">⭐⭐⭐<span class="count">(64)</span></div>
             <div class="price">₹2,500 / night</div>
           </div>
-          <a
-            href="https://www.booking.com/hotel/in/orchid-gangtok1.html?aid=2405329&label=brave_brand_city_in_cb7c7bb7-b90f-43fa-b19e-c651b498652c_34d641&sid=4987b1692cd1d688fb284ec55168d799&all_sr_blocks=1465778001_417908529_2_1_0&checkin=2025-11-03&checkout=2025-11-08&dist=0&group_adults=2&group_children=0&hapos=1&highlighted_blocks=1465778001_417908529_2_1_0&hpos=1&matching_block_id=1465778001_417908529_2_1_0&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=distance_from_search&sr_pri_blocks=1465778001_417908529_2_1_0__1250000&srepoch=1758301409&srpvid=898c77f081d40366&type=total&ucfs=1&"
-            target="_blank"
-            class="btn"
-            >Book Now</a
-          >
+          <a href="https://www.booking.com/hotel/in/orchid-gangtok1.html" target="_blank" class="btn">Book Now</a>
+        </div>
+      </div>
+
+      <!-- Hotel 11 -->
+      <div class="card" data-rating="5" data-price="26700" data-location="Gangtok" data-name="Taj Guras Kutir Resort & Spa">
+        <img src="Gallery/Photos/Taj Guras Kutir Resort & Spa.jpg" alt="Taj Guras Kutir Resort & Spa" loading="lazy" />
+        <div class="card-body">
+          <div>
+            <h2 class="hotel-name">Taj Guras Kutir Resort & Spa</h2>
+            <p class="location">Gangtok, Sikkim</p>
+            <div class="rating">⭐⭐⭐⭐⭐<span class="count">(368)</span></div>
+            <div class="price">₹26,700 / night</div>
+          </div>
+          <a href="https://www.booking.com/hotel/in/taj-guras-kutir-resort-amp-spa-gangtok.html?aid=304142&label=gen173nr-10CAsobEITdGhlLWVsZ2luLW5vci1raGlsbEgzWARobIgBAZgBM7gBF8gBDNgBA-gBAfgBAYgCAagCAbgCqe22xgbAAgHSAiQ1NzUwODUyMi1mMmMyLTRjMzMtYmM3OS01YjI0OGIwN2NhN2LYAgHgAgE&sid=bcea1219d4a65b004b99d0c66b93b13e&dest_id=-2095904&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=5&hpos=5&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1758312160&srpvid=ce398cde2a6e00a3&type=total&ucfs=1&" target="_blank" class="btn">Book Now</a>
+        </div>
+      </div>
+
+      <!-- Hotel 12 -->
+      <div class="card" data-rating="5" data-price="15000" data-location="Pelling" data-name="The Elgin Mount Pandim - Pelling - Heritage Resort & Spa">
+        <img src="Gallery/Photos/The Elgin Mountain Pandim.jpg" alt="The Elgin Mountain Pandim" loading="lazy" />
+        <div class="card-body">
+          <div>
+            <h2 class="hotel-name">The Elgin Mount Pandim - Heritage Resort & Spa</h2>
+            <p class="location">Pelling, Sikkim</p>
+            <div class="rating">⭐⭐⭐⭐⭐<span class="count">(871)</span></div>
+            <div class="price">₹15,300 / night</div>
+          </div>
+          <a href="https://www.booking.com/hotel/in/the-elgin-mount-pandim.html?aid=304142&label=gen173nr-10CAsobEITdGhlLWVsZ2luLW5vci1raGlsbEgzWARobIgBAZgBM7gBF8gBDNgBA-gBAfgBAYgCAagCAbgCqe22xgbAAgHSAiQ1NzUwODUyMi1mMmMyLTRjMzMtYmM3OS01YjI0OGIwN2NhN2LYAgHgAgE&sid=bcea1219d4a65b004b99d0c66b93b13e&dest_id=900051972&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1758312966&srpvid=e19b8e6ffe3202f7&type=total&ucfs=1&" target="_blank" class="btn">Book Now</a>
+        </div>
+      </div>
+
+      <!-- Hotel 13 -->
+      <div class="card" data-rating="3" data-price="3700" data-location="Pelling" data-name="Divine The Celeste">
+        <img src="Gallery/Photos/Divine The Celeste.jpg" alt="Divine The Celeste" loading="lazy" />
+        <div class="card-body">
+          <div>
+            <h2 class="hotel-name">Divine The Celeste</h2>
+            <p class="location">Pelling, Sikkim</p>
+            <div class="rating">⭐⭐⭐<span class="count">(112)</span></div>
+            <div class="price">₹3,700 / night</div>
+          </div>
+          <a href="https://www.booking.com/hotel/in/divine-the-celeste-pelling.html?aid=304142&label=gen173nr-10CAsobEITdGhlLWVsZ2luLW5vci1raGlsbEgzWARobIgBAZgBM7gBF8gBDNgBA-gBAfgBAYgCAagCAbgCqe22xgbAAgHSAiQ1NzUwODUyMi1mMmMyLTRjMzMtYmM3OS01YjI0OGIwN2NhN2LYAgHgAgE&sid=bcea1219d4a65b004b99d0c66b93b13e&dest_id=900051972&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=8&hpos=8&nflt=class%3D3&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1758313487&srpvid=661c8f3f8bc3039a&type=total&ucfs=1&" target="_blank" class="btn">Book Now</a>
+        </div>
+      </div>
+
+      <!-- Hotel 14 -->
+      <div class="card" data-rating="4" data-price="7500" data-location="Pelling" data-name="Yashshree Pelling Chekhim Retreat">
+        <img src="Gallery/Photos/Yashshree Pelling Chekhim Retreat.jpg" alt="Yashshree Pelling Chekhim Retreat" loading="lazy" />
+        <div class="card-body">
+          <div>
+            <h2 class="hotel-name">Yashshree Pelling Chekhim Retreat</h2>
+            <p class="location">Pelling, Sikkim</p>
+            <div class="rating">⭐⭐⭐⭐<span class="count">(25)</span></div>
+            <div class="price">₹7,500 / night</div>
+          </div>
+          <a href="https://www.booking.com/hotel/in/yashshree-pelling.html?aid=304142&label=gen173nr-10CAsobEITdGhlLWVsZ2luLW5vci1raGlsbEgzWARobIgBAZgBM7gBF8gBDNgBA-gBAfgBAYgCAagCAbgCqe22xgbAAgHSAiQ1NzUwODUyMi1mMmMyLTRjMzMtYmM3OS01YjI0OGIwN2NhN2LYAgHgAgE&sid=bcea1219d4a65b004b99d0c66b93b13e&dest_id=900051972&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=7&hpos=7&nflt=class%3D5%3Bclass%3D4&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1758313840&srpvid=947b9025e91b008f&type=total&ucfs=1&" target="_blank" class="btn">Book Now</a>
+        </div>
+      </div>
+
+      <!-- Hotel 14 -->
+      <div class="card" data-rating="5" data-price="10500" data-location="Gangtokx" data-name="Vivanta Sikkim Pakyong">
+        <img src="Gallery/Photos/Vivanta Sikkim Pakyong.jpg" alt="Vivanta Sikkim Pakyong" loading="lazy" />
+        <div class="card-body">
+          <div>
+            <h2 class="hotel-name">Vivanta Sikkim Pakyong</h2>
+            <p class="location">Gangtok, Sikkim</p>
+            <div class="rating">⭐⭐⭐⭐⭐<span class="count">(470)</span></div>
+            <div class="price">₹10,500 / night</div>
+          </div>
+          <a href="https://www.booking.com/hotel/in/vivanta-sikkim-pakyong.html?aid=304142&label=gen173nr-10CAsobEITdGhlLWVsZ2luLW5vci1raGlsbEgzWARobIgBAZgBM7gBF8gBDNgBA-gBAfgBAYgCAagCAbgCqe22xgbAAgHSAiQ1NzUwODUyMi1mMmMyLTRjMzMtYmM3OS01YjI0OGIwN2NhN2LYAgHgAgE&sid=bcea1219d4a65b004b99d0c66b93b13e&dest_id=-2095904&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=3&hpos=3&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1758314135&srpvid=5a6c90be57ad047d&type=total&ucfs=1&" target="_blank" class="btn">Book Now</a>
         </div>
       </div>
     </div>
