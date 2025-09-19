@@ -29,10 +29,170 @@
         document.documentElement.classList.remove('dark');
         document.documentElement.setAttribute('data-theme', 'light');
     }
+
+// ========================
+// Search bar for monastery page (patched)
+// ========================
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('monastery-search');
+  const clearBtn = document.getElementById('clear-search');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const searchResults = document.getElementById('search-results');
+  const resultsCount = document.getElementById('results-count');
+  const noResults = document.getElementById('no-results');
+  
+  let currentFilter = 'all';
+  
+  // Monastery data mapping (keep keys lower-case)
+  const monasteryData = {
+    'gurudwara-gurudongmar': { region: 'hidden', keywords: 'gurudwara gurudongmar lake sacred sikh buddhist army pilgrimage guru nanak padmasambhava north sikkim' },
+    'rumtek-monastery':        { region: 'east',   keywords: 'rumtek dharma chakra centre karmapa kagyu largest gangtok east sikkim tibetan architecture' },
+    'enchey-monastery':        { region: 'east',   keywords: 'enchey gangtok nyingma pagoda chinese lama druptob karpo tantric flying east sikkim' },
+    'dubdi-monastery':         { region: 'west',   keywords: 'dubdi yuksom oldest 1701 first chogyal nyingma manuscripts ancient west sikkim' },
+    'pemayangtse-monastery':   { region: 'west',   keywords: 'pemayangtse pelling nyingma sangtok palri guru padmasambhava pure tibetan lineage west sikkim' },
+    'phodong-monastery':       { region: 'north',  keywords: 'phodong kagyu chaam festival chogyal gyurmed namgyal murals north sikkim' },
+    'phensang-monastery':      { region: 'north',  keywords: 'phensang nyingma largest fire 1947 rebuilt tibetan new year festival north sikkim' },
+    'ralang-monastery':        { region: 'south',  keywords: 'ralang ravangla kagyu palchen choeling pang lhabsol mahakala dance south sikkim' },
+    'samdruptse-monastery':    { region: 'south',  keywords: 'samdruptse namchi guru padmasambhava statue 135 feet tallest dalai lama south sikkim' }
+  };
+
+  function getMonasteryElements() {
+    const cards = document.querySelectorAll('.monastery-card');
+    const headers = document.querySelectorAll('h2');
+    return { cards, headers };
+  }
+
+  function filterMonasteries() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const { cards, headers } = getMonasteryElements();
+    let visibleCount = 0;
+    const sectionVisibility = {};
+
+    cards.forEach(card => {
+      const cardId = getCardId(card);
+      const monastery = monasteryData[cardId];
+
+      // If we don't have metadata for this card, hide it (prevents unmapped cards staying visible).
+      if (!monastery) {
+        card.classList.add('hidden');
+        // Helpful debug: shows which cards are unmapped in the console
+        console.warn(`Monastery data missing for data-id="${cardId}"`, card);
+        return;
+      }
+
+      const matchesFilter = currentFilter === 'all' || monastery.region === currentFilter;
+      const matchesSearch = !searchTerm || monastery.keywords.includes(searchTerm) || 
+                           card.textContent.toLowerCase().includes(searchTerm);
+
+      if (matchesFilter && matchesSearch) {
+        card.classList.remove('hidden');
+        visibleCount++;
+        sectionVisibility[monastery.region] = true;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    // Show/hide section headers
+    headers.forEach(header => {
+      const headerText = header.textContent.toLowerCase();
+      let shouldShow = false;
+
+      if (headerText.includes('east') && sectionVisibility.east) shouldShow = true;
+      else if (headerText.includes('west') && sectionVisibility.west) shouldShow = true;
+      else if (headerText.includes('north') && sectionVisibility.north) shouldShow = true;
+      else if (headerText.includes('south') && sectionVisibility.south) shouldShow = true;
+      else if ((headerText.includes('hidden') || headerText.includes('hidden gems')) && sectionVisibility.hidden) {
+        shouldShow = true;
+      }
+
+      header.classList.toggle('hidden', !shouldShow);
+    });
+
+
+    updateResultsDisplay(visibleCount, searchTerm);
+  }
+
+  // Normalise data-id (lowercase + trim) so small casing errors don't break matching
+  function getCardId(card) {
+    return (card.dataset.id || '').toLowerCase().trim();
+  }
+
+  function updateResultsDisplay(count, searchTerm) {
+    if (searchTerm || currentFilter !== 'all') {
+      searchResults.classList.remove('hidden');
+      resultsCount.textContent = count;
+      
+      if (count === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    } else {
+      searchResults.classList.add('hidden');
+      noResults.classList.add('hidden');
+    }
+
+    if (searchTerm) clearBtn.classList.remove('hidden');
+    else clearBtn.classList.add('hidden');
+  }
+
+  // Event listeners (same behavior)
+  searchInput.addEventListener('input', filterMonasteries);
+  
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    filterMonasteries();
+    searchInput.focus();
+  });
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      currentFilter = btn.dataset.filter;
+      filterMonasteries();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'f') {
+      e.preventDefault();
+      searchInput.focus();
+    }
+    if (e.key === 'Escape') {
+      searchInput.blur();
+    }
+  });
+
+  // Initial setup
+  filterMonasteries();
+
+  // Dev helper: list unmapped ids (call from console if needed)
+  window.findUnmappedMonasteryIds = function() {
+    document.querySelectorAll('.monastery-card').forEach(c => {
+      const id = getCardId(c);
+      if (!monasteryData[id]) console.log('Unmapped:', id, c);
+    });
+  };
+});
+
+
+
   </script>
 </head>
 
 <style>
+  html {
+  background-color: #ffffff; /* default light */
+}
+
+
+html.dark {
+  background-color: #0f172a; /* dark bg similar to Tailwind slate-800 */
+}
+
     body{
         font-family: 'Cinzel', 'Inter', sans-serif;
     }
@@ -245,6 +405,105 @@
         text-align: justify !important;
       }
     }
+
+    
+/* Filter Button Styles */
+.filter-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  border: 2px solid transparent;
+  background: white;
+  color: #6b7280;
+  font-weight: 500;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark .filter-btn {
+  background: #1e293b;
+  color: #94a3b8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.filter-btn:hover {
+  background: linear-gradient(to right, #f59e0b, #ef4444);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.filter-btn.active {
+  background: linear-gradient(to right, #f59e0b, #ef4444);
+  color: white;
+  border-color: #ef4444;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+.dark .filter-btn.active {
+  background: linear-gradient(to right, #f97316, #dc2626);
+}
+
+.gradient-text {
+  transition: background-position 0.3s ease;
+}
+
+/* Search Input Animation */
+#monastery-search:focus {
+  transform: scale(1.02);
+}
+
+/* Monastery Card Animation */
+.monastery-card {
+  transition: all 0.3s ease;
+}
+
+.monastery-card.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Section Headers */
+.section-header {
+  transition: all 0.3s ease;
+}
+
+.section-header.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  margin: 0;
+  padding: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Results Counter Animation */
+#search-results {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  #monastery-search {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    font-size: 1rem;
+    padding: 1rem 1rem 1rem 3rem;
+  }
+}
 </style>
 
   <header
@@ -327,10 +586,83 @@
   <section class="container mx-auto px-6 py-16">
     <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-12">Monasteries of Sikkim</h1>
 
+    <!-- SearchBar -->
+<div class="mb-16">
+  <!-- Search Container -->
+  <div class="max-w-4xl mx-auto">
+    <!-- Search Input -->
+    <div class="relative mb-6">
+      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <i class="fas fa-search text-gray-400 dark:text-gray-500"></i>
+      </div>
+      <input 
+        type="text" 
+        id="monastery-search" 
+        placeholder="Search monasteries by name, location, or features..." 
+        class="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-200 dark:border-gray-600 rounded-xl 
+               bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 
+               placeholder-gray-500 dark:placeholder-gray-400
+               focus:border-red-500 dark:focus:border-red-400 focus:ring-2 focus:ring-red-200 dark:focus:ring-red-800 
+               focus:outline-none transition-all duration-300 shadow-lg hover:shadow-xl"
+      />
+      <button 
+        id="clear-search" 
+        class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200 hidden"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+
+<a href="notAvailable.html" 
+   class="absolute inset-y-0 right-0 flex items-center justify-center px-3  m-1 bg-gradient-to-r from-purple-500 to-pink-500 text-sm text-white font-semibold rounded-full shadow hover:opacity-90 transition">
+  <i class="fas fa-robot mr-1"></i> AI
+</a>
+
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-3 mb-6">
+      <button class="filter-btn active" data-filter="all">
+        <i class="fas fa-th mr-2"></i>All
+      </button>
+      <button class="filter-btn" data-filter="east">
+        <i class="fas fa-compass mr-2"></i>East Sikkim
+      </button>
+      <button class="filter-btn" data-filter="west">
+        <i class="fas fa-mountain mr-2"></i>West Sikkim
+      </button>
+      <button class="filter-btn" data-filter="north">
+        <i class="fas fa-snowflake mr-2"></i>North Sikkim
+      </button>
+      <button class="filter-btn" data-filter="south">
+        <i class="fas fa-tree mr-2"></i>South Sikkim
+      </button>
+      <button class="filter-btn" data-filter="hidden">
+        <i class="fas fa-gem mr-2"></i>Hidden Gems
+      </button>
+    </div>
+
+    <!-- Search Results Counter -->
+    <div id="search-results" class="text-center text-gray-600 dark:text-gray-400 mb-4 hidden">
+      <span id="results-count">0</span> monasteries found
+    </div>
+
+    <!-- No Results Message -->
+    <div id="no-results" class="text-center py-12 hidden">
+      <div class="text-6xl text-gray-300 dark:text-gray-600 mb-4">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No monasteries found</h3>
+      <p class="text-gray-500 dark:text-gray-400">Try adjusting your search terms or filters</p>
+    </div>
+  </div>
+</div>
+
+
+
           <!-- HIDDEN GEM -->
       <h2 class="text-3xl font-bold mb-8 border-b border-gray-300 dark:border-gray-700 pb-2 text-center">Hidden Gems of Sikkim</h2>
       <div class="space-y-8">
-        <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+        <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="gurudwara-gurudongmar">
           <img src="./Gallery/Photos/Sarv_Dharm_Sthal_near_Gurudongmar_Lake.jpg" 
               alt="Gurudwara Gurudongmar" class="monastery-image w-full md:w-1/3 h-64 object-cover">
           <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -369,7 +701,7 @@
     <h2 class="text-3xl font-bold mb-8 mt-6 border-b border-gray-300 dark:border-gray-700 pb-2 text-center">East Sikkim</h2>
     <div class="space-y-8">
       <!-- Example Card -->
-      <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+      <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="rumtek-monastery">
         <img src="Gallery/Photos/Rumtek Monastery2.webp" 
              alt="Rumtek Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -400,7 +732,7 @@
         </div>
       </div>
 
-      <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+      <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="enchey-monastery">
         <img src="Gallery/Photos/Enchey Monastery.jpg" 
              alt="Enchey Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -434,7 +766,7 @@
     <!-- Repeat same structure for West, North, South -->
     <h2 class="text-3xl font-bold mt-16 mb-8 border-b border-gray-300 dark:border-gray-700 pb-2 text-center">West Sikkim</h2>
     <!-- Cards: Pemayangtse (Oldest), Dubdi, Tashiding -->
-            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01] "data-id="dubdi-monastery">
         <img src="Gallery/Photos/Dubdi Monastery.jpg" 
              alt="Dubdi Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -465,7 +797,7 @@
         </div>
       </div>
 
-            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="pemayangtse-monastery">
         <img src="Gallery/Photos/Pemayangtse Monastery.jpeg" 
              alt="Pemayangtse Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -499,7 +831,7 @@
     <h2 class="text-3xl font-bold mt-16 mb-8 border-b border-gray-300 dark:border-gray-700 pb-2 text-center">North Sikkim</h2>
     <!-- Cards: Phodong, Phensang, Labrang -->
 
-          <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+          <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="Phodong-monastery">
         <img src="Gallery/Photos/phodong-monastery.jpeg" 
              alt="Phodong Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -530,7 +862,7 @@
         </div>
       </div>
 
-            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="phensang-monastery">
         <img src="Gallery/Photos/Phensang Monastery.avif" 
              alt="Phensang Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -564,7 +896,7 @@
     <h2 class="text-3xl font-bold mt-16 mb-8 border-b border-gray-300 dark:border-gray-700 pb-2 text-center">South Sikkim</h2>
     <!-- Cards: Ralang, Samdruptse, Tendong -->
 
-          <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+          <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="ralang-monastery">
         <img src="Gallery/Photos/ralang.jpg" 
              alt="Ralang Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
@@ -595,7 +927,7 @@
         </div>
       </div>
 
-            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]">
+            <div class="monastery-card flex flex-col md:flex-row bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.01]" data-id="samdruptse-monastery">
         <img src="Gallery/Photos/Samdruptse Monastery.avif" 
              alt="Samdruptse Monastery" class="monastery-image w-full md:w-1/3 h-64 object-cover">
         <div class="monastery-content p-6 flex flex-col justify-between md:w-2/3">
