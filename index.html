@@ -1773,172 +1773,136 @@
       </div>
     </main>
 
-    <footer id="contact" class="bg-gray-900 text-white dark:bg-slate-800">
-      <div class="mx-auto px-6 py-8">
-        <div
-          class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left"
-        >
-          <!-- Description -->
-          <div>
-            <h3
-              class="text-2xl font-bold mb-4 flex items-center justify-center md:justify-start space-x-2"
-            >
-              <img
-                src="src/logo.png"
-                alt="M360 logo"
-                class="w-8 h-8 inline-block"
-              />
-              <span><a href="index.html">Monastery360</a></span>
-            </h3>
-            <p class="text-gray-400 dark:text-slate-400">
-              Preserving the spiritual heritage of Sikkim for future
-              generations.
+    <footer id="contact" class="relative bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white dark:from-slate-800 dark:via-slate-900 dark:to-slate-700 overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-5">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_70%)]"></div>
+      </div>
+      
+      <div class="relative mx-auto max-w-7xl px-6 py-8">
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <!-- Brand Section -->
+          <div class="md:col-span-2 lg:col-span-1">
+            <div class="flex items-center space-x-2 mb-3">
+              <img src="src/logo.png" alt="M360 logo" class="w-8 h-8 rounded-lg shadow-lg">
+              <div>
+                <h3 class="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  <a href="index.html" class="hover:from-blue-200 hover:to-purple-200 transition-all duration-300">Monastery360</a>
+                </h3>
+                <p class="text-xs text-gray-400 uppercase tracking-wide">Digital Heritage</p>
+              </div>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Preserving Sikkim's spiritual heritage through immersive digital experiences.
             </p>
+            
+            <!-- Social Links -->
+            <div class="flex space-x-2">
+              <a href="https://facebook.com" target="_blank" class="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-all duration-300 group">
+                <i class="fa-brands fa-facebook-f text-blue-400 group-hover:text-white text-sm"></i>
+              </a>
+              <a href="https://instagram.com" target="_blank" class="w-8 h-8 bg-pink-600/20 rounded-lg flex items-center justify-center hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-600 transition-all duration-300 group">
+                <i class="fa-brands fa-instagram text-pink-400 group-hover:text-white text-sm"></i>
+              </a>
+              <a href="https://x.com" target="_blank" class="w-8 h-8 bg-gray-600/20 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-all duration-300 group">
+                <i class="fa-brands fa-x-twitter text-gray-400 group-hover:text-white text-sm"></i>
+              </a>
+              <a href="https://github.com/Sougata2006/SIH-Demo-2" target="_blank" class="w-8 h-8 bg-gray-600/20 rounded-lg flex items-center justify-center hover:bg-gray-800 transition-all duration-300 group">
+                <i class="fa-brands fa-github text-gray-400 group-hover:text-white text-sm"></i>
+              </a>
+            </div>
           </div>
 
-          <!-- Quick Links -->
+          <!-- Navigation Links -->
           <div>
-            <h3 class="text-xl font-bold mb-4">Quick Links</h3>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  href="index.html"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  ><i class="fa-solid fa-house pr-2"></i> Home</a
-                >
-              </li>
-              <li>
-                <a
-                  href="monasteries.html"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  ><i class="fa-solid fa-landmark pr-2"></i> Monastery</a
-                >
-              </li>
-              <li>
-                <a
-                  href="galary.html"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  ><i class="fa-solid fa-image pr-2"></i> Gallery</a
-                >
-              </li>
-              <li>
-                <a
-                  href="tourbooking.html"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  ><i class="fa-solid fa-ticket pr-2"></i> Book Tour</a
-                >
-              </li>
-              <li>
-                <a
-                  href="donation.html"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  ><i class="fa-solid fa-hand-holding-heart pr-2"></i> Donate</a
-                >
-              </li>
-            </ul>
+            <h4 class="text-base font-semibold mb-3 text-white">Explore</h4>
+            <nav class="space-y-2">
+              <a href="index.html" class="flex items-center space-x-2 text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-300 group text-sm">
+                <i class="fa-solid fa-house text-blue-400 group-hover:text-blue-300 text-xs"></i>
+                <span>Home</span>
+              </a>
+              <a href="monasteries.html" class="flex items-center space-x-2 text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-300 group text-sm">
+                <i class="fa-solid fa-landmark text-yellow-400 group-hover:text-yellow-300 text-xs"></i>
+                <span>Monasteries</span>
+              </a>
+              <a href="galary.html" class="flex items-center space-x-2 text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-300 group text-sm">
+                <i class="fa-solid fa-image text-green-400 group-hover:text-green-300 text-xs"></i>
+                <span>Gallery</span>
+              </a>
+              <a href="tourbooking.html" class="flex items-center space-x-2 text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-300 group text-sm">
+                <i class="fa-solid fa-ticket text-purple-400 group-hover:text-purple-300 text-xs"></i>
+                <span>Book Tour</span>
+              </a>
+              <a href="donation.html" class="flex items-center space-x-2 text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-300 group text-sm">
+                <i class="fa-solid fa-hand-holding-heart text-red-400 group-hover:text-red-300 text-xs"></i>
+                <span>Donate</span>
+              </a>
+            </nav>
           </div>
 
-          <!-- Follow Us -->
+          <!-- Quick Info -->
           <div>
-            <h3 class="text-xl font-bold mb-4">Follow Us</h3>
-            <ul class="space-y-3">
-              <li
-                class="flex items-center justify-center md:justify-start space-x-2"
-              >
-                <i class="fa-brands fa-facebook-f"></i
-                ><a
-                  href="https://facebook.com"
-                  target="_blank"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  >Facebook</a
-                >
-              </li>
-              <li
-                class="flex items-center justify-center md:justify-start space-x-2"
-              >
-                <i class="fa-brands fa-instagram"></i
-                ><a
-                  href="https://instagram.com"
-                  target="_blank"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  >Instagram</a
-                >
-              </li>
-              <li
-                class="flex items-center justify-center md:justify-start space-x-2"
-              >
-                <i class="fa-brands fa-x-twitter"></i
-                ><a
-                  href="https://x.com"
-                  target="_blank"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  >X</a
-                >
-              </li>
-              <li
-                class="flex items-center justify-center md:justify-start space-x-2"
-              >
-                <i class="fa-brands fa-github"></i
-                ><a
-                  href="https://github.com/Sougata2006/SIH-Demo-2"
-                  target="_blank"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  >GitHub</a
-                >
-              </li>
-            </ul>
+            <h4 class="text-base font-semibold mb-3 text-white">Features</h4>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2 text-gray-400 text-sm">
+                <i class="fa-solid fa-clock text-blue-400 text-xs"></i>
+                <span>24/7 Access</span>
+              </div>
+              <div class="flex items-center space-x-2 text-gray-400 text-sm">
+                <i class="fa-solid fa-globe text-green-400 text-xs"></i>
+                <span>Worldwide</span>
+              </div>
+              <div class="flex items-center space-x-2 text-gray-400 text-sm">
+                <i class="fa-solid fa-shield-halved text-purple-400 text-xs"></i>
+                <span>Heritage Preservation</span>
+              </div>
+              <div class="flex items-center space-x-2 text-gray-400 text-sm">
+                <i class="fa-solid fa-mobile-screen text-yellow-400 text-xs"></i>
+                <span>Mobile Optimized</span>
+              </div>
+            </div>
           </div>
 
-          <!-- Contact -->
+          <!-- Contact Info -->
           <div>
-            <h3 class="text-xl font-bold mb-4">Contact</h3>
-            <ul class="space-y-3">
-              <li
-                class="flex items-center justify-center md:justify-start space-x-2"
-              >
-                <i class="fa-solid fa-location-dot"></i
-                ><a
-                  href="https://www.google.com/maps/place/India"
-                  target="_blank"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  >India</a
-                >
-              </li>
-              <li
-                class="flex items-center justify-center md:justify-start space-x-2"
-              >
-                <i class="fa-solid fa-phone"></i
-                ><a
-                  href="tel:+12345678900"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  >+12345678900</a
-                >
-              </li>
-              <li
-                class="flex items-center justify-center md:justify-start space-x-2"
-              >
-                <i class="fa-solid fa-envelope"></i
-                ><a
-                  href="mailto:Monastery360@email.com"
-                  class="text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-white"
-                  >Monastery360@email.com</a
-                >
-              </li>
-            </ul>
+            <h4 class="text-base font-semibold mb-3 text-white">Contact</h4>
+            <div class="space-y-2">
+              <a href="mailto:Monastery360@email.com" class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 group text-sm">
+                <div class="w-6 h-6 bg-blue-600/20 rounded flex items-center justify-center group-hover:bg-blue-600/40">
+                  <i class="fa-solid fa-envelope text-blue-400 text-xs"></i>
+                </div>
+                <span>Email Us</span>
+              </a>
+              <a href="tel:+12345678900" class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 group text-sm">
+                <div class="w-6 h-6 bg-green-600/20 rounded flex items-center justify-center group-hover:bg-green-600/40">
+                  <i class="fa-solid fa-phone text-green-400 text-xs"></i>
+                </div>
+                <span>+12345678900</span>
+              </a>
+              <a href="https://www.google.com/maps/place/India" target="_blank" class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 group text-sm">
+                <div class="w-6 h-6 bg-red-600/20 rounded flex items-center justify-center group-hover:bg-red-600/40">
+                  <i class="fa-solid fa-location-dot text-red-400 text-xs"></i>
+                </div>
+                <span>Sikkim, India</span>
+              </a>
+            </div>
           </div>
         </div>
 
-        <!-- Bottom -->
-        <div
-          class="border-t border-gray-700 mt-6 pt-4 text-center text-gray-500 text-sm"
-        >
-          <p>
-            &copy; <span id="currentYear"></span> 2025 Monastery360 | All rights
-            reserved |
-            <a href="license.html" class="text-white-400 hover:text-blue-300"
-              >License</a
-            >
-          </p>
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-700/50 pt-4">
+          <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+            <div class="text-gray-400 text-xs text-center md:text-left">
+              <span>&copy; <span id="currentYear"></span> 2025 Monastery360. All rights reserved.</span>
+            </div>
+            <div class="flex items-center space-x-4 text-xs">
+              <a href="license.html" class="text-gray-400 hover:text-white transition-colors duration-300">License</a>
+              <a href="term.html" class="text-gray-400 hover:text-white transition-colors duration-300">Terms</a>
+              <span class="text-gray-600">•</span>
+              <span class="text-gray-500">Made with ❤️</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
