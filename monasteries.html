@@ -747,6 +747,24 @@ html.dark .nav-pill.active-page {
   }
 }
 
+.nav-desktop {
+  display: none; /* desktop nav hidden by default */
+}
+
+.nav-mobile {
+  display: flex; /* mobile nav shown by default */
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1024px) {
+  .nav-desktop {
+    display: flex;   /* show desktop nav on large screens */
+  }
+  .nav-mobile {
+    display: none;   /* hide mobile nav on large screens */
+  }
+}
+
 </style>
 
     <header class="bg-white/80 backdrop-blur-lg shadow-md fixed w-full top-0 z-50 transition-all duration-300 dark:bg-slate-900 dark:shadow-slate-700">
@@ -765,7 +783,7 @@ html.dark .nav-pill.active-page {
         </a>
 
         <!-- Modern Capsule Navigation -->
-        <div class="hidden md:flex items-center bg-gray-100/80 dark:bg-slate-800/80 rounded-full px-12 py-2 backdrop-blur-md shadow-lg border border-gray-200/50 dark:border-slate-700/50 nav-container">
+        <div class="nav-desktop hidden md:flex items-center bg-gray-100/80 dark:bg-slate-800/80 rounded-full px-12 py-2 backdrop-blur-md shadow-lg border border-gray-200/50 dark:border-slate-700/50 nav-container">
           <a
             href="index.html"
             class="nav-pill px-5 py-2.5 rounded-full font-medium transition-all duration-300 text-sm hover:scale-105 transform relative overflow-hidden"
@@ -866,10 +884,7 @@ html.dark .nav-pill.active-page {
       </nav>
 
       <!-- Enhanced Mobile Menu -->
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden px-6 pt-2 pb-4 dark:bg-slate-800"
-      >
+      <div id="mobile-menu" class="nav-mobile hidden md:hidden px-6 pt-2 pb-4 dark:bg-slate-800">
         <div class="flex flex-col space-y-3">
           <a
             href="index.html"
