@@ -108,6 +108,49 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
+
+      .filter-btn {
+          transition: all 0.3s ease;
+      }
+
+      .filter-btn.active {
+          background: linear-gradient(to right, #f59e0b, #ef4444);
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+      }
+
+      .gallery-item {
+          transition: all 0.3s ease;
+      }
+
+      .gallery-item.hidden {
+          opacity: 0;
+          transform: scale(0.8);
+          pointer-events: none;
+      }
+
+      .stats-card {
+          background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.2);
+      }
+
+      .floating-action {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          z-index: 40;
+      }
+
+      .search-highlight {
+          background: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
+          color: #1f2937;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-weight: bold;
+      }
+
     </style>
   </head>
   <body
@@ -271,170 +314,601 @@
       </div>
     </header>
 
-    <main class="pt-24 pb-16 container mx-auto px-6 mt-12 md:mt-16">
-      <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-12">Monastery Gallery</h1>
-      <p
-        class="text-center text-gray-600 dark:text-slate-400 max-w-2xl mx-auto mb-12"
-      >
-        Explore the serene landscapes, intricate architecture, and profound
-        spiritual life of Sikkim's monasteries.
-      </p>
+    <main class="pt-24 pb-16">
+        <!-- Enhanced Hero Section -->
+        <div class="container mx-auto px-6 mb-8">
+            <!-- Title and Description -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-amber-500 to-red-500 bg-clip-text text-transparent">
+                    Monastery Gallery
+                </h1>
+                <p class="text-center text-gray-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
+                    Explore the serene landscapes, intricate architecture, and profound spiritual life of Sikkim's monasteries.
+                </p>
+                
+                <!-- Gallery Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-8">
+                    <div class="stats-card rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-amber-500" id="total-photos">12</div>
+                        <div class="text-sm text-gray-600 dark:text-slate-400">Total Photos</div>
+                    </div>
+                    <div class="stats-card rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-blue-500" id="monasteries-count">100+</div>
+                        <div class="text-sm text-gray-600 dark:text-slate-400">Monasteries</div>
+                    </div>
+                    <div class="stats-card rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-green-500" id="categories-count">4</div>
+                        <div class="text-sm text-gray-600 dark:text-slate-400">Categories</div>
+                    </div>
+                    <div class="stats-card rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-purple-500" id="views-count">10.2K+</div>
+                        <div class="text-sm text-gray-600 dark:text-slate-400">Views</div>
+                    </div>
+                </div>
+            </div>
 
-      <!-- Symmetric grid -->
-      <div
-        id="landscape-grid"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-8 fade-in"
-      >
-        <!-- Visible items (first 2 rows, e.g. 8 items max) -->
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/landscpe2.jpg"
-            alt="Rumtek Monastery"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Rumtek Monastery
-          </p>
+            <!-- Search and Filter Section -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-8 border border-gray-100 dark:border-slate-700">
+                <!-- Search Bar -->
+                <div class="relative mb-6">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="gallery-search"
+                        placeholder="Search photos by monastery, location, or description..." 
+                        class="w-full pl-12 pr-4 py-3 border border-gray-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white transition-all duration-300"
+                    >
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-3 mb-4">
+                    <button class="filter-btn active px-6 py-2 rounded-full border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700" data-filter="all">
+                        <i class="fas fa-th-large mr-2"></i>All Photos
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700" data-filter="architecture">
+                        <i class="fas fa-building mr-2"></i>Architecture
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700" data-filter="landscape">
+                        <i class="fas fa-mountain mr-2"></i>Landscapes
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700" data-filter="monks">
+                        <i class="fas fa-user mr-2"></i>Monastic Life
+                    </button>
+                    <button class="filter-btn px-6 py-2 rounded-full border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700" data-filter="festivals">
+                        <i class="fas fa-star mr-2"></i>Festivals
+                    </button>
+                </div>
+
+                <!-- Sort and View Options -->
+                <div class="flex flex-wrap justify-between items-center gap-4">
+                    <div class="flex items-center space-x-4">
+                        <label class="text-sm font-medium text-gray-700 dark:text-slate-300">Sort by:</label>
+                        <select id="sort-select" class="px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name">Name A-Z</option>
+                            <option value="popular">Most Popular</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm font-medium text-gray-700 dark:text-slate-300">View:</label>
+                        <button id="grid-view" class="p-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-amber-500 text-white">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button id="list-view" class="p-2 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-700">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Tags -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-3 py-1 rounded-full cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors" data-tag="rumtek">
+                    #RumtekMonastery
+                </span>
+                <span class="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-3 py-1 rounded-full cursor-pointer hover:bg-green-200 dark:hover:bg-green-800 transition-colors" data-tag="pemayangtse">
+                    #PemaYangTse
+                </span>
+                <span class="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-xs px-3 py-1 rounded-full cursor-pointer hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors" data-tag="tashiding">
+                    #TashidingMonastery
+                </span>
+                <span class="inline-block bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-xs px-3 py-1 rounded-full cursor-pointer hover:bg-red-200 dark:hover:bg-red-800 transition-colors" data-tag="prayer-flags">
+                    #PrayerFlags
+                </span>
+                <span class="inline-block bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs px-3 py-1 rounded-full cursor-pointer hover:bg-yellow-200 dark:hover:bg-yellow-800 transition-colors" data-tag="buddha-statues">
+                    #BuddhaStatues
+                </span>
+            </div>
+
+            <!-- Results Info -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="text-sm text-gray-600 dark:text-slate-400">
+                    Showing <span id="results-count">8</span> of <span id="total-count">12</span> photos
+                </div>
+                <div class="text-sm text-gray-600 dark:text-slate-400">
+                    <span id="current-filter">All Categories</span>
+                </div>
+            </div>
         </div>
 
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/landscpe3.jpg"
-            alt="Prayer Flags"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Prayer Flags
-          </p>
-        </div>
+        <!-- REPLACE YOUR EXISTING GALLERY GRID WITH THE ENHANCED PHOTO DIVS -->
+        <div class="container mx-auto px-6">
+            <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-8 fade-in">
+                
+                <!-- Enhanced Gallery Items with hover effects -->
+                <div class="gallery-item group cursor-pointer" data-category="architecture" data-monastery="rumtek" data-popularity="95" data-date="2024-03-20">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="Gallery/Photos/landscpe2.jpg" alt="Rumtek Monastery" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <div class="flex items-center justify-between text-white">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-heart text-red-500"></i>
+                                        <span class="text-sm">124</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-eye"></i>
+                                        <span class="text-sm">2.1K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 left-2">
+                            <span class="bg-amber-500 text-white text-xs px-2 py-1 rounded-full">Architecture</span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Rumtek Monastery</h3>
+                        <p class="text-sm text-gray-600 dark:text-slate-400">Traditional Tibetan Architecture</p>
+                        <div class="flex items-center mt-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-2">4.9</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/landscape4.jpg"
-            alt="Monastery Interior"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Monastery Interior
-          </p>
+<!-- Prayer Flags -->
+<div class="gallery-item group cursor-pointer" data-category="landscape" data-monastery="general" data-popularity="87" data-date="2024-02-18">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/landscpe3.jpg" alt="Prayer Flags in Mountain Landscape" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">98</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">1.8K</span>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/landscpe5.jpg"
-            alt="Buddha Park"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Buddha Park, Ravangla
-          </p>
+        <div class="absolute top-2 left-2">
+            <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">Landscape</span>
         </div>
-
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/mansteric life 1.jpg"
-            alt="Monk in Prayer"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Monk in Prayer
-          </p>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Prayer Flags</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Colorful flags against mountain backdrop</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="far fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.7</span>
         </div>
+    </div>
+</div>
 
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/monasteric life 2.jpg"
-            alt="Young Monks Studying"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Young Monks Studying
-          </p>
+<!-- Monastery Interior -->
+<div class="gallery-item group cursor-pointer" data-category="architecture" data-monastery="general" data-popularity="89" data-date="2024-01-12">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/landscape4.jpg" alt="Monastery Interior Architecture" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">203</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">3.2K</span>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/monasteric life 3.jpg"
-            alt="Monk Lighting Lamps"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Lighting Butter Lamps
-          </p>
+        <div class="absolute top-2 left-2">
+            <span class="bg-amber-500 text-white text-xs px-2 py-1 rounded-full">Architecture</span>
         </div>
-
-        <div class="group cursor-pointer">
-          <img
-            src="Gallery/Photos/monasterc life4.jpg"
-            alt="Monk Walking"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Monk in Prayer
-          </p>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Monastery Interior</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Sacred space with intricate details</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="far fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.6</span>
         </div>
+    </div>
+</div>
 
-        <!-- Hidden items -->
-        <div class="group cursor-pointer hidden landscape-extra">
-          <img
-            src="Gallery/Photos/monasteric life10.jpg"
-            alt="Young Monks Studying"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Young Monks Studying
-          </p>
+<!-- Buddha Park, Ravangla -->
+<div class="gallery-item group cursor-pointer" data-category="landscape" data-monastery="ravangla" data-popularity="91" data-date="2024-03-15">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/landscpe5.jpg" alt="Buddha Park Ravangla" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">187</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">2.8K</span>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="group cursor-pointer hidden landscape-extra">
-          <img
-            src="Gallery/Photos/monasteric life11.jpg"
-            alt="Three Young Novice Monks"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Three Young Novice Monks
-          </p>
+        <div class="absolute top-2 left-2">
+            <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">Landscape</span>
         </div>
-
-        <div class="group cursor-pointer hidden landscape-extra">
-          <img
-            src="Gallery/Photos/monasteric life 12.jpg"
-            alt="Novice Monk with Robe"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Novice Monk with Robe
-          </p>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Buddha Park, Ravangla</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Majestic Buddha statue with mountain backdrop</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.9</span>
         </div>
+    </div>
+</div>
 
-        <div class="group cursor-pointer hidden landscape-extra">
-          <img
-            src="Gallery/Photos/monasteric life 13.jpg"
-            alt="Playful Monk"
-            class="rounded-lg shadow-md transform group-hover:scale-105 transition duration-300 w-full h-56 object-cover"
-          />
-          <p class="mt-2 text-center text-sm text-gray-600 dark:text-slate-400">
-            Playful Monk
-          </p>
+<!-- Monk in Prayer -->
+<div class="gallery-item group cursor-pointer" data-category="monks" data-monastery="general" data-popularity="92" data-date="2024-02-08">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/mansteric life 1.jpg" alt="Monk in Deep Prayer" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">156</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">2.5K</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Monk in Prayer</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Deep meditation and spiritual practice</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.8</span>
+        </div>
+    </div>
+</div>
 
-      <!-- Buttons -->
-      <div class="text-center mt-8">
-        <button
-          id="landscapeViewMore"
-          class="btn-primary"
-        >
-          View More
-        </button>
-        <button
-          id="landscapeViewLess"
-          class="px-6 py-2 bg-gray-600 text-white rounded-lg transition transform hover:scale-110 hover:bg-gray-700 hidden"
-        >
-          View Less
-        </button>
-      </div>
+<!-- Young Monks Studying -->
+<div class="gallery-item group cursor-pointer" data-category="monks" data-monastery="general" data-popularity="88" data-date="2024-02-20">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/monasteric life 2.jpg" alt="Young Monks Studying" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">142</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">1.9K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Young Monks Studying</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Dedication to learning and wisdom</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="far fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.7</span>
+        </div>
+    </div>
+</div>
+
+<!-- Monk Lighting Butter Lamps -->
+<div class="gallery-item group cursor-pointer" data-category="monks" data-monastery="general" data-popularity="94" data-date="2024-01-10">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/monasteric life 3.jpg" alt="Monk Lighting Butter Lamps" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">219</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">3.1K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Lighting Butter Lamps</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Sacred ritual of offering light</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.8</span>
+        </div>
+    </div>
+</div>
+
+<!-- Monk Walking in Prayer -->
+<div class="gallery-item group cursor-pointer" data-category="monks" data-monastery="general" data-popularity="86" data-date="2024-03-05">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/monasterc life4.jpg" alt="Monk Walking in Prayer" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">164</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">2.2K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Monk in Contemplation</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Peaceful meditation walk</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="far fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.6</span>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden Items (landscape-extra class) -->
+
+<!-- Young Monks Studying (Second Image) -->
+<div class="gallery-item group cursor-pointer hidden landscape-extra" data-category="monks" data-monastery="general" data-popularity="83" data-date="2024-01-25">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/monasteric life10.jpg" alt="Young Monks in Discussion" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">128</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">1.7K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Young Monks Learning</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Traditional Buddhist education</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="far fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.5</span>
+        </div>
+    </div>
+</div>
+
+<!-- Three Young Novice Monks -->
+<div class="gallery-item group cursor-pointer hidden landscape-extra" data-category="monks" data-monastery="general" data-popularity="90" data-date="2024-02-14">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/monasteric life11.jpg" alt="Three Young Novice Monks" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">195</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">2.6K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Three Young Novice Monks</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Brotherhood in spiritual journey</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.9</span>
+        </div>
+    </div>
+</div>
+
+<!-- Novice Monk with Robe -->
+<div class="gallery-item group cursor-pointer hidden landscape-extra" data-category="monks" data-monastery="general" data-popularity="85" data-date="2024-01-30">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/monasteric life 12.jpg" alt="Novice Monk with Robe" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">134</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">1.8K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Novice Monk with Robe</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Traditional Buddhist robes ceremony</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="far fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.4</span>
+        </div>
+    </div>
+</div>
+
+<!-- Playful Monk -->
+<div class="gallery-item group cursor-pointer hidden landscape-extra" data-category="monks" data-monastery="general" data-popularity="92" data-date="2024-03-01">
+    <div class="relative overflow-hidden rounded-lg shadow-lg">
+        <img src="Gallery/Photos/monasteric life 13.jpg" alt="Playful Young Monk" class="w-full h-56 object-cover transform group-hover:scale-110 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex items-center justify-between text-white">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <span class="text-sm">246</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-eye"></i>
+                        <span class="text-sm">3.4K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-2 left-2">
+            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">Monastic Life</span>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Playful Young Monk</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400">Joy and innocence in monastery life</p>
+        <div class="flex items-center mt-2">
+            <div class="flex text-yellow-400">
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+                <i class="fas fa-star text-xs"></i>
+            </div>
+            <span class="text-sm text-gray-500 ml-2">4.8</span>
+        </div>
+    </div>
+</div>
+                
+            </div>
+
+            <!-- Enhanced Buttons -->
+            <div class="text-center mt-8">
+                <button id="landscapeViewMore" class="btn-primary">
+                    <i class="fas fa-plus mr-2"></i>View More
+                </button>
+                <button id="landscapeViewLess" class="px-6 py-2 bg-gray-600 text-white rounded-lg transition transform hover:scale-110 hover:bg-gray-700 hidden">
+                    <i class="fas fa-minus mr-2"></i>View Less
+                </button>
+            </div>
+        </div>
     </main>
 
     <!-- Lightbox Modal -->
