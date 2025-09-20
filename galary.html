@@ -86,6 +86,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Ensure menu is hidden by default
+  mobileMenu.classList.remove('menu-open');
+
+  mobileMenuButton.addEventListener('click', function() {
+    mobileMenu.classList.toggle('menu-open');
+  });
+});
+
+
+
     </script>
     <style>
       /* Fade-in animation */
@@ -395,28 +409,49 @@ html.dark .nav-pill.active-page {
   }
 }
 
+/* ==========================
+   Navigation Visibility Fix
+   ========================== */
+
+/* Desktop nav hidden by default */
 .nav-desktop {
-  display: none; /* desktop nav hidden by default */
+  display: none;
 }
 
+/* Mobile nav hidden by default */
 .nav-mobile {
-  display: flex; /* mobile nav shown by default */
+  display: none;
 }
 
-/* Desktop breakpoint */
+/* --------------------------
+   Desktop breakpoint (large screens)
+   -------------------------- */
 @media (min-width: 1024px) {
   .nav-desktop {
-    display: flex;   /* show desktop nav on large screens */
+    display: flex;   /* show desktop nav */
   }
   .nav-mobile {
-    display: none;   /* hide mobile nav on large screens */
+    display: none;   /* hide mobile nav */
   }
 }
 
+/* --------------------------
+   Touch devices (coarse pointer)
+   -------------------------- */
 @media (pointer: coarse) {
-  .nav-desktop { display: none !important; }
-  .nav-mobile { display: flex !important; }
+  .nav-desktop {
+    display: none !important; /* always hide desktop nav on touch devices */
+  }
+  .nav-mobile {
+    display: none; /* hidden by default */
+  }
+
+  /* Show mobile nav only when JS toggles menu-open class */
+  .nav-mobile.menu-open {
+    display: flex;
+  }
 }
+
 
     </style>
   </head>
