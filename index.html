@@ -420,46 +420,33 @@ html.dark .nav-pill.active-page {
     animation: none !important;
   }
 }
-/* ==========================
-   Navigation Visibility Fix
-   ========================== */
-
-/* Desktop nav hidden by default */
+/* Hide desktop nav by default */
 .nav-desktop {
   display: none;
 }
 
-/* Mobile nav hidden by default */
+/* Show mobile nav (hamburger) by default */
 .nav-mobile {
-  display: none;
+  display: flex;
 }
 
-/* --------------------------
-   Desktop breakpoint (large screens)
-   -------------------------- */
+/* Desktop breakpoint (normal desktop screens) */
 @media (min-width: 1024px) {
   .nav-desktop {
-    display: flex;   /* show desktop nav */
+    display: flex;
   }
   .nav-mobile {
-    display: none;   /* hide mobile nav */
+    display: none;
   }
 }
 
-/* --------------------------
-   Touch devices (coarse pointer)
-   -------------------------- */
+/* Always show hamburger on touch devices */
 @media (pointer: coarse) {
   .nav-desktop {
-    display: none !important; /* always hide desktop nav on touch devices */
+    display: none !important;
   }
   .nav-mobile {
-    display: none; /* hidden by default */
-  }
-
-  /* Show mobile nav only when JS toggles menu-open class */
-  .nav-mobile.menu-open {
-    display: flex;
+    display: flex !important;
   }
 }
 
