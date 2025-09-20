@@ -1204,3 +1204,4 @@ function initVideoAutoplay() {
 
 // Initialize video autoplay when DOM is loaded
 document.addEventListener('DOMContentLoaded', initVideoAutoplay);
+
