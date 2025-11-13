@@ -5,7 +5,6 @@
 
 ## 📖 Problem Statement  
 
-**ID:** 25061  
 **Theme:** Travel & Tourism  
 **Title:** *Digitize and Showcase Monasteries of Sikkim for Tourism and Cultural Preservation*  
 
